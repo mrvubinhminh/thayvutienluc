@@ -428,6 +428,131 @@
     .calc-panel.open{border-top-color:var(--border);flex-basis:48%;}
     .slide-area.compact .slide-content{font-size:calc(12px * var(--scale,1));}
   }
+
+  /* ================= XUẤT PDF: MODAL ================= */
+  .pdf-modal{position:fixed;inset:0;background:rgba(20,30,55,.55);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;}
+  .pdf-modal.hidden{display:none;}
+  .pdf-modal-card{background:#fff;border-radius:18px;max-width:500px;width:100%;padding:26px 28px;position:relative;box-shadow:0 20px 60px rgba(10,20,40,.3);max-height:92vh;overflow-y:auto;}
+  .pdf-modal-card h3{margin:0 0 6px;font-size:1.15rem;}
+  .pdf-modal-card .pdf-sub{color:var(--ink-soft);font-size:.85rem;margin:0 0 16px;line-height:1.5;}
+  .pdf-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--ink-soft);}
+  .pdf-section-label{font-weight:800;font-size:.78rem;color:#38507a;text-transform:uppercase;letter-spacing:.3px;margin:16px 0 8px;}
+  .pdf-section-label:first-of-type{margin-top:0;}
+  .pdf-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-bottom:4px;}
+  .pdf-meta-grid.full{grid-template-columns:1fr;}
+  .pdf-field{display:flex;flex-direction:column;gap:4px;}
+  .pdf-field label{font-size:.74rem;font-weight:700;color:var(--ink-soft);}
+  .pdf-field input,.pdf-field select{border:1.5px solid var(--border);border-radius:9px;padding:7px 10px;font-size:.84rem;font-family:inherit;}
+  .pdf-field input:focus,.pdf-field select:focus{outline:none;border-color:var(--blue1);}
+  .pdf-code-row{display:flex;align-items:center;justify-content:space-between;background:#f7f9fd;border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:10px 0 4px;font-size:.85rem;}
+  .pdf-code-row b{color:var(--blue1);font-size:.95rem;}
+  .pdf-code-refresh{background:none;border:none;cursor:pointer;font-size:.9rem;color:var(--ink-soft);padding:2px 6px;}
+  .pdf-code-refresh:hover{color:var(--blue1);}
+  .pdf-fontsize-row{display:flex;align-items:center;justify-content:space-between;background:#f7f9fd;border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:4px 0 10px;font-size:.85rem;}
+  .pdf-fontsize-ctrl{display:flex;align-items:center;gap:10px;}
+  .pdf-fs-btn{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--ink-soft);font-weight:800;font-size:.8rem;cursor:pointer;}
+  .pdf-fs-btn:hover{border-color:#bcd4f7;color:var(--blue1);}
+  #pdfFontSizeDisplay{font-weight:700;color:var(--ink);min-width:34px;text-align:center;display:inline-block;}
+  .pdf-style-opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,background .15s;}
+  .pdf-style-opt:hover{border-color:#bcd4f7;}
+  .pdf-style-opt.sel{border-color:var(--blue1);background:#f2f7ff;}
+  .pdf-style-opt input{margin-top:3px;accent-color:var(--blue1);}
+  .pdf-style-opt .pdf-opt-title{font-weight:700;font-size:.92rem;}
+  .pdf-style-opt .pdf-opt-desc{font-size:.78rem;color:var(--ink-soft);margin-top:2px;line-height:1.45;}
+  .pdf-omr-row{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin:4px 0 14px;cursor:pointer;transition:border-color .15s,background .15s;}
+  .pdf-omr-row:hover{border-color:#bcd4f7;}
+  .pdf-omr-row:has(input:checked){border-color:var(--blue1);background:#f2f7ff;}
+  .pdf-omr-row input{margin-top:3px;accent-color:var(--blue1);flex:none;}
+  .pdf-modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .pdf-modal-actions .btn{width:100%;justify-content:center;}
+  .pdf-modal-hint{font-size:.72rem;color:var(--ink-soft);margin-top:14px;line-height:1.55;text-align:center;}
+
+  /* ================= XUẤT PDF: NỘI DUNG IN (đo lường + in thật dùng chung style) ================= */
+  .print-area{display:none;background:#fff;font-family:'Times New Roman',Georgia,serif;color:#111;font-size:12.5pt;line-height:1.5;}
+  .print-area.pe-measure-host{display:block;position:fixed;left:-9999px;top:0;visibility:hidden;}
+  .pe-page{position:relative;width:186mm;height:269mm;box-sizing:border-box;page-break-after:always;overflow:hidden;}
+  .pe-page:last-child{page-break-after:auto;}
+  .pe-page-body{position:relative;width:186mm;height:264mm;overflow:hidden;display:flex;gap:4mm;}
+  .pe-flow{width:186mm;flex:none;overflow:hidden;}
+  .print-area.style-ruled .pe-flow{width:118mm;}
+  .pe-rulecol{width:64mm;flex:none;border-left:1px dashed #b9c4d6;padding-left:4mm;overflow:hidden;}
+  .pe-rule-line{height:6.8mm;border-bottom:1px dashed #b9c4d6;}
+  .pe-footer{position:absolute;left:0;right:0;bottom:0;height:5mm;display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:#555;border-top:1px solid #ccc;padding-top:1px;box-sizing:border-box;}
+  .pe-title{text-align:center;font-size:1.18em;font-weight:700;text-transform:uppercase;margin:0 0 1px;border-bottom:1.5px solid #111;padding-bottom:4px;}
+  .pe-subtitle{text-align:center;font-size:.9em;margin:0 0 2px;}
+  .pe-info-line{display:flex;justify-content:space-between;gap:16px;font-size:.86em;margin:5px 0 8px;border-top:1px dashed #999;border-bottom:1px dashed #999;padding:3px 0;}
+  .pe-part-title{font-weight:700;font-size:12.5pt;margin:16px 0 4px;text-transform:uppercase;}
+  .pe-part-instr{font-style:italic;font-size:10.8pt;margin:0 0 10px;}
+  .pe-q{margin:0 0 12px;break-inside:avoid;}
+  .pe-q-head{display:flex;gap:6px;align-items:baseline;}
+  .pe-q-num{flex:none;white-space:nowrap;font-weight:700;}
+  .pe-q-stem{flex:1;min-width:0;}
+  .pe-opts{margin:4px 0 0 22px;display:grid;grid-template-columns:1fr 1fr;gap:3px 22px;}
+  .pe-opt-line{display:flex;gap:4px;align-items:baseline;}
+  .pe-opt-label{flex:none;}
+  .pe-opt-text{flex:1;min-width:0;}
+  .pe-stmt-line{display:flex;gap:8px;align-items:baseline;margin:3px 0;}
+  .pe-stmt-text{flex:1;}
+  .pe-ds-box{white-space:nowrap;font-size:10pt;flex:none;}
+  .pe-ds-box i{display:inline-block;border:1px solid #333;width:10px;height:10px;margin:0 3px 0 4px;vertical-align:middle;font-style:normal;}
+  .pe-short-ans{margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .pe-ans-box{display:inline-block;width:16px;height:18px;border:1px solid #333;margin-right:2px;}
+  .pe-img{max-width:65%;display:block;margin:8px auto;}
+  .pe-q-with-img{display:flex;gap:10px;align-items:flex-start;}
+  .pe-q-maincol{flex:2 1 0;min-width:0;}
+  .pe-q-imgcol{flex:1 1 0;min-width:0;display:flex;justify-content:center;padding-top:1px;}
+  .pe-q-imgcol .pe-img{max-width:100%;display:block;margin:0;}
+  .pe-answerkey-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px 10px;font-size:11pt;margin:6px 0 16px;}
+  .pe-answerkey-item{border:1px solid #ddd;border-radius:4px;padding:4px 8px;text-align:center;break-inside:avoid;}
+  .pe-solution{font-size:10.5pt;color:#333;margin:0 0 6px;padding-left:8px;border-left:2px solid #ccc;break-inside:avoid;}
+  .pe-omr-inline{display:block;width:100%;aspect-ratio:1998/1410;object-fit:contain;margin:0 0 10px;break-inside:avoid;}
+
+  /* ================= XEM TRƯỚC & SỬA CÂU HỎI ================= */
+  #qedScreen{position:fixed;inset:0;background:var(--page-bg);z-index:150;display:flex;flex-direction:column;}
+  .qed-topbar{flex:none;background:#fff;box-shadow:0 2px 10px rgba(20,30,60,.08);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .qed-topbar-title{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:8px;}
+  .qed-topbar-count{font-weight:700;font-size:.8rem;color:var(--ink-soft);background:#eef2f9;padding:3px 11px;border-radius:999px;}
+  .qed-topbar-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .qed-list{flex:1;overflow-y:auto;max-width:860px;width:100%;margin:0 auto;padding:18px 16px 60px;}
+  .qed-empty{text-align:center;color:var(--ink-soft);padding:60px 20px;font-size:.95rem;}
+  .qed-issue-banner{background:#fff7ec;color:#b06a12;border:1.5px solid #f6dca0;border-radius:12px;padding:10px 14px;font-size:.85rem;font-weight:600;margin-bottom:16px;}
+  .qed-group-title{font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.3px;color:#38507a;margin:22px 0 10px;}
+  .qed-group-title:first-child{margin-top:0;}
+  .qed-group-count{font-weight:600;text-transform:none;color:var(--ink-soft);}
+  .qed-card{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(20,30,60,.05);border:1.5px solid transparent;}
+  .qed-card.editing{border-color:var(--blue1);}
+  .qed-card.has-issue{border-color:#f2c94c;}
+  .qed-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+  .qed-card-label-wrap{display:flex;align-items:center;flex-wrap:wrap;}
+  .qed-card-label{font-weight:800;font-size:.86rem;color:var(--blue1);}
+  .qed-warn-badge{background:#fff7ec;color:#b06a12;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;cursor:help;}
+  .qed-card-actions{display:flex;gap:8px;}
+  .qed-stem{font-weight:600;margin-bottom:6px;line-height:1.5;}
+  .qed-opts{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+  .qed-opt{font-size:.9rem;line-height:1.5;padding:3px 8px;border-radius:8px;}
+  .qed-opt.correct{background:#eafaf0;color:var(--green1);font-weight:600;}
+  .qed-ds-mark{font-weight:700;color:var(--violet1);}
+  .qed-solution{font-size:.84rem;color:var(--ink-soft);margin-top:6px;padding:8px 10px;background:#f7f9fd;border-radius:8px;line-height:1.5;}
+  .qed-thumb{max-width:220px;max-height:160px;display:block;margin-top:8px;border-radius:8px;border:1px solid var(--border);}
+  .qed-kt-sub{font-size:.88rem;color:var(--ink-soft);margin-bottom:6px;}
+  .qed-kt-bullets{margin:4px 0 0 20px;padding:0;font-size:.88rem;line-height:1.6;}
+  .qed-flabel{display:block;font-size:.74rem;font-weight:700;color:var(--ink-soft);margin:10px 0 4px;}
+  .qed-flabel:first-child{margin-top:0;}
+  .qed-input{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-size:.86rem;font-family:inherit;}
+  .qed-input:focus{outline:none;border-color:var(--blue1);}
+  .qed-textarea{resize:vertical;min-height:44px;font-family:'SFMono-Regular',Consolas,monospace;font-size:.8rem;}
+  .qed-opt-edit-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .qed-opt-edit-row .qed-input{flex:1;}
+  .qed-opt-edit-row input[type=radio]{accent-color:var(--blue1);width:17px;height:17px;flex:none;}
+  .qed-ds-select{border:1.5px solid var(--border);border-radius:8px;padding:6px 8px;font-size:.82rem;font-family:inherit;flex:none;}
+  .qed-edit-actions{display:flex;gap:10px;margin-top:12px;}
+
+  @media print{
+    @page{ size:A4; margin:14mm 12mm; }
+    html,body{background:#fff !important;}
+    body > *:not(.print-area){display:none !important;}
+    .print-area{display:block !important;}
+  }
 </style>
 </head>
 <body>
@@ -618,9 +743,98 @@
 
   <div class="start-bar">
     <span class="total" id="totalCount">Tổng: 0 câu</span>
+    <button class="btn btn-outline" id="btnOpenQed">👁 Xem trước &amp; sửa</button>
+    <button class="btn btn-outline" id="btnExportPDF">🖨 Xuất PDF</button>
     <button class="btn btn-start" id="btnStart">🚀 Bắt đầu trình chiếu</button>
   </div>
 </div>
+
+<!-- ============= XEM TRƯỚC & SỬA CÂU HỎI ============= -->
+<div id="qedScreen" hidden>
+  <div class="qed-topbar">
+    <div class="qed-topbar-title">👁 Xem trước &amp; sửa câu hỏi <span class="qed-topbar-count" id="qedCount">0 mục</span></div>
+    <div class="qed-topbar-actions">
+      <button class="btn btn-outline btn-sm" id="btnQedDownloadExcel">⬇ Tải Excel đã sửa</button>
+      <button class="btn btn-outline btn-sm" id="btnQedClose">✕ Đóng, quay lại</button>
+    </div>
+  </div>
+  <div class="qed-list" id="qedList"></div>
+</div>
+
+<!-- ============= PDF EXPORT MODAL ============= -->
+<div class="pdf-modal hidden" id="pdfModal">
+  <div class="pdf-modal-card">
+    <button class="pdf-modal-close" id="pdfModalClose">✕</button>
+    <h3>🖨 Xuất PDF đề thi</h3>
+    <p class="pdf-sub">Đúng chuẩn cấu trúc đề thi Toán THPT Quốc gia (Phần I – Trắc nghiệm, Phần II – Đúng/Sai, Phần III – Trả lời ngắn). Đáp án sẽ được xuất thành file PDF riêng.</p>
+
+    <div class="pdf-section-label">📋 Thông tin đề kiểm tra</div>
+    <div class="pdf-meta-grid full">
+      <div class="pdf-field">
+        <label>Loại bài kiểm tra</label>
+        <select id="pdfExamType">
+          <option value="custom">Tự do (dùng tên bài đã nhập ở trên)</option>
+          <option value="thuongxuyen">Kiểm tra thường xuyên</option>
+          <option value="giuaki1">Kiểm tra giữa học kì I</option>
+          <option value="cuoiki1">Kiểm tra cuối học kì I</option>
+          <option value="giuaki2">Kiểm tra giữa học kì II</option>
+          <option value="cuoiki2">Kiểm tra cuối học kì II</option>
+        </select>
+      </div>
+    </div>
+    <div class="pdf-meta-grid">
+      <div class="pdf-field"><label>Khối / Lớp</label><input type="text" id="pdfGrade" placeholder="VD: 10"></div>
+      <div class="pdf-field"><label>Năm học</label><input type="text" id="pdfSchoolYear" placeholder="VD: 2026-2027"></div>
+      <div class="pdf-field"><label>Thời gian làm bài (phút)</label><input type="number" id="pdfMinutes" min="0" step="5" placeholder="VD: 45"></div>
+      <div class="pdf-field"><label>Số mã đề</label><input type="number" id="pdfNumVersions" min="1" max="8" step="1" placeholder="VD: 1"></div>
+    </div>
+    <div class="pdf-code-row" id="pdfCodeRow">
+      <span>🔖 Mã đề: <b id="pdfCodeDisplay">—</b></span>
+      <button class="pdf-code-refresh" id="pdfCodeRefresh" type="button" title="Đổi mã đề khác">🔄 Đổi mã</button>
+    </div>
+    <div class="pdf-code-row" id="pdfMultiNote" hidden>
+      <span>🔀 Sẽ tạo <b id="pdfMultiCount">2</b> mã đề khác nhau — câu hỏi, đáp án A/B/C/D và ý a/b/c (Phần II) được trộn ngẫu nhiên giữa các đề, riêng ý <b>d</b> luôn giữ nguyên vị trí.</span>
+    </div>
+    <div class="pdf-fontsize-row">
+      <span>🔤 Cỡ chữ (chữ nhỏ → được nhiều câu hơn mỗi trang)</span>
+      <div class="pdf-fontsize-ctrl">
+        <button type="button" class="pdf-fs-btn" id="pdfFontMinus">A−</button>
+        <span id="pdfFontSizeDisplay">12pt</span>
+        <button type="button" class="pdf-fs-btn" id="pdfFontPlus">A+</button>
+      </div>
+    </div>
+    <div class="pdf-fontsize-row">
+      <span>↕ Giãn dòng (giãn dòng nhỏ → in tiết kiệm hơn)</span>
+      <div class="pdf-fontsize-ctrl">
+        <button type="button" class="pdf-fs-btn" id="pdfLineHeightMinus">−</button>
+        <span id="pdfLineHeightDisplay">1.5</span>
+        <button type="button" class="pdf-fs-btn" id="pdfLineHeightPlus">+</button>
+      </div>
+    </div>
+    <label class="pdf-omr-row" id="pdfOmrRow">
+      <input type="checkbox" id="pdfUseOmrSheet">
+      <div><div class="pdf-opt-title">🗒 Dùng phiếu trả lời trắc nghiệm (ảnh) thay cho phần thông tin đề</div>
+      <div class="pdf-opt-desc">Ảnh phiếu trả lời trắc nghiệm được chèn ở đầu trang 1, đề bài tiếp ngay bên dưới (không tách trang riêng, tiết kiệm giấy); bỏ hết tiêu đề/thông tin học sinh trên đề, chỉ còn ảnh phiếu này và nội dung đề bài.</div></div>
+    </label>
+
+    <div class="pdf-section-label">🎨 Kiểu trình bày</div>
+    <label class="pdf-style-opt sel" data-style="ruled">
+      <input type="radio" name="pdfStyle" value="ruled" checked>
+      <div><div class="pdf-opt-title">📏 Có cột làm bài</div><div class="pdf-opt-desc">Chừa cột kẻ dòng nét đứt bên phải mỗi trang để học sinh làm bài / nháp.</div></div>
+    </label>
+    <label class="pdf-style-opt" data-style="compact">
+      <input type="radio" name="pdfStyle" value="compact">
+      <div><div class="pdf-opt-title">📄 Tối giản — siêu tiết kiệm in ấn</div><div class="pdf-opt-desc">Bố cục gọn, không chừa chỗ làm bài, in được nhiều câu hơn mỗi trang.</div></div>
+    </label>
+    <div class="pdf-modal-actions">
+      <button class="btn btn-primary" id="btnExportExam">📄 Xuất đề thi (PDF)</button>
+      <button class="btn btn-outline" id="btnExportAnswerKey">🗝 Xuất đáp án riêng (PDF)</button>
+      <button class="btn btn-outline" id="btnExportAnswerKeyExcel">📊 Xuất đáp án (Excel)</button>
+    </div>
+    <div class="pdf-modal-hint">💡 Trong hộp thoại in của trình duyệt, chọn máy in "Lưu dưới dạng PDF / Save as PDF" để lưu thành file PDF. Mã đề được giữ nguyên giữa đề thi, đáp án PDF và đáp án Excel để dễ đối chiếu.</div>
+  </div>
+</div>
+<div class="print-area" id="printArea"></div>
 
 <!-- ============= PRESENT SCREEN ============= -->
 <div id="presentScreen" hidden>
@@ -1305,6 +1519,7 @@ function updatePreview(partKey){
   wrap.innerHTML = html;
 }
 function escapeHtml(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escapeAttr(t){ return escapeHtml(t).replace(/"/g,'&quot;'); }
 
 /* ============================================================
    6b. "BÀI ĐÃ LƯU" — lưu tên bài học + link folder (Google Drive,...)
@@ -1524,6 +1739,321 @@ function initSetupScreen(){
   });
 
   document.getElementById('btnStart').addEventListener('click', startPresentation);
+}
+
+/* ============================================================
+   4a. XEM TRƯỚC & SỬA CÂU HỎI (trước khi trình chiếu / xuất PDF)
+   Cho phép xem lại toàn bộ câu hỏi đã dựng công thức/ảnh như lúc trình chiếu,
+   phát hiện lỗi sai và sửa trực tiếp ngay tại chỗ (không cần tải lại Excel).
+   ============================================================ */
+const QED_PART_LABEL = {
+  KT: '📚 Kiến thức trọng tâm',
+  I: '🅰 Phần I — Trắc nghiệm 4 đáp án',
+  II: '⚖ Phần II — Đúng / Sai',
+  III: '✍ Phần III — Trả lời ngắn'
+};
+let qedEditingKey = null; // "partKey:idx" của câu đang sửa (chỉ sửa 1 câu 1 lúc)
+
+function openQuestionEditor(){
+  qedEditingKey = null;
+  document.getElementById('setupScreen').hidden = true;
+  document.getElementById('qedScreen').hidden = false;
+  renderQedList();
+  window.scrollTo(0,0);
+}
+function closeQuestionEditor(){
+  document.getElementById('qedScreen').hidden = true;
+  document.getElementById('setupScreen').hidden = false;
+}
+
+function qedCardIssues(partKey, q){
+  const issues = [];
+  if(partKey==='KT'){
+    if(!q.title || !q.title.trim()) issues.push('Thiếu tiêu đề');
+  }else{
+    if(!q.stem || !q.stem.trim()) issues.push('Thiếu nội dung câu hỏi');
+  }
+  if(partKey==='I'){
+    (q.options||[]).forEach(opt=>{ if(!opt.text || !opt.text.trim()) issues.push('Phương án '+opt.label+' để trống'); });
+    if(q.correctIndex==null || q.correctIndex<0 || q.correctIndex>3) issues.push('Chưa chọn đáp án đúng');
+  }else if(partKey==='II'){
+    (q.items||[]).forEach(it=>{
+      if(!it.text || !it.text.trim()) issues.push('Ý '+it.label+') để trống');
+      if(it.correct!==true && it.correct!==false) issues.push('Ý '+it.label+') chưa đánh dấu Đúng/Sai');
+    });
+  }else if(partKey==='III'){
+    if(!q.answer || !String(q.answer).trim()) issues.push('Thiếu đáp số');
+  }
+  return issues;
+}
+
+function renderQedList(){
+  const wrap = document.getElementById('qedList');
+  const total = deck.parts.KT.length + deck.parts.I.length + deck.parts.II.length + deck.parts.III.length;
+  document.getElementById('qedCount').textContent = total + ' mục';
+  if(total===0){
+    wrap.innerHTML = '<div class="qed-empty">Chưa có dữ liệu nào để xem trước. Vui lòng nhập câu hỏi ở màn hình trước.</div>';
+    return;
+  }
+  let totalIssues = 0;
+  let html = '';
+  ['KT','I','II','III'].forEach(partKey=>{
+    const list = deck.parts[partKey];
+    if(!list.length) return;
+    html += '<div class="qed-group-title">'+QED_PART_LABEL[partKey]+' <span class="qed-group-count">('+list.length+(partKey==='KT'?' slide':' câu')+')</span></div>';
+    list.forEach((q,idx)=>{
+      const issues = qedCardIssues(partKey, q);
+      totalIssues += issues.length;
+      html += renderQedCard(partKey, idx, q, issues);
+    });
+  });
+  if(totalIssues>0){
+    html = '<div class="qed-issue-banner">⚠ Có '+totalIssues+' cảnh báo (thiếu nội dung, thiếu đáp án...) — xem dấu ⚠ trên từng câu bên dưới, bấm "✏️ Sửa" để chỉnh lại.</div>' + html;
+  }
+  wrap.innerHTML = html;
+  renderMathIn(wrap);
+  wrap.querySelectorAll('img.qed-thumb').forEach(img=>{
+    img.addEventListener('error', ()=>{ img.style.display='none'; });
+  });
+  wrap.querySelectorAll('[data-qed-action]').forEach(btn=>{
+    btn.addEventListener('click', onQedAction);
+  });
+}
+
+function renderQedCard(partKey, idx, q, issues){
+  const key = partKey+':'+idx;
+  const label = partKey==='KT' ? ('Slide '+(idx+1)) : ('Câu '+(idx+1));
+  const editing = (qedEditingKey===key);
+  const body = editing ? renderQedEditForm(partKey, idx, q) : renderQedViewBody(partKey, q);
+  const warnBadge = (!editing && issues && issues.length) ? '<span class="qed-warn-badge" title="'+escapeAttr(issues.join('; '))+'">⚠ '+issues.length+'</span>' : '';
+  const actions = editing ? '' :
+    '<button class="btn btn-outline btn-sm" data-qed-action="edit" data-key="'+key+'">✏️ Sửa</button>'+
+    '<button class="btn btn-red btn-sm" data-qed-action="delete" data-key="'+key+'">🗑 Xoá</button>';
+  return '<div class="qed-card'+(editing?' editing':'')+(issues&&issues.length?' has-issue':'')+'" data-key="'+key+'">'+
+           '<div class="qed-card-head"><span class="qed-card-label-wrap"><span class="qed-card-label">'+label+'</span>'+warnBadge+'</span>'+
+           '<div class="qed-card-actions">'+actions+'</div></div>'+
+           '<div class="qed-card-body">'+body+'</div>'+
+         '</div>';
+}
+
+function renderQedViewBody(partKey, q){
+  let html = '';
+  if(partKey==='KT'){
+    html += '<div class="qed-stem">'+renderMixedText(q.title)+'</div>';
+    if(q.subtitle) html += '<div class="qed-kt-sub">'+renderMixedText(q.subtitle)+'</div>';
+    if(q.bullets && q.bullets.length){
+      html += '<ul class="qed-kt-bullets">';
+      q.bullets.forEach(b=>{ html += '<li>'+renderMixedText(b)+'</li>'; });
+      html += '</ul>';
+    }
+  }else{
+    html += '<div class="qed-stem">'+renderMixedText(q.stem)+'</div>';
+    html += '<div class="qed-opts">';
+    if(partKey==='I'){
+      q.options.forEach((opt,i)=>{
+        html += '<div class="qed-opt'+(i===q.correctIndex?' correct':'')+'"><b>'+escapeHtml(opt.label)+'.</b> '+renderMixedText(opt.text)+(i===q.correctIndex?' ✅':'')+'</div>';
+      });
+    }else if(partKey==='II'){
+      q.items.forEach(it=>{
+        const mark = it.correct===true?'Đ':(it.correct===false?'S':'?');
+        html += '<div class="qed-opt"><b>'+escapeHtml(it.label)+')</b> '+renderMixedText(it.text)+' <span class="qed-ds-mark">['+mark+']</span></div>';
+      });
+    }else{
+      html += '<div class="qed-opt"><b>Đáp số:</b> '+renderMixedText(q.answer||'')+'</div>';
+    }
+    html += '</div>';
+    if(q.solution) html += '<div class="qed-solution"><b>Lời giải:</b> '+renderMixedText(q.solution)+'</div>';
+  }
+  if(q.image && q.image.trim()) html += '<img class="qed-thumb" src="'+escapeAttr(q.image)+'">';
+  return html;
+}
+
+function qedSaveCancelRow(key){
+  return '<div class="qed-edit-actions">'+
+    '<button class="btn btn-primary btn-sm" data-qed-action="save" data-key="'+key+'">💾 Lưu</button>'+
+    '<button class="btn btn-ghost btn-sm" data-qed-action="cancel" data-key="'+key+'">✖ Huỷ</button>'+
+    '</div>';
+}
+
+function renderQedEditForm(partKey, idx, q){
+  const key = partKey+':'+idx;
+  let html = '';
+  if(partKey==='KT'){
+    html += '<label class="qed-flabel">Tiêu đề</label>'+
+      '<input type="text" class="qed-input" data-f="title" value="'+escapeAttr(q.title||'')+'">';
+    html += '<label class="qed-flabel">Tiêu đề nhỏ</label>'+
+      '<input type="text" class="qed-input" data-f="subtitle" value="'+escapeAttr(q.subtitle||'')+'">';
+    html += '<label class="qed-flabel">Nội dung (mỗi dòng là 1 gạch đầu dòng)</label>'+
+      '<textarea class="qed-input qed-textarea" data-f="bullets" rows="5">'+escapeHtml((q.bullets||[]).join('\n'))+'</textarea>';
+    html += '<label class="qed-flabel">Link ảnh (không bắt buộc)</label>'+
+      '<input type="text" class="qed-input" data-f="image" value="'+escapeAttr(q.image||'')+'">';
+    html += qedSaveCancelRow(key);
+    return html;
+  }
+  html += '<label class="qed-flabel">Nội dung câu hỏi</label>'+
+    '<textarea class="qed-input qed-textarea" data-f="stem" rows="2">'+escapeHtml(q.stem||'')+'</textarea>';
+  if(partKey==='I'){
+    html += '<label class="qed-flabel">Các phương án (chọn ô tròn cho đáp án đúng)</label>';
+    q.options.forEach((opt,i)=>{
+      html += '<div class="qed-opt-edit-row">'+
+        '<input type="radio" name="qedCorrect_'+idx+'" data-f="correct" data-i="'+i+'" '+(i===q.correctIndex?'checked':'')+'>'+
+        '<b>'+escapeHtml(opt.label)+'.</b>'+
+        '<input type="text" class="qed-input" data-f="optText" data-i="'+i+'" value="'+escapeAttr(opt.text||'')+'">'+
+        '</div>';
+    });
+  }else if(partKey==='II'){
+    html += '<label class="qed-flabel">Các ý a, b, c, d (chọn Đ hoặc S)</label>';
+    q.items.forEach((it,i)=>{
+      html += '<div class="qed-opt-edit-row">'+
+        '<b>'+escapeHtml(it.label)+')</b>'+
+        '<input type="text" class="qed-input" data-f="itemText" data-i="'+i+'" value="'+escapeAttr(it.text||'')+'">'+
+        '<select class="qed-ds-select" data-f="itemDs" data-i="'+i+'">'+
+          '<option value="true"'+(it.correct===true?' selected':'')+'>Đ</option>'+
+          '<option value="false"'+(it.correct===false?' selected':'')+'>S</option>'+
+        '</select>'+
+        '</div>';
+    });
+  }else if(partKey==='III'){
+    html += '<label class="qed-flabel">Đáp số</label>'+
+      '<input type="text" class="qed-input" data-f="answer" value="'+escapeAttr(q.answer||'')+'">';
+  }
+  html += '<label class="qed-flabel">Lời giải</label>'+
+    '<textarea class="qed-input qed-textarea" data-f="solution" rows="2">'+escapeHtml(q.solution||'')+'</textarea>';
+  html += '<label class="qed-flabel">Link ảnh (không bắt buộc)</label>'+
+    '<input type="text" class="qed-input" data-f="image" value="'+escapeAttr(q.image||'')+'">';
+  html += qedSaveCancelRow(key);
+  return html;
+}
+
+function onQedAction(e){
+  const btn = e.currentTarget;
+  const action = btn.getAttribute('data-qed-action');
+  const key = btn.getAttribute('data-key');
+  const sep = key.indexOf(':');
+  const partKey = key.slice(0, sep);
+  const idx = parseInt(key.slice(sep+1), 10);
+  if(action==='edit'){
+    qedEditingKey = key;
+    renderQedList();
+  }else if(action==='cancel'){
+    qedEditingKey = null;
+    renderQedList();
+  }else if(action==='delete'){
+    if(!confirm('Xoá '+(partKey==='KT'?'slide':'câu')+' này khỏi bài?')) return;
+    deck.parts[partKey].splice(idx,1);
+    saveDeck();
+    updatePreview(partKey);
+    updateTotal();
+    qedEditingKey = null;
+    renderQedList();
+  }else if(action==='save'){
+    saveQedCard(partKey, idx, key);
+  }
+}
+
+function saveQedCard(partKey, idx, key){
+  const card = document.querySelector('.qed-card[data-key="'+key+'"]');
+  if(!card) return;
+  const q = deck.parts[partKey][idx];
+  const getVal = sel => { const el = card.querySelector(sel); return el ? el.value : ''; };
+  if(partKey==='KT'){
+    q.title = getVal('[data-f="title"]');
+    q.subtitle = getVal('[data-f="subtitle"]');
+    q.bullets = getVal('[data-f="bullets"]').split('\n').map(s=>s.trim()).filter(s=>s.length>0);
+    q.image = getVal('[data-f="image"]');
+  }else{
+    q.stem = getVal('[data-f="stem"]');
+    if(partKey==='I'){
+      card.querySelectorAll('[data-f="optText"]').forEach(inp=>{
+        const i = parseInt(inp.getAttribute('data-i'),10);
+        q.options[i].text = inp.value;
+      });
+      const checkedRadio = card.querySelector('[data-f="correct"]:checked');
+      if(checkedRadio) q.correctIndex = parseInt(checkedRadio.getAttribute('data-i'),10);
+    }else if(partKey==='II'){
+      card.querySelectorAll('[data-f="itemText"]').forEach(inp=>{
+        const i = parseInt(inp.getAttribute('data-i'),10);
+        q.items[i].text = inp.value;
+      });
+      card.querySelectorAll('[data-f="itemDs"]').forEach(sel=>{
+        const i = parseInt(sel.getAttribute('data-i'),10);
+        q.items[i].correct = (sel.value==='true');
+      });
+    }else if(partKey==='III'){
+      q.answer = getVal('[data-f="answer"]');
+    }
+    q.solution = getVal('[data-f="solution"]');
+    q.image = getVal('[data-f="image"]');
+  }
+  saveDeck();
+  updatePreview(partKey);
+  updateTotal();
+  qedEditingKey = null;
+  renderQedList();
+}
+
+// Xuất lại toàn bộ dữ liệu (đã sửa trong màn "Xem trước & sửa") ra file Excel,
+// đúng cấu trúc file mẫu "Ngân hàng câu hỏi gộp chung" để có thể lưu lại hoặc tải lên lại sau này.
+function buildUnifiedRowsFromDeck(){
+  const rows = [];
+  let counter = 1;
+  const nextCode = ()=>'Q_'+String(counter++).padStart(3,'0');
+  deck.parts.I.forEach(q=>{
+    const opt = q.options||[];
+    const ans = (q.correctIndex>=0 && q.correctIndex<4) ? ['A','B','C','D'][q.correctIndex] : '';
+    rows.push([
+      nextCode(), 'Trắc nghiệm', '', q.stem||'', q.image||'',
+      opt[0]?opt[0].text||'':'', opt[1]?opt[1].text||'':'', opt[2]?opt[2].text||'':'', opt[3]?opt[3].text||'':'',
+      ans, q.solution||''
+    ]);
+  });
+  deck.parts.II.forEach(q=>{
+    const items = q.items||[];
+    const ansParts = items.map(it=> it.correct===true?(it.label+'-Đúng'):(it.correct===false?(it.label+'-Sai'):null)).filter(Boolean);
+    rows.push([
+      nextCode(), 'Đúng/Sai', '', q.stem||'', q.image||'',
+      items[0]?items[0].text||'':'', items[1]?items[1].text||'':'', items[2]?items[2].text||'':'', items[3]?items[3].text||'':'',
+      ansParts.join(', '), q.solution||''
+    ]);
+  });
+  deck.parts.III.forEach(q=>{
+    rows.push([ nextCode(), 'Trả lời ngắn', '', q.stem||'', q.image||'', '', '', '', '', q.answer||'', q.solution||'' ]);
+  });
+  return rows;
+}
+
+function exportEditedDeckExcel(){
+  if(typeof XLSX === 'undefined'){
+    alert('Chưa tải được thư viện Excel (cần kết nối Internet). Vui lòng kiểm tra mạng rồi thử lại.');
+    return;
+  }
+  if(!hasAnyQuestions() && deck.parts.KT.length===0){
+    alert('Chưa có dữ liệu nào để tải.');
+    return;
+  }
+  const wb = XLSX.utils.book_new();
+  const rows = buildUnifiedRowsFromDeck();
+  if(rows.length){
+    const header = ['Mã Câu','Loại','Chuyên đề','Nội dung','Link Ảnh','Lựa chọn A / Mệnh đề a','Lựa chọn B / Mệnh đề b','Lựa chọn C / Mệnh đề c','Lựa chọn D / Mệnh đề d','Đáp án đúng','Lời giải'];
+    const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+    ws['!cols'] = [{wch:8},{wch:12},{wch:14},{wch:40},{wch:16},{wch:22},{wch:22},{wch:22},{wch:22},{wch:14},{wch:30}];
+    XLSX.utils.book_append_sheet(wb, ws, 'NganHangCauHoi');
+  }
+  if(deck.parts.KT.length){
+    const ktHeader = ['Tiêu đề','Tiêu đề nhỏ','Kiến thức','Link ảnh'];
+    const ktRows = deck.parts.KT.map(k=>[k.title||'', k.subtitle||'', (k.bullets||[]).join('\n'), k.image||'']);
+    const ws2 = XLSX.utils.aoa_to_sheet([ktHeader, ...ktRows]);
+    ws2['!cols'] = [{wch:30},{wch:30},{wch:50},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, ws2, 'KienThucTrongTam');
+  }
+  const safeTitle = (deck.title||'BaiTap').replace(/[\\/:*?"<>|]/g,'').trim() || 'BaiTap';
+  XLSX.writeFile(wb, 'BaiTap_DaSua_'+safeTitle+'.xlsx');
+}
+
+function initQuestionEditor(){
+  document.getElementById('btnOpenQed').addEventListener('click', openQuestionEditor);
+  document.getElementById('btnQedClose').addEventListener('click', closeQuestionEditor);
+  document.getElementById('btnQedDownloadExcel').addEventListener('click', exportEditedDeckExcel);
 }
 
 /* ============================================================
@@ -2630,6 +3160,479 @@ function initPresentScreen(){
 }
 
 /* ============================================================
+   13b. XUẤT PDF (đúng chuẩn cấu trúc đề thi Toán THPT Quốc gia)
+   Phân trang thủ công (đo chiều cao từng khối nội dung ở đúng độ
+   rộng sẽ in) để có thể ghi số trang + mã đề vào chân trang, và để
+   cột kẻ dòng làm bài chỉ chiếm đúng chiều cao còn lại của trang.
+   ============================================================ */
+function pdfEsc(s){ return escapeHtml(s||''); }
+
+const MM_PX = 96/25.4;
+const PAGE_CONTENT_W_MM = 186;  // 210 - 12*2, khớp @page margin 12mm trái/phải
+const PAGE_CONTENT_H_MM = 269;  // 297 - 14*2, khớp @page margin 14mm trên/dưới
+const PAGE_FOOTER_H_MM = 5;
+const PAGE_BODY_H_MM = PAGE_CONTENT_H_MM - PAGE_FOOTER_H_MM;
+const RULE_FLOW_W_MM = 118; // chiều rộng cột câu hỏi khi có cột làm bài (118 + 4 gap + 64 cột kẻ = 186)
+
+const EXAM_TYPE_LABELS = {
+  thuongxuyen: 'Kiểm tra thường xuyên',
+  giuaki1: 'Kiểm tra giữa học kì I',
+  cuoiki1: 'Kiểm tra cuối học kì I',
+  giuaki2: 'Kiểm tra giữa học kì II',
+  cuoiki2: 'Kiểm tra cuối học kì II'
+};
+
+const PDF_META_STORAGE_KEY = 'mathPdfExamMeta';
+function defaultSchoolYear(){
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth()+1;
+  return m>=7 ? (y+'-'+(y+1)) : ((y-1)+'-'+y);
+}
+function loadPdfMeta(){
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(PDF_META_STORAGE_KEY)||'{}') || {}; }catch(e){ saved = {}; }
+  return {
+    examType: saved.examType || 'custom',
+    grade: (saved.grade!==undefined && saved.grade!==null && saved.grade!=='') ? saved.grade : '10',
+    schoolYear: saved.schoolYear || defaultSchoolYear(),
+    minutes: saved.minutes || 45,
+    numVersions: saved.numVersions || 1,
+    fontSize: saved.fontSize || PDF_FONT_DEFAULT,
+    lineHeight: saved.lineHeight || PDF_LH_DEFAULT,
+    useOmrSheet: !!saved.useOmrSheet
+  };
+}
+function savePdfMeta(meta){ try{ localStorage.setItem(PDF_META_STORAGE_KEY, JSON.stringify(meta)); }catch(e){} }
+function readPdfMetaFromForm(){
+  let numVersions = parseInt(document.getElementById('pdfNumVersions').value,10);
+  if(!(numVersions>=1)) numVersions = 1;
+  if(numVersions>8) numVersions = 8;
+  return {
+    examType: document.getElementById('pdfExamType').value,
+    grade: document.getElementById('pdfGrade').value.trim(),
+    schoolYear: document.getElementById('pdfSchoolYear').value.trim(),
+    minutes: parseInt(document.getElementById('pdfMinutes').value,10) || 0,
+    numVersions: numVersions,
+    fontSize: currentPdfFontSize,
+    lineHeight: currentPdfLineHeight,
+    useOmrSheet: !!document.getElementById('pdfUseOmrSheet').checked
+  };
+}
+// Ảnh phiếu trả lời trắc nghiệm (OMR) — tải bằng trình duyệt của người dùng lúc in, giống ảnh minh hoạ câu hỏi.
+const OMR_SHEET_IMG_URL = 'https://i.ibb.co/vCPX2khq/29df574a95b7.png';
+let currentExamCode = null;
+let currentExamVersions = null; // [{code, src:{I,II,III}}] — dùng chung giữa lần xuất đề thi & xuất đáp án để khớp mã đề
+function pad4(n){ return String(n).padStart(4,'0'); }
+function genExamCode(){ return pad4(Math.floor(Math.random()*10000)); } // mã đề 4 ký tự, ví dụ "0427"
+function refreshExamCodeDisplay(){
+  const el = document.getElementById('pdfCodeDisplay');
+  if(el) el.textContent = currentExamCode;
+}
+function updatePdfMultiUI(){
+  const n = parseInt(document.getElementById('pdfNumVersions').value,10) || 1;
+  const multi = n>1;
+  document.getElementById('pdfCodeRow').hidden = multi;
+  document.getElementById('pdfMultiNote').hidden = !multi;
+  if(multi) document.getElementById('pdfMultiCount').textContent = n;
+}
+
+/* ---- Cỡ chữ đề in: chữ nhỏ hơn giúp 1 trang A4 chứa được nhiều câu hơn ---- */
+const PDF_FONT_MIN = 9.5, PDF_FONT_MAX = 14, PDF_FONT_STEP = 0.5, PDF_FONT_DEFAULT = 12.5;
+let currentPdfFontSize = PDF_FONT_DEFAULT;
+function refreshFontSizeDisplay(){
+  const el = document.getElementById('pdfFontSizeDisplay');
+  if(el) el.textContent = currentPdfFontSize + 'pt';
+}
+function adjustPdfFontSize(delta){
+  let v = Math.round((currentPdfFontSize + delta) * 10) / 10;
+  if(v < PDF_FONT_MIN) v = PDF_FONT_MIN;
+  if(v > PDF_FONT_MAX) v = PDF_FONT_MAX;
+  currentPdfFontSize = v;
+  refreshFontSizeDisplay();
+}
+
+/* ---- Giãn dòng đề in: giãn dòng nhỏ hơn giúp in tiết kiệm giấy hơn ---- */
+const PDF_LH_MIN = 1.0, PDF_LH_MAX = 1.6, PDF_LH_STEP = 0.1, PDF_LH_DEFAULT = 1.5;
+let currentPdfLineHeight = PDF_LH_DEFAULT;
+function refreshLineHeightDisplay(){
+  const el = document.getElementById('pdfLineHeightDisplay');
+  if(el) el.textContent = currentPdfLineHeight.toFixed(1);
+}
+function adjustPdfLineHeight(delta){
+  let v = Math.round((currentPdfLineHeight + delta) * 10) / 10;
+  if(v < PDF_LH_MIN) v = PDF_LH_MIN;
+  if(v > PDF_LH_MAX) v = PDF_LH_MAX;
+  currentPdfLineHeight = v;
+  refreshLineHeightDisplay();
+}
+
+/* ---- Trộn đề: đảo thứ tự câu hỏi + đáp án để tạo nhiều mã đề khác nhau ---- */
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp = a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+function shuffleQuestionI(q){
+  // Trộn thứ tự 4 phương án; nhãn A/B/C/D luôn được gán lại theo VỊ TRÍ MỚI (không giữ nhãn cũ)
+  // để phương án hiển thị đúng thứ tự A, B, C, D — khớp với đáp án tính theo correctIndex.
+  const order = shuffleArray([0,1,2,3]);
+  const labels = ['A','B','C','D'];
+  const newOptions = order.map((i,pos)=>Object.assign({}, q.options[i], {label:labels[pos]}));
+  const newCorrectIndex = order.indexOf(q.correctIndex);
+  return Object.assign({}, q, {options:newOptions, correctIndex:newCorrectIndex, _selected:-1, _revealed:false});
+}
+function shuffleQuestionII(q){
+  // Trộn 3 ý đầu (a,b,c) với nhau, giữ nguyên ý d (ý khó, luôn ở vị trí cuối)
+  const first3 = shuffleArray(q.items.slice(0,3));
+  const labels = ['a','b','c'];
+  const newItems = first3.map((it,i)=>Object.assign({}, it, {label:labels[i], _selected:null}));
+  const last = q.items[3];
+  newItems.push(last ? Object.assign({}, last, {_selected:null}) : last);
+  return Object.assign({}, q, {items:newItems, _revealed:false});
+}
+function buildShuffledDeckPart(part){
+  if(part==='I') return shuffleArray(deck.parts.I).map(shuffleQuestionI);
+  if(part==='II') return shuffleArray(deck.parts.II).map(shuffleQuestionII);
+  return shuffleArray(deck.parts.III);
+}
+function buildExamVersions(numVersions){
+  // Nhiều mã đề: đánh số tuần tự 4 ký tự bắt đầu "0001" (0001, 0002, 0003, ...) để khớp với
+  // các cột mã đề trong file đáp án Excel xuất kèm, thay vì random.
+  const codes = [];
+  for(let i=1;i<=numVersions;i++) codes.push(pad4(i));
+  return codes.map(code=>({
+    code,
+    src: numVersions>1 ? {
+      I: buildShuffledDeckPart('I'),
+      II: buildShuffledDeckPart('II'),
+      III: buildShuffledDeckPart('III')
+    } : deck.parts
+  }));
+}
+// numVersions<=1: dùng đúng mã đề đang hiển thị trong modal (đổi được qua nút "Đổi mã"), không trộn câu hỏi.
+// numVersions>1: forceRegen=true (khi bấm "Xuất đề thi") luôn trộn mẻ mới; forceRegen=false (khi bấm "Xuất đáp án")
+// dùng lại mẻ vừa trộn để đáp án khớp đúng với đề đã xuất, chỉ trộn mới nếu chưa có sẵn.
+function getExamVersionsForExport(meta, forceRegen){
+  if(meta.numVersions <= 1){
+    return [{code: currentExamCode, src: deck.parts}];
+  }
+  if(forceRegen || !currentExamVersions || currentExamVersions.length !== meta.numVersions){
+    currentExamVersions = buildExamVersions(meta.numVersions);
+  }
+  return currentExamVersions;
+}
+
+/* ---- Từng khối nội dung (đơn vị đo & phân trang) ---- */
+function buildPartTitleBlock(label, instrFn, fromNum, toNum){
+  return '<div class="pe-part-title">'+label+'</div><div class="pe-part-instr">'+instrFn(fromNum,toNum)+'</div>';
+}
+function wrapQuestionWithImage(mainHtml, image){
+  // Có ảnh: ảnh chiếm 1/3 bên phải, câu hỏi + phương án co lại 2/3 bên trái (tiết kiệm giấy khi in).
+  if(!(image && image.trim())) return mainHtml;
+  return '<div class="pe-q-with-img"><div class="pe-q-maincol">'+mainHtml+'</div>'+
+         '<div class="pe-q-imgcol"><img class="pe-img" src="'+pdfEsc(image)+'"></div></div>';
+}
+function buildQuestionIBlock(q, num){
+  let main = '<div class="pe-q-head"><span class="pe-q-num">Câu '+num+':</span><span class="pe-q-stem">'+renderMixedText(q.stem)+'</span></div>';
+  main += '<div class="pe-opts">';
+  q.options.forEach(opt=>{ main += '<span class="pe-opt-line"><b class="pe-opt-label">'+pdfEsc(opt.label)+'.</b><span class="pe-opt-text">'+renderMixedText(opt.text)+'</span></span>'; });
+  main += '</div>';
+  return '<div class="pe-q">'+wrapQuestionWithImage(main, q.image)+'</div>';
+}
+function buildQuestionIIBlock(q, num){
+  let main = '<div class="pe-q-head"><span class="pe-q-num">Câu '+num+':</span><span class="pe-q-stem">'+renderMixedText(q.stem)+'</span></div>';
+  main += '<div class="pe-stmts">';
+  q.items.forEach(it=>{
+    main += '<div class="pe-stmt-line"><span class="pe-stmt-text">'+pdfEsc(it.label)+') '+renderMixedText(it.text)+'</span>'+
+            '<span class="pe-ds-box">Đúng<i></i>&nbsp;&nbsp;Sai<i></i></span></div>';
+  });
+  main += '</div>';
+  return '<div class="pe-q">'+wrapQuestionWithImage(main, q.image)+'</div>';
+}
+function buildQuestionIIIBlock(q, num){
+  const n = Math.max((q.answer||'').length, 4);
+  let main = '<div class="pe-q-head"><span class="pe-q-num">Câu '+num+':</span><span class="pe-q-stem">'+renderMixedText(q.stem)+'</span></div>';
+  main += '<div class="pe-short-ans"><span>Đáp án:</span>';
+  for(let k=0;k<n;k++){ main += '<span class="pe-ans-box"></span>'; }
+  main += '</div>';
+  return '<div class="pe-q">'+wrapQuestionWithImage(main, q.image)+'</div>';
+}
+function buildExamHeaderBlock(meta){
+  let title;
+  const subParts = [];
+  if(meta.examType === 'custom'){
+    title = (deck.title||'ĐỀ KIỂM TRA').toUpperCase();
+  }else{
+    title = 'ĐỀ ' + (EXAM_TYPE_LABELS[meta.examType]||'KIỂM TRA').toUpperCase();
+    if(meta.schoolYear) subParts.push('Năm học: '+pdfEsc(meta.schoolYear));
+  }
+  subParts.push('Môn: Toán' + (meta.grade ? ' - Lớp '+pdfEsc(meta.grade) : ''));
+  if(meta.minutes) subParts.push('Thời gian làm bài: '+meta.minutes+' phút (không kể thời gian phát đề)');
+
+  // Không lặp lại "Mã đề" ở đầu trang nữa — đã có sẵn ở chân trang mỗi trang, tránh trùng lặp.
+  let html = '<div class="pe-title">'+pdfEsc(title)+'</div>';
+  html += '<div class="pe-subtitle">'+subParts.join(' &nbsp;·&nbsp; ')+'</div>';
+  html += '<div class="pe-info-line"><span>Họ và tên học sinh: .................................................</span><span>Lớp: ..............</span></div>';
+  return html;
+}
+function buildExamBlocks(meta, src){
+  src = src || deck.parts;
+  // Khi dùng phiếu trả lời trắc nghiệm (ảnh) thay thông tin: bỏ khối tiêu đề/thông tin chữ,
+  // chèn ảnh phiếu ở đầu trang 1 rồi đề bài tiếp ngay bên dưới (không tách trang riêng, tiết kiệm giấy).
+  const blocks = meta.useOmrSheet
+    ? ['<img class="pe-omr-inline" src="'+pdfEsc(OMR_SHEET_IMG_URL)+'">']
+    : [buildExamHeaderBlock(meta)];
+  let num = 1;
+  if(src.I.length){
+    const from=num, to=num+src.I.length-1;
+    blocks.push(buildPartTitleBlock('PHẦN I. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN',
+      (f,t)=>'Thí sinh trả lời từ câu '+f+' đến câu '+t+'. Mỗi câu hỏi thí sinh chỉ chọn một phương án.', from, to));
+    src.I.forEach(q=>{ blocks.push(buildQuestionIBlock(q,num)); num++; });
+  }
+  if(src.II.length){
+    const from=num, to=num+src.II.length-1;
+    blocks.push(buildPartTitleBlock('PHẦN II. CÂU TRẮC NGHIỆM ĐÚNG SAI',
+      (f,t)=>'Thí sinh trả lời từ câu '+f+' đến câu '+t+'. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.', from, to));
+    src.II.forEach(q=>{ blocks.push(buildQuestionIIBlock(q,num)); num++; });
+  }
+  if(src.III.length){
+    const from=num, to=num+src.III.length-1;
+    blocks.push(buildPartTitleBlock('PHẦN III. CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN',
+      (f,t)=>'Thí sinh trả lời từ câu '+f+' đến câu '+t+'.', from, to));
+    src.III.forEach(q=>{ blocks.push(buildQuestionIIIBlock(q,num)); num++; });
+  }
+  return blocks;
+}
+function buildAnswerKeyBlocks(meta, src){
+  src = src || deck.parts;
+  let title;
+  if(meta.examType==='custom') title = (deck.title||'ĐỀ KIỂM TRA').toUpperCase();
+  else title = 'ĐỀ ' + (EXAM_TYPE_LABELS[meta.examType]||'KIỂM TRA').toUpperCase();
+  const blocks = ['<div class="pe-title">ĐÁP ÁN — '+pdfEsc(title)+'</div>'];
+  let startNum = 1;
+  if(src.I.length){
+    const rows = src.I;
+    let grid = '<div class="pe-part-title">PHẦN I — Đáp án</div><div class="pe-answerkey-grid">';
+    rows.forEach((q,i)=>{
+      const ansLabel = q.correctIndex>=0 ? ['A','B','C','D'][q.correctIndex] : '?';
+      grid += '<div class="pe-answerkey-item">Câu '+(startNum+i)+': <b>'+ansLabel+'</b></div>';
+    });
+    blocks.push(grid+'</div>');
+    rows.forEach((q,i)=>{ if(q.solution) blocks.push('<div class="pe-solution"><b>Câu '+(startNum+i)+':</b> '+renderMixedText(q.solution)+'</div>'); });
+    startNum += rows.length;
+  }
+  if(src.II.length){
+    const rows = src.II;
+    blocks.push('<div class="pe-part-title">PHẦN II — Đáp án</div>');
+    rows.forEach((q,i)=>{
+      const marks = q.items.map(it=> pdfEsc(it.label)+') '+(it.correct===true?'Đúng':it.correct===false?'Sai':'?')).join('&nbsp;&nbsp;&nbsp;');
+      blocks.push('<div class="pe-solution" style="border:none;padding-left:0;margin-bottom:6px;"><b>Câu '+(startNum+i)+':</b> '+marks+'</div>');
+    });
+    rows.forEach((q,i)=>{ if(q.solution) blocks.push('<div class="pe-solution"><b>Câu '+(startNum+i)+':</b> '+renderMixedText(q.solution)+'</div>'); });
+    startNum += rows.length;
+  }
+  if(src.III.length){
+    const rows = src.III;
+    let grid = '<div class="pe-part-title">PHẦN III — Đáp án</div><div class="pe-answerkey-grid">';
+    rows.forEach((q,i)=>{ grid += '<div class="pe-answerkey-item">Câu '+(startNum+i)+': <b>'+pdfEsc(q.answer)+'</b></div>'; });
+    blocks.push(grid+'</div>');
+    rows.forEach((q,i)=>{ if(q.solution) blocks.push('<div class="pe-solution"><b>Câu '+(startNum+i)+':</b> '+renderMixedText(q.solution)+'</div>'); });
+  }
+  return blocks;
+}
+
+/* ---- Đo & phân trang ---- */
+function measureBlockHeightMm(host, html){
+  host.innerHTML = html;
+  renderMathIn(host);
+  return host.getBoundingClientRect().height / MM_PX;
+}
+function paginateBlocks(blocks, flowWidthMm){
+  const host = document.createElement('div');
+  host.className = 'print-area pe-measure-host';
+  host.style.width = flowWidthMm + 'mm';
+  host.style.fontSize = currentPdfFontSize + 'pt';
+  host.style.lineHeight = String(currentPdfLineHeight);
+  document.body.appendChild(host);
+  const pages = [];
+  let current = [], currentH = 0;
+  blocks.forEach(html=>{
+    const h = measureBlockHeightMm(host, html);
+    if(current.length>0 && currentH + h > PAGE_BODY_H_MM){
+      pages.push(current); current = []; currentH = 0;
+    }
+    current.push(html);
+    currentH += h;
+  });
+  if(current.length) pages.push(current);
+  document.body.removeChild(host);
+  return pages;
+}
+function pdfRuleLinesHtml(count){
+  let html = '';
+  for(let i=0;i<count;i++) html += '<div class="pe-rule-line"></div>';
+  return html;
+}
+function renderPagesHtml(pages, opts){
+  const N = pages.length;
+  let html = '';
+  pages.forEach((blockHtmls,i)=>{
+    const pageNum = i+1;
+    html += '<div class="pe-page">';
+    html += '<div class="pe-page-body"><div class="pe-flow">'+blockHtmls.join('')+'</div>';
+    if(opts.withRuleCol) html += '<div class="pe-rulecol">'+pdfRuleLinesHtml(45)+'</div>';
+    html += '</div>';
+    html += '<div class="pe-footer"><span>Mã đề: '+currentExamCode+'</span><span>Trang '+pageNum+' / '+N+'</span></div>';
+    html += '</div>';
+  });
+  return html;
+}
+function hasAnyQuestions(){ return deck.parts.I.length + deck.parts.II.length + deck.parts.III.length > 0; }
+
+function exportExamPDF(style){
+  const meta = readPdfMetaFromForm();
+  savePdfMeta(meta);
+  closePdfModal();
+  const versions = getExamVersionsForExport(meta, true);
+  const area = document.getElementById('printArea');
+  area.className = 'print-area style-' + style;
+  area.style.fontSize = currentPdfFontSize + 'pt';
+  area.style.lineHeight = String(currentPdfLineHeight);
+  const flowWidthMm = style==='ruled' ? RULE_FLOW_W_MM : PAGE_CONTENT_W_MM;
+  let html = '';
+  versions.forEach(v=>{
+    currentExamCode = v.code;
+    const pages = paginateBlocks(buildExamBlocks(meta, v.src), flowWidthMm);
+    html += renderPagesHtml(pages, {withRuleCol: style==='ruled'});
+  });
+  area.innerHTML = html;
+  renderMathIn(area);
+  requestAnimationFrame(()=>{ setTimeout(()=>{ window.print(); }, 80); });
+}
+function exportAnswerKeyPDF(){
+  const meta = readPdfMetaFromForm();
+  savePdfMeta(meta);
+  closePdfModal();
+  const versions = getExamVersionsForExport(meta, false);
+  const area = document.getElementById('printArea');
+  area.className = 'print-area';
+  area.style.fontSize = currentPdfFontSize + 'pt';
+  area.style.lineHeight = String(currentPdfLineHeight);
+  let html = '';
+  versions.forEach(v=>{
+    currentExamCode = v.code;
+    const pages = paginateBlocks(buildAnswerKeyBlocks(meta, v.src), PAGE_CONTENT_W_MM);
+    html += renderPagesHtml(pages, {withRuleCol:false});
+  });
+  area.innerHTML = html;
+  renderMathIn(area);
+  requestAnimationFrame(()=>{ setTimeout(()=>{ window.print(); }, 80); });
+}
+/* ---- Xuất đáp án ra file Excel: mỗi cột 1 mã đề, mỗi dòng 1 câu ---- */
+function computeAnswerCell(part, q){
+  if(part==='I') return (q.correctIndex>=0 && q.correctIndex<4) ? ['A','B','C','D'][q.correctIndex] : '';
+  if(part==='II') return q.items.map(it=> it.correct===true?'Đ':(it.correct===false?'S':'?')).join('');
+  return (q.answer!==undefined && q.answer!==null) ? String(q.answer) : '';
+}
+function exportAnswerKeyExcel(){
+  if(!hasAnyQuestions()){ alert('Chưa có câu hỏi nào để xuất đáp án.'); return; }
+  if(typeof XLSX === 'undefined'){
+    alert('Chưa tải được thư viện Excel (cần kết nối Internet). Vui lòng kiểm tra mạng rồi thử lại.');
+    return;
+  }
+  const meta = readPdfMetaFromForm();
+  savePdfMeta(meta);
+  closePdfModal();
+  const versions = getExamVersionsForExport(meta, false); // dùng chung mẻ đề với PDF đề thi/đáp án đã xuất, để mã đề khớp nhau
+  const nI = deck.parts.I.length, nII = deck.parts.II.length, nIII = deck.parts.III.length;
+  const header = ['Câu', ...versions.map(v=>v.code)];
+  const rows = [];
+  for(let i=0;i<nI+nII+nIII;i++){
+    let part, idx;
+    if(i < nI){ part='I'; idx=i; }
+    else if(i < nI+nII){ part='II'; idx=i-nI; }
+    else { part='III'; idx=i-nI-nII; }
+    const row = [i+1];
+    versions.forEach(v=>{ row.push(computeAnswerCell(part, v.src[part][idx])); });
+    rows.push(row);
+  }
+  const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+  ws['!cols'] = [{wch:8}].concat(versions.map(()=>({wch:10})));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'DapAn');
+  const safeTitle = (deck.title||'DeThi').replace(/[\\/:*?"<>|]/g,'').trim() || 'DeThi';
+  XLSX.writeFile(wb, 'DapAn_'+safeTitle+'.xlsx');
+}
+function openPdfModal(){
+  const meta = loadPdfMeta();
+  document.getElementById('pdfExamType').value = meta.examType;
+  document.getElementById('pdfGrade').value = meta.grade;
+  document.getElementById('pdfSchoolYear').value = meta.schoolYear;
+  document.getElementById('pdfMinutes').value = meta.minutes;
+  document.getElementById('pdfNumVersions').value = meta.numVersions;
+  // Không xoá currentExamVersions ở đây: nếu xoá, việc đóng/mở lại hộp thoại giữa lúc xuất đề thi
+  // và xuất đáp án (luồng bình thường) sẽ làm mất mẻ đề vừa trộn, khiến đáp án lệch mã đề so với đề đã in.
+  // exportExamPDF luôn tự trộn mẻ mới (forceRegen=true) mỗi lần bấm "Xuất đề thi", nên không cần xoá ở đây.
+  currentPdfFontSize = meta.fontSize;
+  refreshFontSizeDisplay();
+  currentPdfLineHeight = meta.lineHeight;
+  refreshLineHeightDisplay();
+  document.getElementById('pdfUseOmrSheet').checked = meta.useOmrSheet;
+  if(!currentExamCode) currentExamCode = '0001'; // mặc định mã đề 4 ký tự bắt đầu "0001"
+  refreshExamCodeDisplay();
+  updatePdfMultiUI();
+  document.getElementById('pdfModal').classList.remove('hidden');
+}
+function closePdfModal(){ document.getElementById('pdfModal').classList.add('hidden'); }
+
+function initPdfExport(){
+  document.getElementById('btnExportPDF').addEventListener('click', openPdfModal);
+  document.getElementById('pdfModalClose').addEventListener('click', closePdfModal);
+  document.getElementById('pdfModal').addEventListener('click', (e)=>{
+    if(e.target.id==='pdfModal') closePdfModal();
+  });
+  document.getElementById('pdfCodeRefresh').addEventListener('click', ()=>{
+    currentExamCode = genExamCode();
+    refreshExamCodeDisplay();
+  });
+  document.getElementById('pdfNumVersions').addEventListener('input', ()=>{
+    updatePdfMultiUI();
+    currentExamVersions = null;
+  });
+  document.getElementById('pdfFontMinus').addEventListener('click', ()=>adjustPdfFontSize(-PDF_FONT_STEP));
+  document.getElementById('pdfFontPlus').addEventListener('click', ()=>adjustPdfFontSize(PDF_FONT_STEP));
+  document.getElementById('pdfLineHeightMinus').addEventListener('click', ()=>adjustPdfLineHeight(-PDF_LH_STEP));
+  document.getElementById('pdfLineHeightPlus').addEventListener('click', ()=>adjustPdfLineHeight(PDF_LH_STEP));
+  document.querySelectorAll('.pdf-style-opt').forEach(lab=>{
+    lab.addEventListener('click', ()=>{
+      document.querySelectorAll('.pdf-style-opt').forEach(l=>l.classList.remove('sel'));
+      lab.classList.add('sel');
+      lab.querySelector('input[type=radio]').checked = true;
+    });
+  });
+  document.getElementById('btnExportExam').addEventListener('click', ()=>{
+    if(!hasAnyQuestions()){ alert('Chưa có câu hỏi nào để xuất PDF.'); return; }
+    const style = document.querySelector('input[name="pdfStyle"]:checked').value;
+    exportExamPDF(style);
+  });
+  document.getElementById('btnExportAnswerKey').addEventListener('click', ()=>{
+    if(!hasAnyQuestions()){ alert('Chưa có câu hỏi nào để xuất đáp án.'); return; }
+    exportAnswerKeyPDF();
+  });
+  document.getElementById('btnExportAnswerKeyExcel').addEventListener('click', exportAnswerKeyExcel);
+  window.addEventListener('afterprint', ()=>{
+    const area = document.getElementById('printArea');
+    area.innerHTML = '';
+    area.className = 'print-area';
+    area.style.fontSize = '';
+    area.style.lineHeight = '';
+  });
+}
+
+/* ============================================================
    14. INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', function(){
@@ -2639,6 +3642,8 @@ document.addEventListener('DOMContentLoaded', function(){
   initSounds();
   initSetupScreen();
   initPresentScreen();
+  initPdfExport();
+  initQuestionEditor();
 });
 
 })();
