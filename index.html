@@ -272,14 +272,23 @@
   .ans-boxes.wrong .ans-box{border-color:var(--red2);background:#fdeded;color:var(--red1);}
   .correct-note{margin-top:12px;font-weight:700;color:var(--green1);font-size:1em;}
 
-  .bottombar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:#fff;box-shadow:0 -2px 10px rgba(20,30,60,.06);gap:10px;flex-wrap:wrap;flex:none;z-index:6;position:relative;}
-  .btn-answer{background:linear-gradient(135deg,var(--orange1),var(--orange2));color:#fff;border:none;padding:11px 20px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(242,153,74,.35);font-size:.88rem;white-space:nowrap;}
-  .btn-solution{background:linear-gradient(135deg,var(--green1),var(--green3));color:#fff;border:none;padding:11px 20px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(39,174,96,.3);font-size:.88rem;white-space:nowrap;}
-  .btn-solution:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;}
+  .bottombar{display:flex;align-items:center;justify-content:center;padding:12px 18px;background:#fff;box-shadow:0 -2px 10px rgba(20,30,60,.06);gap:10px;flex-wrap:wrap;flex:none;z-index:6;position:relative;}
   .nav-center{display:flex;align-items:center;gap:10px;}
   .nav-arrow{width:36px;height:36px;border-radius:50%;border:none;background:#f1f4fa;font-size:1.05rem;cursor:pointer;color:#38507a;flex:none;}
   .nav-arrow:disabled{opacity:.35;cursor:not-allowed;}
   .slide-counter{padding:9px 16px;border-radius:999px;border:2px solid var(--border);font-weight:800;background:#fff;cursor:pointer;color:var(--ink);font-size:.85rem;white-space:nowrap;}
+
+  /* ---- nút icon trong suốt, luôn nổi trên màn hình (hiện đáp án / lời giải / ẩn-hiện thanh công cụ) ---- */
+  .float-icon-btn{width:48px;height:48px;border-radius:50%;background:rgba(20,30,60,.4);color:#fff;border:1.5px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);box-shadow:0 3px 14px rgba(0,0,0,.28);opacity:.6;transition:opacity .15s ease,background .15s ease;flex:none;}
+  .float-icon-btn:hover{opacity:1;background:rgba(20,30,60,.6);}
+  .float-icon-btn:disabled{opacity:.22;cursor:not-allowed;}
+  .float-icon-btn.active{opacity:1;background:linear-gradient(135deg,var(--orange1),var(--orange2));border-color:transparent;}
+  .float-controls{position:fixed;z-index:22;display:flex;flex-direction:column;gap:12px;}
+  .float-controls.float-bottom-right{right:18px;bottom:84px;}
+  #presentScreen.chrome-hidden .float-controls.float-bottom-right{bottom:18px;}
+  .float-chrome-toggle{position:fixed;z-index:22;right:14px;top:50%;transform:translateY(-50%);}
+  #presentScreen.chrome-hidden .toolbar,
+  #presentScreen.chrome-hidden .bottombar{display:none;}
 
   /* ---- dark presentation theme (nền đen, chữ trắng khi trình chiếu) ---- */
   #presentScreen.theme-dark{background:#06080f;}
@@ -481,7 +490,7 @@
     .slide-area{padding:16px 14px 20px;}
     .slide-content{font-size:calc(13px * var(--scale,1));}
     .bottombar{padding:10px 10px;}
-    .btn-answer,.btn-solution{padding:9px 14px;font-size:.78rem;}
+    .float-icon-btn{width:40px;height:40px;font-size:1rem;}
     .slide-counter{padding:7px 12px;font-size:.78rem;}
     .nav-arrow{width:32px;height:32px;}
     .q-badge{padding:6px 12px;font-size:.9em;}
@@ -940,7 +949,7 @@
 <!-- ============= PRESENT SCREEN ============= -->
 <div id="presentScreen" hidden>
   <div class="accent-bar"></div>
-  <div class="toolbar">
+  <div class="toolbar" id="toolbar">
     <span class="part-pill" id="partPill">PHẦN I (TRẮC NGHIỆM)</span>
     <div class="tools">
       <button class="fontsize-btn" id="fontMinus" title="Giảm cỡ chữ">A-</button>
@@ -992,14 +1001,18 @@
     </div>
   </div>
 
-  <div class="bottombar">
-    <button class="btn-answer" id="btnShowAnswer">👁 HIỆN ĐÁP ÁN</button>
+  <div class="bottombar" id="bottombar">
     <div class="nav-center">
       <button class="nav-arrow" id="navPrev">‹</button>
       <button class="slide-counter" id="slideCounter">Câu 1 / 1</button>
       <button class="nav-arrow" id="navNext">›</button>
     </div>
-    <button class="btn-solution" id="btnShowSolution">💡 XEM LỜI GIẢI</button>
+  </div>
+
+  <button class="float-icon-btn float-chrome-toggle" id="btnToggleChrome" title="Ẩn thanh công cụ trên/dưới (phóng to nội dung)">⤢</button>
+  <div class="float-controls float-bottom-right" id="floatAnswerSolution">
+    <button class="float-icon-btn" id="btnShowAnswer" title="Hiện đáp án">👁</button>
+    <button class="float-icon-btn" id="btnShowSolution" title="Xem lời giải">💡</button>
   </div>
 
   <div class="solution-panel" id="solutionPanel">
@@ -2593,7 +2606,10 @@ function updateFooter(){
 }
 function updateAnswerBtn(){
   const revealed = slides[currentSlide].data._revealed;
-  document.getElementById('btnShowAnswer').textContent = revealed ? '🙈 ẨN ĐÁP ÁN' : '👁 HIỆN ĐÁP ÁN';
+  const btn = document.getElementById('btnShowAnswer');
+  btn.textContent = revealed ? '🙈' : '👁';
+  btn.title = revealed ? 'Ẩn đáp án' : 'Hiện đáp án';
+  btn.classList.toggle('active', !!revealed);
 }
 function updateSolutionBtnState(){
   const sol = slides[currentSlide].data.solution;
@@ -3502,6 +3518,26 @@ function toggleKTHideTitle(){
   saveKTHideTitlePref(on);
 }
 
+/* ---- Ẩn/hiện thanh công cụ trên (toolbar) và dưới (bottombar) để phóng to nội dung ---- */
+function applyChromeHidden(on){
+  const screen = document.getElementById('presentScreen');
+  const btn = document.getElementById('btnToggleChrome');
+  if(!screen) return;
+  screen.classList.toggle('chrome-hidden', on);
+  if(btn){
+    btn.textContent = on ? '⤡' : '⤢';
+    btn.title = on ? 'Hiện lại thanh công cụ' : 'Ẩn thanh công cụ trên/dưới (phóng to nội dung)';
+  }
+}
+function toggleChrome(){
+  const on = !document.getElementById('presentScreen').classList.contains('chrome-hidden');
+  applyChromeHidden(on);
+}
+function initChromeToggle(){
+  document.getElementById('btnToggleChrome').addEventListener('click', toggleChrome);
+  applyChromeHidden(false);
+}
+
 /* ============================================================
    13. WIRE UP PRESENTATION TOOLBAR
    ============================================================ */
@@ -3537,6 +3573,7 @@ function initPresentScreen(){
   optionsLayout = getSavedOptionsLayout();
   document.getElementById('btnKTHideTitle').addEventListener('click', toggleKTHideTitle);
   applyKTHideTitle(isKTHideTitleSaved());
+  initChromeToggle();
 
   document.getElementById('btnShowAnswer').addEventListener('click', toggleAnswer);
   document.getElementById('btnShowSolution').addEventListener('click', toggleSolution);
