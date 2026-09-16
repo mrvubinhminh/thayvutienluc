@@ -160,9 +160,15 @@
   .layout-pop button:hover{border-color:#bcd4f7;}
   .layout-pop button.sel{border-color:var(--blue1);background:#eef5ff;color:var(--blue1);}
   .layout-pop button .layout-icon{font-size:1.15rem;flex:none;}
+  .theme-pop{width:240px;}
+  .theme-pop-thumb{display:block;width:100%;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border);margin:2px 0 8px;}
 
   .present-body{flex:1;min-height:0;display:flex;flex-direction:row;overflow:hidden;}
   .slide-area{flex:1;min-width:0;overflow:auto;position:relative;padding:26px clamp(14px,2vw,32px) 30px;}
+  .slide-bg-image{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0b0e18;}
+  .slide-bg-image img{width:100%;height:100%;object-fit:cover;display:block;}
+  .theme-bg-image{position:absolute;inset:0;z-index:-1;overflow:hidden;}
+  .theme-bg-image img{width:100%;height:100%;object-fit:cover;display:block;}
   .slide-area.compact .slide-content{font-size:calc(18px * var(--scale,1));}
   .draw-canvas{position:absolute;left:0;top:0;pointer-events:none;touch-action:none;z-index:4;}
   .draw-canvas.drawmode{pointer-events:auto;cursor:crosshair;}
@@ -221,6 +227,17 @@
   .kt-image-show-btn:hover{border-color:#bcd4f7;}
   #presentScreen.theme-dark .kt-image{background:#fff;}
   #presentScreen.theme-dark .kt-image-show-btn{background:#1b2130;border-color:#2a3348;color:#c7d0e3;}
+
+  /* ---- ảnh nền tuỳ chọn cho slide "Kiến thức trọng tâm" (chọn ở màn hình thiết lập) ---- */
+  .kt-bg-preview{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px 12px;background:#f1f4fa;border-radius:12px;flex-wrap:wrap;}
+  .kt-bg-thumb{width:90px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border);flex:none;background:#fff;}
+  .kt-bg-note{flex:1;min-width:180px;font-size:.8rem;color:var(--ink-soft);}
+
+  /* ---- ảnh nền cho chế độ hiển thị "Hình nền" khi trình chiếu (chọn ở màn hình thiết lập) ---- */
+  .theme-setup-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .theme-setup-preview{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px 12px;background:#f1f4fa;border-radius:12px;flex-wrap:wrap;}
+  .theme-setup-thumb{width:90px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border);flex:none;background:#fff;}
+  .theme-setup-note{flex:1;min-width:180px;font-size:.8rem;color:var(--ink-soft);}
   .q-image{width:100%;height:100%;object-fit:contain;border-radius:14px;margin:0;border:1px solid var(--border);display:block;background:#fff;}
 
   .options{display:grid;gap:10px;}
@@ -323,17 +340,80 @@
   #presentScreen.theme-dark .calc-panel-close:hover{background:#252c40;}
   #presentScreen.theme-dark .calc-frame-wrap{background:#161b29;}
 
+  /* ---- theme "Hình nền": ảnh nền toàn màn hình phía sau, khung câu hỏi trong suốt/kính mờ phía trên ---- */
+  #presentScreen.theme-image{background:#06080f;}
+  #presentScreen.theme-image .toolbar{background:rgba(16,20,31,.92);box-shadow:0 2px 14px rgba(0,0,0,.5);}
+  #presentScreen.theme-image .sep{background:rgba(255,255,255,.18);}
+  #presentScreen.theme-image .icon-btn{background:rgba(255,255,255,.14);color:#fff;}
+  #presentScreen.theme-image .icon-btn:hover{background:rgba(255,255,255,.26);}
+  #presentScreen.theme-image .icon-btn.active{background:var(--blue1);color:#fff;}
+  #presentScreen.theme-image .fontsize-btn{background:rgba(255,255,255,.14);color:#fff;}
+  #presentScreen.theme-image .color-dot{box-shadow:0 0 0 1.5px rgba(255,255,255,.3);}
+  #presentScreen.theme-image .color-dot.sel{box-shadow:0 0 0 2.5px #fff;}
+  #presentScreen.theme-image .timer-btn{background:rgba(240,201,121,.18);border-color:#5c4218;color:#f0c979;}
+  #presentScreen.theme-image .timer-btn.running{background:rgba(111,207,151,.18);border-color:#215c38;color:#6fcf97;}
+  #presentScreen.theme-image .timer-btn.low{background:rgba(240,138,138,.2);border-color:#5c2323;color:#f08a8a;}
+  #presentScreen.theme-image .exit-btn{background:rgba(255,255,255,.14);border-color:#4a2323;color:#f08a8a;}
+
+  #presentScreen.theme-image .slide-area{background:transparent;}
+  #presentScreen.theme-image .theme-bg-image{display:block;}
+  #presentScreen.theme-image .slide-content,
+  #presentScreen.theme-image .q-stem{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);}
+  #presentScreen.theme-image .q-image{background:rgba(255,255,255,.9);}
+  #presentScreen.theme-image .kt-title{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);}
+  #presentScreen.theme-image .kt-bullets li{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55);}
+  #presentScreen.theme-image .kt-subtitle{color:#ffd98a;text-shadow:0 2px 10px rgba(0,0,0,.6);}
+  #presentScreen.theme-image .kt-bullets li .katex{color:#ffd98a;}
+  #presentScreen.theme-image .kt-hint{color:#fff;opacity:.85;text-shadow:0 1px 8px rgba(0,0,0,.55);}
+
+  #presentScreen.theme-image .opt,
+  #presentScreen.theme-image .stmt{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 22px rgba(0,0,0,.28);}
+  #presentScreen.theme-image .opt:hover{border-color:#fff;}
+  #presentScreen.theme-image .opt.selected{border-color:var(--blue1);background:rgba(47,128,237,.32);}
+  #presentScreen.theme-image .opt-text,
+  #presentScreen.theme-image .stmt-text{color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.5);}
+  #presentScreen.theme-image .options.reveal .opt.correct{border-color:#6fcf97;background:rgba(111,207,151,.3);}
+  #presentScreen.theme-image .options.reveal .opt.wrong{border-color:#f08a8a;background:rgba(240,138,138,.3);}
+
+  #presentScreen.theme-image .ds-btn{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);color:#fff;}
+  #presentScreen.theme-image .ds-btn:hover{border-color:#fff;}
+  #presentScreen.theme-image .ds-btn.selected{border-color:var(--blue1);background:var(--blue1);color:#fff;}
+  #presentScreen.theme-image .stmt.reveal .ds-btn.correct-answer{border-color:#6fcf97;background:#6fcf97;color:#0b0e18;}
+  #presentScreen.theme-image .stmt.reveal .ds-btn.wrong-selected{border-color:#f08a8a;background:#f08a8a;color:#0b0e18;}
+
+  #presentScreen.theme-image .ans-box{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  #presentScreen.theme-image .ans-boxes.correct .ans-box{border-color:#6fcf97;background:rgba(111,207,151,.3);color:#fff;}
+  #presentScreen.theme-image .ans-boxes.wrong .ans-box{border-color:#f08a8a;background:rgba(240,138,138,.3);color:#fff;}
+  #presentScreen.theme-image .correct-note{color:#c6ffde;text-shadow:0 1px 6px rgba(0,0,0,.55);}
+
+  #presentScreen.theme-image .bottombar{background:rgba(16,20,31,.92);box-shadow:0 -2px 14px rgba(0,0,0,.5);}
+  #presentScreen.theme-image .nav-arrow{background:rgba(255,255,255,.14);color:#fff;}
+  #presentScreen.theme-image .slide-counter{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#fff;}
+
+  #presentScreen.theme-image .calc-panel{background:rgba(16,20,31,.96);}
+  #presentScreen.theme-image .calc-panel-head{background:rgba(22,27,41,.96);border-bottom-color:rgba(255,255,255,.18);}
+  #presentScreen.theme-image .calc-panel-title{color:#fff;}
+  #presentScreen.theme-image .calc-panel-link,
+  #presentScreen.theme-image .calc-panel-close{background:rgba(255,255,255,.14);color:#fff;}
+
   /* solution panel */
   .solution-panel{position:fixed;right:0;left:0;bottom:0;margin:0 auto;max-width:none;width:100%;height:50vh;max-height:100vh;background:#000;border-radius:18px 18px 0 0;box-shadow:0 -8px 34px rgba(0,0,0,.5);transform:translateY(105%);transition:transform .25s ease,height .05s linear;z-index:25;display:flex;flex-direction:column;overflow:hidden;}
   .solution-panel.open{transform:translateY(0);}
   .solution-panel.dragging{transition:none;}
   .solution-drag{width:100%;display:flex;justify-content:center;align-items:center;padding:10px 0 6px;cursor:ns-resize;touch-action:none;flex:none;}
   .solution-drag-handle{width:52px;height:5px;border-radius:3px;background:rgba(255,255,255,.35);}
-  .solution-head{display:flex;justify-content:space-between;align-items:center;padding:2px 20px 14px;border-bottom:1px solid rgba(255,255,255,.14);flex:none;}
-  .solution-head h3{margin:0;font-size:1.15rem;color:#6fcf97;}
+  .solution-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:2px 20px 14px;border-bottom:1px solid rgba(255,255,255,.14);flex:none;}
+  .solution-head h3{margin:0;font-size:1.15rem;color:#6fcf97;flex:none;}
   .solution-close{background:rgba(255,255,255,.12);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.05rem;color:#fff;flex:none;}
   .solution-close:hover{background:rgba(255,255,255,.22);}
-  .solution-body{padding:18px 14px 40px;overflow-y:auto;-webkit-overflow-scrolling:touch;font-size:2.3rem;line-height:1.6;color:#f2f2f5;width:100%;}
+  .solution-fontctrl{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:999px;padding:4px 8px 4px 12px;flex:none;}
+  .solution-fontctrl span{color:#fff;font-weight:700;font-size:.85rem;min-width:22px;text-align:center;}
+  .solution-fs-btn{background:rgba(255,255,255,.16);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-weight:800;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;}
+  .solution-fs-btn:hover{background:rgba(255,255,255,.3);}
+  .solution-bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7em;}
+  .solution-bullets li{position:relative;padding-left:1.15em;}
+  .solution-bullets li::before{content:'';position:absolute;left:0;top:.5em;width:.4em;height:.4em;min-width:9px;min-height:9px;border-radius:50%;background:#f2c94c;box-shadow:0 0 0 3px rgba(242,201,76,.25);}
+  .solution-body{padding:18px 14px 40px;overflow-y:auto;-webkit-overflow-scrolling:touch;font-size:2.3rem;line-height:1.6;color:#f2f2f5;width:100%;font-family:'Be Vietnam Pro',system-ui,-apple-system,sans-serif;font-weight:500;}
   .solution-body .katex{color:#f2f2f5;}
   .solution-body b{color:#fff;}
 
@@ -560,7 +640,7 @@
 <!-- ============= SETUP SCREEN ============= -->
 <div id="setupScreen">
   <div class="setup-toprow">
-    <a class="btn btn-outline btn-sm" href="https://jsonvtl.vercel.app/" target="_blank" rel="noopener" title="Công cụ chuyển đổi JSON">🔄 Công cụ chuyển đổi JSON</a>
+    <a class="btn btn-outline btn-sm" href="https://chuyendoijson.vercel.app/" target="_blank" rel="noopener" title="Công cụ chuyển đổi JSON">🔄 Công cụ chuyển đổi JSON</a>
     <button class="btn btn-red btn-sm" id="btnClearAll">🗑 Xóa toàn bộ dữ liệu đã lưu</button>
   </div>
   <div class="setup-wrap">
@@ -588,7 +668,7 @@
         <div class="saved-links-list" id="savedLinksListBAITAP"></div>
         <div class="saved-links-form" id="savedLinksFormBAITAP" hidden>
           <input type="text" class="saved-links-name" id="savedLinksNameBAITAP" placeholder="Tên bài học (VD: Chương I - Mệnh đề, Tập hợp)">
-          <input type="text" class="saved-links-url" id="savedLinksUrlBAITAP" placeholder="Dán link folder chứa file Excel (Google Drive, OneDrive,...)">
+          <input type="text" class="saved-links-url" id="savedLinksUrlBAITAP" placeholder="Dán link folder (Google Drive, OneDrive,...) hoặc đường dẫn thư mục trên máy (VD: C:\Toan\BaiTap)">
           <button class="btn btn-primary btn-sm" data-action="saveLink" data-section="BAITAP" type="button">💾 Lưu</button>
         </div>
       </div>
@@ -622,6 +702,20 @@
           <input type="text" id="deckSchool" placeholder="VD: Trường THPT Nguyễn Hữu Cảnh">
         </div>
       </div>
+      <div class="global-row">
+        <div class="field" style="flex:1 1 100%;">
+          <label>🖼️ Hình nền khi trình chiếu (tuỳ chọn)</label>
+          <div class="theme-setup-row">
+            <button class="btn btn-outline btn-sm" id="btnThemeBgSetupChoose" type="button">📤 Chọn ảnh nền</button>
+            <input type="file" id="themeBgSetupFileInput" accept="image/*" style="display:none">
+            <button class="btn btn-red btn-sm" id="btnThemeBgSetupClear" type="button" hidden>✕ Xoá ảnh nền</button>
+          </div>
+          <div class="theme-setup-preview" id="themeBgSetupPreview" hidden>
+            <img id="themeBgSetupThumb" class="theme-setup-thumb" alt="Ảnh nền trình chiếu">
+            <span class="theme-setup-note">Đã chọn ảnh nền — khi bấm "Bắt đầu" trình chiếu sẽ tự bật chế độ "Hình nền" (câu hỏi trong suốt, ảnh phía dưới). Có thể đổi lại chế độ ở nút 🎨 trên thanh công cụ lúc đang trình chiếu.</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- KIẾN THỨC TRỌNG TÂM (trình chiếu trước Phần I, II, III) -->
@@ -634,7 +728,7 @@
         </div>
         <span class="badge-count" id="countKT">0 slide</span>
       </div>
-      <div class="part-desc" id="descKT" hidden>Hiển thị trước các phần câu hỏi. Cột dữ liệu: <b>Tiêu đề, Tiêu đề nhỏ, Kiến thức, Link ảnh</b> (Link ảnh không bắt buộc). Trong ô "Kiến thức", mỗi dòng (xuống dòng bằng Alt+Enter trong Excel) là một gạch đầu dòng — tối đa 10 dòng mỗi slide để chữ luôn to, trình bày chuẩn như PowerPoint. Nếu có Link ảnh, ảnh sẽ hiện ở nửa bên phải màn hình khi trình chiếu, có nút ẩn ảnh để mở rộng chữ ra toàn màn hình.</div>
+      <div class="part-desc" id="descKT" hidden>Hiển thị trước các phần câu hỏi. Cột dữ liệu: <b>Tiêu đề, Tiêu đề nhỏ, Kiến thức, Link ảnh</b> (Link ảnh không bắt buộc). Trong ô "Kiến thức", mỗi dòng (xuống dòng bằng Alt+Enter trong Excel) là một gạch đầu dòng — tối đa 10 dòng mỗi slide để chữ luôn to, trình bày chuẩn như PowerPoint. Nếu có Link ảnh, ảnh sẽ hiện ở nửa bên phải màn hình khi trình chiếu, có nút ẩn ảnh để mở rộng chữ ra toàn màn hình. Ngoài ra có thể tải lên một <b>Ảnh nền</b> riêng (ảnh từ máy tính, VD ảnh chụp slide PowerPoint có sẵn) để <b>thay thế hoàn toàn</b> cho phần Kiến thức trọng tâm — không cần nhập Tiêu đề/Kiến thức nữa. Khi trình chiếu: sau màn hình giới thiệu bài (bìa), ảnh nền sẽ hiện lên rõ ràng, phủ kín toàn màn hình, sau đó mới chuyển sang phần câu hỏi.</div>
       <div class="saved-links" data-section="KT">
         <div class="saved-links-head">
           <span class="saved-links-title">🔖 Bài đã lưu (mở nhanh link folder)</span>
@@ -643,7 +737,7 @@
         <div class="saved-links-list" id="savedLinksListKT"></div>
         <div class="saved-links-form" id="savedLinksFormKT" hidden>
           <input type="text" class="saved-links-name" id="savedLinksNameKT" placeholder="Tên bài học (VD: Mệnh đề - Lớp 10)">
-          <input type="text" class="saved-links-url" id="savedLinksUrlKT" placeholder="Dán link folder chứa file Excel (Google Drive, OneDrive,...)">
+          <input type="text" class="saved-links-url" id="savedLinksUrlKT" placeholder="Dán link folder (Google Drive, OneDrive,...) hoặc đường dẫn thư mục trên máy (VD: C:\Toan\BaiTap)">
           <button class="btn btn-primary btn-sm" data-action="saveLink" data-section="KT" type="button">💾 Lưu</button>
         </div>
       </div>
@@ -651,7 +745,14 @@
         <button class="btn btn-outline btn-sm" data-action="upload" data-part="KT">📂 Tải thủ công vào Kiến thức trọng tâm</button>
         <input type="file" class="file-input" data-part="KT" accept=".xlsx,.xls">
         <button class="btn btn-outline btn-sm" data-action="template" data-part="KT">⬇ Tải file mẫu</button>
+        <button class="btn btn-outline btn-sm" id="btnKtBgUpload" type="button">🖼️ Chọn ảnh nền cho slide</button>
+        <input type="file" id="ktBgFileInput" accept="image/*" style="display:none">
         <button class="btn btn-red btn-sm" data-action="clear" data-part="KT">Xoá dữ liệu phần này</button>
+      </div>
+      <div class="kt-bg-preview" id="ktBgPreview" hidden>
+        <img id="ktBgThumb" class="kt-bg-thumb" alt="Ảnh nền Kiến thức trọng tâm">
+        <span class="kt-bg-note">Đã chọn ảnh nền — ảnh này sẽ thay thế hoàn toàn cho phần Kiến thức trọng tâm (không cần nhập Tiêu đề/Kiến thức). Khi trình chiếu: sau màn hình giới thiệu bài, ảnh hiện rõ phủ kín toàn màn hình, rồi mới sang phần câu hỏi.</span>
+        <button class="btn btn-ghost btn-sm" id="btnKtBgClear" type="button">✕ Xoá ảnh nền</button>
       </div>
       <button class="paste-toggle" data-action="togglePaste" data-part="KT" type="button">📋 Hoặc dán dữ liệu thủ công</button>
       <div class="paste-wrap" id="pasteWrapKT" hidden>
@@ -860,7 +961,8 @@
       <button class="icon-btn" id="btnCalc" title="Máy tính MathDA">🧮</button>
       <button class="icon-btn" id="btnBoard" title="Bảng viết">📝</button>
       <button class="icon-btn" id="btnClassroom" title="Quản lý lớp học">🏫</button>
-      <button class="icon-btn" id="btnDarkTheme" title="Nền đen, chữ trắng">🌙</button>
+      <button class="icon-btn" id="btnThemeMode" title="Chế độ hiển thị: Sáng / Tối / Hình nền">☀️</button>
+      <input type="file" id="themeBgFileInput" accept="image/*" style="display:none">
       <button class="icon-btn" id="btnOptLayout" title="Bố cục phương án A,B,C,D">🔳</button>
       <button class="icon-btn" id="btnKTHideTitle" title="Ẩn tiêu đề chính, giữ tiêu đề nhỏ (tiết kiệm không gian)">🙈</button>
       <button class="icon-btn" id="btnFullscreen" title="Toàn màn hình">⛶</button>
@@ -871,6 +973,8 @@
   <div class="present-body" id="presentBody">
     <div class="slide-area" id="slideArea">
       <canvas class="draw-canvas" id="drawCanvas"></canvas>
+      <div class="theme-bg-image" id="themeBgImage" hidden><img id="themeBgImageImg" alt=""></div>
+      <div class="slide-bg-image" id="slideBgImage" hidden><img id="slideBgImageImg" alt=""></div>
       <div class="slide-content" id="slideContent"></div>
     </div>
     <div class="calc-resizer" id="calcResizer" title="Kéo để thay đổi kích thước"></div>
@@ -902,6 +1006,11 @@
     <div class="solution-drag" id="solutionDrag"><div class="solution-drag-handle"></div></div>
     <div class="solution-head">
       <h3>💡 Lời giải</h3>
+      <div class="solution-fontctrl">
+        <button type="button" class="solution-fs-btn" id="solutionFontMinus" title="Chữ nhỏ hơn">A−</button>
+        <span id="solutionFontSizeDisplay">2.3</span>
+        <button type="button" class="solution-fs-btn" id="solutionFontPlus" title="Chữ to hơn">A+</button>
+      </div>
       <button class="solution-close" id="solutionClose">✕</button>
     </div>
     <div class="solution-body" id="solutionBody"></div>
@@ -1034,6 +1143,75 @@ function loadDeck(){
     }
   }catch(e){}
   if(!deck.parts.KT) deck.parts.KT = []; // tương thích dữ liệu cũ lưu trước khi có phần Kiến thức trọng tâm
+}
+
+/* ---- Ảnh nền tuỳ chọn cho slide "Kiến thức trọng tâm" (thay thế khung tiêu đề/gạch đầu dòng mặc định) ---- */
+function resizeImageFileToDataUrl(file, maxDim, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = ()=>reject(reader.error || new Error('read error'));
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onerror = ()=>reject(new Error('invalid image'));
+      img.onload = ()=>{
+        let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        if(!w || !h){ reject(new Error('invalid image size')); return; }
+        if(w>maxDim || h>maxDim){
+          const ratio = Math.min(maxDim/w, maxDim/h);
+          w = Math.max(1, Math.round(w*ratio));
+          h = Math.max(1, Math.round(h*ratio));
+        }
+        const cnv = document.createElement('canvas');
+        cnv.width = w; cnv.height = h;
+        cnv.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(cnv.toDataURL('image/jpeg', quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function renderKTBackgroundPreview(){
+  const wrap = document.getElementById('ktBgPreview');
+  const thumb = document.getElementById('ktBgThumb');
+  if(!wrap || !thumb) return;
+  if(deck.ktBackground){
+    thumb.src = deck.ktBackground;
+    wrap.hidden = false;
+  }else{
+    thumb.removeAttribute('src');
+    wrap.hidden = true;
+  }
+}
+function initKTBackgroundUpload(){
+  const btn = document.getElementById('btnKtBgUpload');
+  const input = document.getElementById('ktBgFileInput');
+  const clearBtn = document.getElementById('btnKtBgClear');
+  if(!btn || !input) return;
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); input.click(); });
+  input.addEventListener('change', ()=>{
+    const file = input.files && input.files[0];
+    input.value = '';
+    if(!file) return;
+    if(!file.type || file.type.indexOf('image/')!==0){ alert('Vui lòng chọn một tệp hình ảnh (JPG, PNG,...).'); return; }
+    resizeImageFileToDataUrl(file, 1920, 0.85).then(dataUrl=>{
+      deck.ktBackground = dataUrl;
+      saveDeck();
+      renderKTBackgroundPreview();
+    }).catch(()=>{
+      alert('Không đọc được ảnh này. Vui lòng thử lại với ảnh khác.');
+    });
+  });
+  if(clearBtn){
+    clearBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      if(!confirm('Xoá ảnh nền của slide Kiến thức trọng tâm?')) return;
+      delete deck.ktBackground;
+      saveDeck();
+      renderKTBackgroundPreview();
+    });
+  }
+  renderKTBackgroundPreview();
 }
 
 /* ============================================================
@@ -1537,10 +1715,24 @@ function setSavedLinks(section, arr){
   try{ localStorage.setItem(SAVED_LINKS_STORAGE_KEY[section], JSON.stringify(arr)); }catch(e){}
 }
 function normalizeFolderUrl(url){
-  const u = (url||'').trim();
-  if(!u) return '';
-  if(/^https?:\/\//i.test(u)) return u;
-  return 'https://' + u; // cho phép dán link không có "https://"
+  const raw = (url||'').trim();
+  if(!raw) return '';
+  if(/^https?:\/\//i.test(raw)) return raw;
+  if(/^file:\/\//i.test(raw)) return raw;
+  // Đường dẫn mạng dạng UNC: \\may-chu\thu-muc hoặc //may-chu/thu-muc
+  if(/^(\\\\|\/\/)/.test(raw)){
+    const rest = raw.replace(/\\/g,'/').replace(/^\/+/, '');
+    return 'file://' + rest;
+  }
+  // Đường dẫn Windows: C:\Users\... hoặc C:/Users/...
+  if(/^[a-zA-Z]:[\\\/]/.test(raw)){
+    return 'file:///' + raw.replace(/\\/g,'/');
+  }
+  // Đường dẫn Mac/Linux tuyệt đối: /Users/...
+  if(/^\//.test(raw)){
+    return 'file://' + raw;
+  }
+  return 'https://' + raw; // cho phép dán link web không có "https://"
 }
 function renderSavedLinks(section){
   const list = getSavedLinks(section);
@@ -1631,6 +1823,7 @@ function updateTotal(){
 function clearPart(partKey){
   if(!confirm('Xoá toàn bộ dữ liệu đã nhập cho phần này?')) return;
   deck.parts[partKey] = [];
+  if(partKey==='KT'){ delete deck.ktBackground; renderKTBackgroundPreview(); }
   saveDeck();
   updatePreview(partKey);
   updateTotal();
@@ -1736,6 +1929,7 @@ function initSetupScreen(){
     document.getElementById('deckSchool').value=DEFAULT_SCHOOL;
     ['KT','I','II','III'].forEach(p=>updatePreview(p));
     updateTotal();
+    renderKTBackgroundPreview();
   });
 
   document.getElementById('btnStart').addEventListener('click', startPresentation);
@@ -1839,6 +2033,9 @@ function renderQedCard(partKey, idx, q, issues){
 function renderQedViewBody(partKey, q){
   let html = '';
   if(partKey==='KT'){
+    if(deck.ktBackground){
+      html += '<div class="qed-issue-banner" style="background:#eef5ff;color:#38507a;">🖼️ Đang dùng "Ảnh nền" riêng cho Kiến thức trọng tâm — khi trình chiếu sẽ hiện ảnh nền này phủ kín màn hình thay cho nội dung bên dưới, sau đó mới sang câu hỏi.</div>';
+    }
     html += '<div class="qed-stem">'+renderMixedText(q.title)+'</div>';
     if(q.subtitle) html += '<div class="qed-kt-sub">'+renderMixedText(q.subtitle)+'</div>';
     if(q.bullets && q.bullets.length){
@@ -2098,6 +2295,11 @@ function buildSlides(){
   slides = [];
   if(document.getElementById('checkKT').checked){
     deck.parts.KT.forEach((k,i)=>slides.push({type:'KT', local:i+1, data:k}));
+    // Nếu chưa nhập dữ liệu Kiến thức trọng tâm (không có tiêu đề/nội dung) nhưng đã chọn
+    // Ảnh nền riêng, vẫn tạo 1 slide KT để ảnh nền đó có chỗ hiển thị (ảnh thay cho nội dung).
+    if(deck.parts.KT.length===0 && deck.ktBackground){
+      slides.push({type:'KT', local:1, data:{title:'', subtitle:'', bullets:[], image:''}});
+    }
   }
   if(document.getElementById('checkI').checked){
     deck.parts.I.forEach((q,i)=>slides.push({type:'I', local:i+1, data:q}));
@@ -2175,7 +2377,22 @@ function renderSlide(){
   pill.className = 'part-pill ' + slide.type;
 
   const content = document.getElementById('slideContent');
+  const bgWrap = document.getElementById('slideBgImage');
   let html = '';
+
+  if(slide.type==='KT' && deck.ktBackground){
+    // Ảnh nền riêng do giáo viên tải lên thay cho toàn bộ nội dung Kiến thức trọng tâm:
+    // hiện ngay sau màn hình giới thiệu bài (bìa), phủ kín toàn màn hình, rồi mới đến câu hỏi.
+    document.getElementById('slideBgImageImg').src = deck.ktBackground;
+    bgWrap.hidden = false;
+    content.innerHTML = '';
+    clearCanvas();
+    updateFooter();
+    updateBottombarForType(slide.type);
+    closeSolution();
+    return;
+  }
+  bgWrap.hidden = true;
 
   if(slide.type==='KT'){
     const hasImage = !!(slide.data.image && slide.data.image.trim());
@@ -2371,7 +2588,7 @@ function updateFooter(){
   const label = slide.type==='KT' ? 'Trang' : 'Câu';
   document.getElementById('slideCounter').textContent = label+' '+(currentSlide+1)+' / '+slides.length;
   document.getElementById('navPrev').disabled = currentSlide===0;
-  const needsRevealClick = slide.type==='KT' && !ktExpanded;
+  const needsRevealClick = slide.type==='KT' && !ktExpanded && !deck.ktBackground;
   document.getElementById('navNext').disabled = currentSlide===slides.length-1 && !needsRevealClick;
 }
 function updateAnswerBtn(){
@@ -2393,7 +2610,7 @@ function toggleAnswer(){
 function goPrev(){ if(currentSlide>0){ currentSlide--; ktExpanded=false; ktImageHidden=false; renderSlide(); playSound('questionOpen'); } }
 function goNext(){
   const cur = slides[currentSlide];
-  if(cur && cur.type==='KT' && !ktExpanded){
+  if(cur && cur.type==='KT' && !ktExpanded && !deck.ktBackground){
     ktExpanded = true;
     renderSlide();
     playSound('showAnswer');
@@ -2408,12 +2625,55 @@ function showKTImage(){ ktImageHidden = false; renderSlide(); }
 /* ============================================================
    7. SOLUTION PANEL
    ============================================================ */
+// Tách lời giải thành từng ý theo dòng (giống cách tách "Kiến thức trọng tâm"),
+// mỗi ý có 1 dấu chấm tròn nhỏ màu vàng phía trước để học sinh dễ theo dõi
+// từng bước của lời giải.
+function buildSolutionBulletsHtml(raw){
+  if(!raw) return '';
+  const normalized = String(raw).replace(/\\\\/g, '\n').replace(/\\*newline/gi, '\n');
+  const lines = normalized.split(/\r\n|\r|\n/).map(l=>l.trim()).filter(l=>l.length>0);
+  if(!lines.length) return '';
+  let html = '<ul class="solution-bullets">';
+  lines.forEach(line=>{ html += '<li>'+renderMixedText(line)+'</li>'; });
+  html += '</ul>';
+  return html;
+}
+
+// Cỡ chữ lời giải: lưu lại lựa chọn của thầy vào localStorage để lần xem lời
+// giải kế tiếp (câu sau, hoặc lần mở app sau) vẫn giữ nguyên cỡ chữ đã chọn.
+const SOLUTION_FONT_MIN = 1.6, SOLUTION_FONT_MAX = 3.4, SOLUTION_FONT_STEP = 0.2, SOLUTION_FONT_DEFAULT = 2.3;
+const SOLUTION_FONT_STORAGE_KEY = 'mathSolutionFontSize';
+let currentSolutionFontSize = SOLUTION_FONT_DEFAULT;
+function loadSolutionFontSize(){
+  try{
+    const v = parseFloat(localStorage.getItem(SOLUTION_FONT_STORAGE_KEY));
+    if(!isNaN(v)) currentSolutionFontSize = Math.min(SOLUTION_FONT_MAX, Math.max(SOLUTION_FONT_MIN, v));
+  }catch(e){}
+}
+function saveSolutionFontSize(){
+  try{ localStorage.setItem(SOLUTION_FONT_STORAGE_KEY, String(currentSolutionFontSize)); }catch(e){}
+}
+function refreshSolutionFontDisplay(){
+  const el = document.getElementById('solutionFontSizeDisplay');
+  if(el) el.textContent = currentSolutionFontSize.toFixed(1);
+}
+function applySolutionFontSize(){
+  document.getElementById('solutionBody').style.fontSize = currentSolutionFontSize+'rem';
+}
+function adjustSolutionFontSize(delta){
+  currentSolutionFontSize = +Math.min(SOLUTION_FONT_MAX, Math.max(SOLUTION_FONT_MIN, currentSolutionFontSize+delta)).toFixed(1);
+  applySolutionFontSize();
+  refreshSolutionFontDisplay();
+  saveSolutionFontSize();
+}
+
 function openSolution(){
   const sol = slides[currentSlide].data.solution;
   if(!sol) return;
   const body = document.getElementById('solutionBody');
-  body.innerHTML = renderMixedText(sol);
+  body.innerHTML = buildSolutionBulletsHtml(sol);
   renderMathIn(body);
+  applySolutionFontSize();
   document.getElementById('solutionPanel').classList.add('open');
 }
 function closeSolution(){ document.getElementById('solutionPanel').classList.remove('open'); }
@@ -3053,30 +3313,168 @@ function setupKeyboard(){
 }
 
 /* ============================================================
-   12b. DARK PRESENTATION THEME (nền đen, chữ trắng)
+   12b. CHẾ ĐỘ HIỂN THỊ KHI TRÌNH CHIẾU: Sáng / Tối / Hình nền
    ============================================================ */
-const DARK_THEME_STORAGE_KEY = 'mathPresentDarkTheme';
-function isDarkThemeSaved(){
-  try{ return localStorage.getItem(DARK_THEME_STORAGE_KEY) === '1'; }catch(e){ return false; }
+const THEME_MODE_STORAGE_KEY = 'mathPresentThemeMode'; // 'light' | 'dark' | 'image'
+const THEME_BG_STORAGE_KEY = 'mathPresentThemeBgImage';
+const THEME_MODE_ICON = { light:'☀️', dark:'🌙', image:'🖼️' };
+const THEME_MODE_LABEL = { light:'Nền sáng', dark:'Nền tối', image:'Hình nền tuỳ chọn' };
+let themeMode = 'light';
+let themeBgImage = '';
+
+function loadThemePrefs(){
+  try{
+    const m = localStorage.getItem(THEME_MODE_STORAGE_KEY);
+    if(m==='light' || m==='dark' || m==='image') themeMode = m;
+  }catch(e){}
+  try{ themeBgImage = localStorage.getItem(THEME_BG_STORAGE_KEY) || ''; }catch(e){}
+  if(themeMode==='image' && !themeBgImage) themeMode = 'light'; // chưa có ảnh thì không thể ở chế độ hình nền
 }
-function saveDarkThemePref(on){
-  try{ localStorage.setItem(DARK_THEME_STORAGE_KEY, on ? '1' : '0'); }catch(e){}
-}
-function applyDarkTheme(on){
+function saveThemeModePref(mode){ try{ localStorage.setItem(THEME_MODE_STORAGE_KEY, mode); }catch(e){} }
+function saveThemeBgImagePref(dataUrl){ try{ localStorage.setItem(THEME_BG_STORAGE_KEY, dataUrl); }catch(e){} }
+
+function applyThemeMode(){
   const screen = document.getElementById('presentScreen');
-  const btn = document.getElementById('btnDarkTheme');
+  const btn = document.getElementById('btnThemeMode');
   if(!screen) return;
-  screen.classList.toggle('theme-dark', on);
+  screen.classList.toggle('theme-dark', themeMode==='dark');
+  screen.classList.toggle('theme-image', themeMode==='image');
+  const bgWrap = document.getElementById('themeBgImage');
+  const bgImg = document.getElementById('themeBgImageImg');
+  if(bgWrap && bgImg){
+    if(themeMode==='image' && themeBgImage){
+      bgImg.src = themeBgImage;
+      bgWrap.hidden = false;
+    }else{
+      bgWrap.hidden = true;
+    }
+  }
   if(btn){
-    btn.classList.toggle('active', on);
-    btn.textContent = on ? '☀️' : '🌙';
-    btn.title = on ? 'Nền sáng, chữ đen' : 'Nền đen, chữ trắng';
+    btn.classList.toggle('active', themeMode!=='light');
+    btn.textContent = THEME_MODE_ICON[themeMode] || '☀️';
+    btn.title = 'Chế độ hiển thị: Sáng / Tối / Hình nền';
   }
 }
-function toggleDarkTheme(){
-  const on = !document.getElementById('presentScreen').classList.contains('theme-dark');
-  applyDarkTheme(on);
-  saveDarkThemePref(on);
+function setThemeMode(mode){
+  if(mode==='image' && !themeBgImage){
+    // Chưa có ảnh nền: mở hộp chọn ảnh trước, chọn xong sẽ tự chuyển sang chế độ này.
+    closeThemePopover();
+    document.getElementById('themeBgFileInput').click();
+    return;
+  }
+  themeMode = mode;
+  saveThemeModePref(mode);
+  applyThemeMode();
+  closeThemePopover();
+}
+function openThemePopover(){
+  closeThemePopover();
+  const pop = document.createElement('div');
+  pop.className = 'layout-pop theme-pop';
+  pop.id = 'themePop';
+  let html = '<p class="layout-pop-title">🎨 Chế độ hiển thị</p>';
+  ['light','dark','image'].forEach(mode=>{
+    html += '<button data-mode="'+mode+'" class="'+(themeMode===mode?'sel':'')+'"><span class="layout-icon">'+THEME_MODE_ICON[mode]+'</span> '+THEME_MODE_LABEL[mode]+'</button>';
+  });
+  if(themeBgImage){
+    html += '<img class="theme-pop-thumb" src="'+escapeAttr(themeBgImage)+'">';
+  }
+  html += '<button type="button" id="btnThemeBgChoose"><span class="layout-icon">📤</span> '+(themeBgImage?'Đổi ảnh nền khác...':'Chọn ảnh nền...')+'</button>';
+  pop.innerHTML = html;
+  document.querySelector('.toolbar').appendChild(pop);
+  pop.querySelectorAll('[data-mode]').forEach(b=>{
+    b.addEventListener('click', ()=>setThemeMode(b.getAttribute('data-mode')));
+  });
+  pop.querySelector('#btnThemeBgChoose').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    document.getElementById('themeBgFileInput').click();
+  });
+  setTimeout(()=>{ document.addEventListener('click', outsideThemePop); }, 0);
+}
+function outsideThemePop(e){
+  const pop = document.getElementById('themePop');
+  if(pop && !pop.contains(e.target) && e.target.id!=='btnThemeMode'){
+    closeThemePopover();
+  }
+}
+function closeThemePopover(){
+  const pop = document.getElementById('themePop');
+  if(pop) pop.remove();
+  document.removeEventListener('click', outsideThemePop);
+}
+function updateThemeBgImage(dataUrl){
+  themeBgImage = dataUrl;
+  saveThemeBgImagePref(dataUrl);
+  themeMode = 'image';
+  saveThemeModePref('image');
+  applyThemeMode();
+  renderThemeBgSetupPreview();
+}
+function clearThemeBgImage(){
+  themeBgImage = '';
+  saveThemeBgImagePref('');
+  if(themeMode==='image'){ themeMode = 'light'; saveThemeModePref('light'); }
+  applyThemeMode();
+  renderThemeBgSetupPreview();
+}
+function renderThemeBgSetupPreview(){
+  const wrap = document.getElementById('themeBgSetupPreview');
+  const thumb = document.getElementById('themeBgSetupThumb');
+  const clearBtn = document.getElementById('btnThemeBgSetupClear');
+  if(!wrap || !thumb) return;
+  if(themeBgImage){
+    thumb.src = themeBgImage;
+    wrap.hidden = false;
+    if(clearBtn) clearBtn.hidden = false;
+  }else{
+    thumb.removeAttribute('src');
+    wrap.hidden = true;
+    if(clearBtn) clearBtn.hidden = true;
+  }
+}
+function initThemeBgSetupUpload(){
+  const btn = document.getElementById('btnThemeBgSetupChoose');
+  const input = document.getElementById('themeBgSetupFileInput');
+  const clearBtn = document.getElementById('btnThemeBgSetupClear');
+  if(!btn || !input) return;
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); input.click(); });
+  input.addEventListener('change', ()=>{
+    const file = input.files && input.files[0];
+    input.value = '';
+    if(!file) return;
+    if(!file.type || file.type.indexOf('image/')!==0){ alert('Vui lòng chọn một tệp hình ảnh (JPG, PNG,...).'); return; }
+    resizeImageFileToDataUrl(file, 1920, 0.85).then(dataUrl=>{
+      updateThemeBgImage(dataUrl);
+    }).catch(()=>{
+      alert('Không đọc được ảnh này. Vui lòng thử lại với ảnh khác.');
+    });
+  });
+  if(clearBtn){
+    clearBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      if(!confirm('Xoá ảnh nền dùng cho chế độ "Hình nền" khi trình chiếu?')) return;
+      clearThemeBgImage();
+    });
+  }
+  renderThemeBgSetupPreview();
+}
+function initThemeMode(){
+  loadThemePrefs();
+  document.getElementById('btnThemeMode').addEventListener('click', (e)=>{ e.stopPropagation(); openThemePopover(); });
+  document.getElementById('themeBgFileInput').addEventListener('change', ()=>{
+    const input = document.getElementById('themeBgFileInput');
+    const file = input.files && input.files[0];
+    input.value = '';
+    if(!file) return;
+    if(!file.type || file.type.indexOf('image/')!==0){ alert('Vui lòng chọn một tệp hình ảnh (JPG, PNG,...).'); return; }
+    resizeImageFileToDataUrl(file, 1920, 0.85).then(dataUrl=>{
+      updateThemeBgImage(dataUrl);
+      closeThemePopover();
+    }).catch(()=>{
+      alert('Không đọc được ảnh này. Vui lòng thử lại với ảnh khác.');
+    });
+  });
+  applyThemeMode();
 }
 
 /* ---- ẩn tiêu đề chính của slide "Kiến thức trọng tâm" (giữ tiêu đề nhỏ) để tiết kiệm không gian ---- */
@@ -3134,8 +3532,7 @@ function initPresentScreen(){
   document.getElementById('btnClassroom').addEventListener('click', ()=>toggleTool('classroom'));
   document.getElementById('btnCalcClose').addEventListener('click', closeToolPanel);
   initCalcResizer();
-  document.getElementById('btnDarkTheme').addEventListener('click', toggleDarkTheme);
-  applyDarkTheme(isDarkThemeSaved());
+  initThemeMode();
   document.getElementById('btnOptLayout').addEventListener('click', (e)=>{ e.stopPropagation(); openLayoutPopover(); });
   optionsLayout = getSavedOptionsLayout();
   document.getElementById('btnKTHideTitle').addEventListener('click', toggleKTHideTitle);
@@ -3144,6 +3541,10 @@ function initPresentScreen(){
   document.getElementById('btnShowAnswer').addEventListener('click', toggleAnswer);
   document.getElementById('btnShowSolution').addEventListener('click', toggleSolution);
   document.getElementById('solutionClose').addEventListener('click', closeSolution);
+  loadSolutionFontSize();
+  refreshSolutionFontDisplay();
+  document.getElementById('solutionFontMinus').addEventListener('click', (e)=>{ e.stopPropagation(); adjustSolutionFontSize(-SOLUTION_FONT_STEP); });
+  document.getElementById('solutionFontPlus').addEventListener('click', (e)=>{ e.stopPropagation(); adjustSolutionFontSize(SOLUTION_FONT_STEP); });
   initSolutionDrag();
   document.getElementById('navPrev').addEventListener('click', goPrev);
   document.getElementById('navNext').addEventListener('click', goNext);
@@ -3640,7 +4041,10 @@ document.addEventListener('DOMContentLoaded', function(){
   timerDuration = deck.defaultTimer || 60;
   timerRemaining = timerDuration;
   initSounds();
+  loadThemePrefs();
   initSetupScreen();
+  initKTBackgroundUpload();
+  initThemeBgSetupUpload();
   initPresentScreen();
   initPdfExport();
   initQuestionEditor();
