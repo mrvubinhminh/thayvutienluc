@@ -1029,6 +1029,8 @@
   <div class="st-draw-toolbar" id="stDrawToolbar" hidden>
     <button class="icon-btn" id="stToolPencil" title="Bút vẽ">✏️</button>
     <button class="icon-btn" id="stToolEraser" title="Tẩy">🧹</button>
+    <button class="icon-btn" id="stToolLine" title="Kẻ đường thẳng">📏</button>
+    <button class="icon-btn" id="stToolCircle" title="Vẽ đường tròn">⭕</button>
     <button class="color-dot sel" id="stColorRed" style="background:#eb5757" title="Màu đỏ"></button>
     <button class="color-dot" id="stColorBlue" style="background:#2f80ed" title="Màu xanh dương"></button>
     <button class="color-dot" id="stColorGreen" style="background:#27ae60" title="Màu xanh lá"></button>
@@ -4458,8 +4460,11 @@ let stDrawMode = 'none'; // 'none' | 'pencil' | 'eraser'
 let stCurrentColor = '#eb5757';
 let stDrawing = false;
 let stLastX = 0, stLastY = 0;
+let stShapeStartX = 0, stShapeStartY = 0;
+let stShapeSnapshot = null; // ảnh chụp canvas trước khi vẽ hình (đường thẳng/đường tròn), để "xem trước" khi kéo mà không để lại vệt cũ
 let stCanvas, stCtx;
 let stToolbarVisible = false;
+const ST_DRAW_TOOL_BTN_IDS = { pencil:'stToolPencil', eraser:'stToolEraser', line:'stToolLine', circle:'stToolCircle' };
 
 function stSetupCanvas(){
   stCanvas = document.getElementById('stDrawCanvas');
@@ -4496,33 +4501,67 @@ function stOnPointerDown(e){
   stCanvas.setPointerCapture(e.pointerId);
   const p = stGetPos(e);
   stLastX=p.x; stLastY=p.y;
+  if(stDrawMode==='line' || stDrawMode==='circle'){
+    // Chụp lại canvas hiện tại để "xem trước" hình khi kéo chuột — mỗi lần di chuyển sẽ
+    // phục hồi lại ảnh chụp này rồi vẽ đè hình mới, tránh để lại nhiều vệt nháp cũ.
+    stShapeStartX = p.x; stShapeStartY = p.y;
+    stShapeSnapshot = stCtx.getImageData(0,0,stCanvas.width,stCanvas.height);
+  }
 }
 function stOnPointerMove(e){
   if(!stDrawing || stDrawMode==='none') return;
   const p = stGetPos(e);
-  stCtx.lineCap='round'; stCtx.lineJoin='round';
-  if(stDrawMode==='pencil'){
+  if(stDrawMode==='pencil' || stDrawMode==='eraser'){
+    stCtx.lineCap='round'; stCtx.lineJoin='round';
+    if(stDrawMode==='pencil'){
+      stCtx.globalCompositeOperation='source-over';
+      stCtx.strokeStyle = stCurrentColor;
+      stCtx.lineWidth = 3.5;
+    }else{
+      stCtx.globalCompositeOperation='destination-out';
+      stCtx.lineWidth = 26;
+    }
+    stCtx.beginPath();
+    stCtx.moveTo(stLastX,stLastY);
+    stCtx.lineTo(p.x,p.y);
+    stCtx.stroke();
+    stLastX=p.x; stLastY=p.y;
+  } else if(stDrawMode==='line'){
+    if(stShapeSnapshot) stCtx.putImageData(stShapeSnapshot,0,0);
     stCtx.globalCompositeOperation='source-over';
     stCtx.strokeStyle = stCurrentColor;
     stCtx.lineWidth = 3.5;
-  }else{
-    stCtx.globalCompositeOperation='destination-out';
-    stCtx.lineWidth = 26;
+    stCtx.lineCap='round';
+    stCtx.beginPath();
+    stCtx.moveTo(stShapeStartX, stShapeStartY);
+    stCtx.lineTo(p.x, p.y);
+    stCtx.stroke();
+  } else if(stDrawMode==='circle'){
+    if(stShapeSnapshot) stCtx.putImageData(stShapeSnapshot,0,0);
+    stCtx.globalCompositeOperation='source-over';
+    stCtx.strokeStyle = stCurrentColor;
+    stCtx.lineWidth = 3.5;
+    const dx = p.x-stShapeStartX, dy = p.y-stShapeStartY;
+    const r = Math.sqrt(dx*dx+dy*dy);
+    stCtx.beginPath();
+    stCtx.arc(stShapeStartX, stShapeStartY, r, 0, Math.PI*2);
+    stCtx.stroke();
   }
-  stCtx.beginPath();
-  stCtx.moveTo(stLastX,stLastY);
-  stCtx.lineTo(p.x,p.y);
-  stCtx.stroke();
-  stLastX=p.x; stLastY=p.y;
 }
-function stOnPointerUp(){ stDrawing=false; }
+function stOnPointerUp(){
+  stDrawing=false;
+  stShapeSnapshot = null; // hình đã "chốt" lại trên canvas ở lần di chuyển cuối, không cần ảnh chụp nữa
+}
+function stApplyActiveClasses(){
+  Object.keys(ST_DRAW_TOOL_BTN_IDS).forEach(mode=>{
+    const btn = document.getElementById(ST_DRAW_TOOL_BTN_IDS[mode]);
+    if(btn) btn.classList.toggle('active', stDrawMode===mode);
+  });
+  if(stCanvas) stCanvas.classList.toggle('drawmode', stDrawMode!=='none');
+}
 function stSetDrawMode(mode){
   stDrawMode = (stDrawMode===mode) ? 'none' : mode;
-  const pencilBtn = document.getElementById('stToolPencil');
-  const eraserBtn = document.getElementById('stToolEraser');
-  if(pencilBtn) pencilBtn.classList.toggle('active', stDrawMode==='pencil');
-  if(eraserBtn) eraserBtn.classList.toggle('active', stDrawMode==='eraser');
-  if(stCanvas) stCanvas.classList.toggle('drawmode', stDrawMode!=='none');
+  stApplyActiveClasses();
 }
 function stSetColor(c, btnId){
   stCurrentColor = c;
@@ -4530,13 +4569,11 @@ function stSetColor(c, btnId){
   if(toolbar) toolbar.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('sel'));
   const btn = document.getElementById(btnId);
   if(btn) btn.classList.add('sel');
-  if(stDrawMode!=='pencil'){
-    stDrawMode='pencil';
-    const pencilBtn = document.getElementById('stToolPencil');
-    const eraserBtn = document.getElementById('stToolEraser');
-    if(pencilBtn) pencilBtn.classList.add('active');
-    if(eraserBtn) eraserBtn.classList.remove('active');
-    if(stCanvas) stCanvas.classList.add('drawmode');
+  // Chọn màu khi chưa chọn công cụ nào (hoặc đang tẩy) thì tự chuyển sang bút vẽ; nếu đang
+  // ở chế độ kẻ đường thẳng/đường tròn thì giữ nguyên công cụ đó, chỉ đổi màu.
+  if(stDrawMode==='none' || stDrawMode==='eraser'){
+    stDrawMode = 'pencil';
+    stApplyActiveClasses();
   }
 }
 function toggleStDrawToolbar(){
@@ -4547,11 +4584,7 @@ function toggleStDrawToolbar(){
   if(btn) btn.classList.toggle('active', stToolbarVisible);
   if(!stToolbarVisible){
     stDrawMode = 'none';
-    const pencilBtn = document.getElementById('stToolPencil');
-    const eraserBtn = document.getElementById('stToolEraser');
-    if(pencilBtn) pencilBtn.classList.remove('active');
-    if(eraserBtn) eraserBtn.classList.remove('active');
-    if(stCanvas) stCanvas.classList.remove('drawmode');
+    stApplyActiveClasses();
   }
 }
 function stResetDrawTool(){
@@ -4562,11 +4595,7 @@ function stResetDrawTool(){
   if(toolbar) toolbar.hidden = true;
   const toggleBtn = document.getElementById('btnStDrawToggle');
   if(toggleBtn) toggleBtn.classList.remove('active');
-  const pencilBtn = document.getElementById('stToolPencil');
-  const eraserBtn = document.getElementById('stToolEraser');
-  if(pencilBtn) pencilBtn.classList.remove('active');
-  if(eraserBtn) eraserBtn.classList.remove('active');
-  if(stCanvas) stCanvas.classList.remove('drawmode');
+  stApplyActiveClasses();
 }
 function initStDrawTool(){
   stSetupCanvas();
@@ -4574,9 +4603,13 @@ function initStDrawTool(){
   if(toggleBtn) toggleBtn.addEventListener('click', toggleStDrawToolbar);
   const pencilBtn = document.getElementById('stToolPencil');
   const eraserBtn = document.getElementById('stToolEraser');
+  const lineBtn = document.getElementById('stToolLine');
+  const circleBtn = document.getElementById('stToolCircle');
   const clearBtn = document.getElementById('stToolClear');
   if(pencilBtn) pencilBtn.addEventListener('click', ()=>stSetDrawMode('pencil'));
   if(eraserBtn) eraserBtn.addEventListener('click', ()=>stSetDrawMode('eraser'));
+  if(lineBtn) lineBtn.addEventListener('click', ()=>stSetDrawMode('line'));
+  if(circleBtn) circleBtn.addEventListener('click', ()=>stSetDrawMode('circle'));
   if(clearBtn) clearBtn.addEventListener('click', stClearCanvas);
   const redBtn = document.getElementById('stColorRed');
   const blueBtn = document.getElementById('stColorBlue');
