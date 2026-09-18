@@ -2712,6 +2712,7 @@ function startRemoteSelfTest(passwordRaw, name, cls){
       stStarted = true;
       stMode = 'remote';
       saveGateCodeHistory(passwordRaw); // chỉ nhớ mật mã khi đã chắc chắn tải đề THÀNH CÔNG
+      stPlaySound('correct'); // âm thanh "đúng" báo hiệu mật mã hợp lệ, đã vào bài thành công
       stStartedAt = Date.now(); // tính thời gian làm bài từ lúc thấy câu hỏi đầu tiên, không tính thời gian tải đề
       stCurrentSheetId = sheetId;
       stAttemptNumber = stGetNextAttemptNumber(sheetId);
@@ -2794,7 +2795,10 @@ function switchGateTab(which){
   document.getElementById('gateStudentPanel').hidden = !isStudent;
   document.getElementById('gateTeacherPanel').hidden = isStudent;
 }
-function showGateStudentError(msg){ const el=document.getElementById('gateStudentError'); el.textContent=msg; el.hidden=false; }
+function showGateStudentError(msg){
+  const el=document.getElementById('gateStudentError'); el.textContent=msg; el.hidden=false;
+  stPlayAnswerFeedback(false); // âm thanh "sai" + rung, giống hệt khi làm bài — báo hiệu mật mã/thao tác chưa đúng
+}
 function hideGateStudentError(){ document.getElementById('gateStudentError').hidden = true; }
 function showGateTeacherError(msg){ const el=document.getElementById('gateTeacherError'); el.textContent=msg; el.hidden=false; }
 function hideGateTeacherError(){ document.getElementById('gateTeacherError').hidden = true; }
