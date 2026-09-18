@@ -84,6 +84,10 @@
   .info-toggle:hover{border-color:#bcd4f7;color:var(--blue1);}
   .info-toggle.active{background:var(--blue1);border-color:var(--blue1);color:#fff;}
   .part-desc{color:var(--ink-soft);font-size:.8rem;margin:10px 0 12px;padding:10px 12px;background:#f7f9fd;border-radius:10px;line-height:1.55;}
+  .random-pick-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 0;font-size:.8rem;color:var(--ink-soft);}
+  .random-pick-row label{font-weight:700;white-space:nowrap;}
+  .random-count-input{width:72px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;}
+  .hint-inline{color:#9aa5ba;font-size:.75rem;}
   .part-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2px;}
   .paste-toggle{background:none;border:none;color:#8b95ab;font-size:.78rem;font-weight:700;cursor:pointer;padding:8px 0 2px;display:inline-flex;align-items:center;gap:4px;}
   .paste-toggle:hover{color:var(--blue1);}
@@ -494,6 +498,12 @@
     .slide-counter{padding:7px 12px;font-size:.78rem;}
     .nav-arrow{width:32px;height:32px;}
     .q-badge{padding:6px 12px;font-size:.9em;}
+    .q-head{flex-direction:column;align-items:flex-start;gap:6px;}
+    .q-stem{padding-top:0;}
+    .qed-title-label{display:none;}
+    .rs-stats-grid{grid-template-columns:repeat(2,1fr);}
+    .rs-hero{padding:22px 16px;}
+    .rs-hero-score{font-size:2.3rem;}
     .setup-wrap{padding:20px 10px 150px;}
     .q-body{flex-direction:column;}
     .options.grid2{grid-template-columns:1fr;}
@@ -555,6 +565,9 @@
   .pdf-modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
   .pdf-modal-actions .btn{width:100%;justify-content:center;}
   .pdf-modal-hint{font-size:.72rem;color:var(--ink-soft);margin-top:14px;line-height:1.55;text-align:center;}
+  .quizlink-link-row{display:flex;gap:8px;}
+  .quizlink-link-row input{flex:1;min-width:0;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-size:.8rem;font-family:inherit;background:#f4f6fb;color:var(--ink);}
+  .quizlink-link-row .btn{flex:none;}
 
   /* ================= XUẤT PDF: NỘI DUNG IN (đo lường + in thật dùng chung style) ================= */
   .print-area{display:none;background:#fff;font-family:'Times New Roman',Georgia,serif;color:#111;font-size:12.5pt;line-height:1.5;}
@@ -636,6 +649,67 @@
   .qed-ds-select{border:1.5px solid var(--border);border-radius:8px;padding:6px 8px;font-size:.82rem;font-family:inherit;flex:none;}
   .qed-edit-actions{display:flex;gap:10px;margin-top:12px;}
 
+  /* ================= MÀN HÌNH CHÀO MỪNG (CỔNG VÀO) ================= */
+  #gateScreen{min-height:100vh;display:flex;align-items:center;}
+  .gate-wrap{max-width:420px;width:100%;margin:40px auto;padding:0 16px;box-sizing:border-box;}
+  .gate-hero{text-align:center;margin-bottom:26px;}
+  .gate-hero-emoji{font-size:2.6rem;line-height:1;}
+  .gate-title{font-size:1.35rem;font-weight:800;margin:10px 0 0;color:var(--ink);}
+  .gate-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .gate-tab{flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--border);background:#fff;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink-soft);}
+  .gate-tab.active{background:linear-gradient(135deg,var(--blue1),var(--blue2));color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(47,128,237,.3);}
+  .gate-panel{background:#fff;border-radius:16px;padding:22px;box-shadow:0 2px 14px rgba(20,30,60,.06);}
+  .gate-panel .btn{width:100%;justify-content:center;}
+  .gate-error{color:var(--red1);font-size:.82rem;margin-top:10px;font-weight:600;}
+
+  /* ================= TỰ KIỂM TRA ================= */
+  #selfTestScreen{position:fixed;inset:0;background:var(--page-bg);z-index:150;display:flex;flex-direction:column;}
+  .st-stats-panel{flex:none;background:#fff;border-bottom:1px solid var(--border);padding:14px 18px;max-width:860px;margin:0 auto;width:100%;box-sizing:border-box;}
+  .st-stats-summary{font-weight:800;margin-bottom:10px;font-size:.95rem;}
+  .st-stats-sub{font-weight:500;font-size:.78rem;color:var(--ink-soft);margin-top:4px;}
+  .st-start-card{max-width:420px;margin:60px auto 0;}
+  .st-start-title{font-weight:800;font-size:1.25rem;margin-bottom:6px;}
+  .st-start-sub{color:var(--ink-soft);font-size:.86rem;margin-bottom:16px;line-height:1.5;}
+  .st-stats-rows{display:flex;flex-direction:column;gap:6px;max-height:240px;overflow-y:auto;}
+  .st-stats-row{display:flex;justify-content:space-between;gap:10px;background:#f6f8fc;border-radius:8px;padding:6px 12px;font-size:.85rem;}
+  .st-stats-row.ok b{color:var(--green1);}
+  .st-stats-row.bad b{color:var(--red1);}
+  .st-stats-row.mid b{color:#b06a12;}
+  .st-section{max-width:860px;width:100%;margin:0 auto 22px;}
+
+  /* ---- Bảng tổng kết hiện đại (chế độ học sinh làm từ xa) ---- */
+  .rs-summary{display:flex;flex-direction:column;gap:16px;}
+  .rs-hero{border-radius:18px;padding:26px 22px;text-align:center;color:#fff;position:relative;overflow:hidden;}
+  .rs-hero.rs-great{background:linear-gradient(135deg,var(--blue1),var(--violet1) 60%,var(--violet2));}
+  .rs-hero.rs-retry{background:linear-gradient(135deg,var(--orange1),var(--red2) 70%,var(--red1));}
+  .rs-badge-pill{display:inline-block;background:rgba(255,255,255,.22);backdrop-filter:blur(2px);border-radius:999px;padding:5px 14px;font-size:.78rem;font-weight:700;letter-spacing:.02em;margin-bottom:10px;}
+  .rs-hero-emoji{font-size:2.6rem;line-height:1;margin-bottom:4px;}
+  .rs-hero-score{font-size:2.8rem;font-weight:900;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .rs-hero-score span{font-size:1.3rem;font-weight:700;opacity:.85;}
+  .rs-hero-name{font-size:.95rem;font-weight:700;margin-top:8px;opacity:.95;}
+  .rs-hero-msg{font-size:.88rem;line-height:1.5;margin-top:10px;max-width:480px;margin-left:auto;margin-right:auto;opacity:.97;}
+  .rs-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .rs-stat{background:#f6f8fc;border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;}
+  .rs-stat-value{font-size:1.25rem;font-weight:800;color:var(--ink);}
+  .rs-stat-label{font-size:.72rem;color:var(--ink-soft);margin-top:2px;}
+  .rs-breakdown .st-stats-rows{max-height:220px;}
+  .rs-send-wrap{text-align:center;padding-top:4px;}
+  .rs-send-btn{font-size:.95rem;padding:12px 28px;}
+  .rs-send-note{font-size:.82rem;color:var(--ink-soft);margin-top:10px;line-height:1.5;}
+  .rs-send-note.rs-send-ok{color:var(--green1);font-weight:700;}
+  .rs-send-note.rs-send-err{color:var(--red1);font-weight:700;}
+  .st-part-head{font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.3px;color:#38507a;margin:0 0 12px;}
+  .st-card{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(20,30,60,.06);}
+  .st-solution-btn{margin-top:12px;background:none;border:none;color:var(--blue1);font-weight:700;font-size:.85rem;cursor:pointer;padding:0;}
+  .st-solution-btn:disabled{color:var(--ink-soft);opacity:.65;cursor:not-allowed;}
+  .st-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;}
+  .st-nav-count{font-weight:700;color:var(--ink-soft);font-size:.85rem;}
+  .st-solution-box{margin-top:8px;background:#fff8e8;border:1px solid #eecb7a;border-radius:10px;padding:10px 14px;font-size:.9rem;line-height:1.5;}
+  .st-tln-row{display:flex;gap:8px;margin-top:6px;}
+  .st-tln-row input{flex:1;border:2px solid var(--border);border-radius:10px;padding:9px 12px;font-size:1rem;font-family:inherit;}
+  .st-tln-row input:disabled{background:#f4f6fb;color:var(--ink-soft);}
+  .st-tln-row .btn{flex:none;}
+
   @media print{
     @page{ size:A4; margin:14mm 12mm; }
     html,body{background:#fff !important;}
@@ -646,11 +720,42 @@
 </head>
 <body>
 
+<!-- ============= MÀN HÌNH CHÀO MỪNG (CỔNG VÀO) ============= -->
+<div id="gateScreen">
+  <div class="gate-wrap">
+    <div class="gate-hero">
+      <div class="gate-hero-emoji">📐</div>
+      <h1 class="gate-title">Lớp Toán Thầy Lực chào mừng các em!</h1>
+    </div>
+    <div class="gate-tabs">
+      <button type="button" class="gate-tab active" id="gateTabStudent">🧑‍🎓 Học sinh</button>
+      <button type="button" class="gate-tab" id="gateTabTeacher">🧑‍🏫 Giáo viên</button>
+    </div>
+    <div class="gate-panel" id="gateStudentPanel">
+      <label class="qed-flabel" for="gateName">Họ và tên</label>
+      <input type="text" id="gateName" class="qed-input" placeholder="Nhập họ và tên...">
+      <label class="qed-flabel" for="gateClass">Lớp</label>
+      <input type="text" id="gateClass" class="qed-input" placeholder="VD: 10A1">
+      <label class="qed-flabel" for="gatePassword">Mật mã làm bài (thầy/cô cung cấp)</label>
+      <input type="text" id="gatePassword" class="qed-input" placeholder="Nhập mật mã...">
+      <div class="gate-error" id="gateStudentError" hidden></div>
+      <button type="button" class="btn btn-primary" id="btnGateStudentGo" style="margin-top:14px;">🚀 Vào làm bài</button>
+    </div>
+    <div class="gate-panel" id="gateTeacherPanel" hidden>
+      <label class="qed-flabel" for="gateTeacherPw">Mật khẩu giáo viên</label>
+      <input type="password" id="gateTeacherPw" class="qed-input" placeholder="Nhập mật khẩu...">
+      <div class="gate-error" id="gateTeacherError" hidden></div>
+      <button type="button" class="btn btn-primary" id="btnGateTeacherGo" style="margin-top:14px;">🔓 Vào trang quản lý</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============= SETUP SCREEN ============= -->
-<div id="setupScreen">
+<div id="setupScreen" hidden>
   <div class="setup-toprow">
     <a class="btn btn-outline btn-sm" href="https://chuyendoijson.vercel.app/" target="_blank" rel="noopener" title="Công cụ chuyển đổi JSON">🔄 Công cụ chuyển đổi JSON</a>
     <button class="btn btn-red btn-sm" id="btnClearAll">🗑 Xóa toàn bộ dữ liệu đã lưu</button>
+    <button class="btn btn-outline btn-sm" id="btnTeacherLogout" title="Quay lại màn hình chào mừng, lần sau phải nhập lại mật khẩu">🚪 Đăng xuất giáo viên</button>
   </div>
   <div class="setup-wrap">
     <div class="setup-header">
@@ -782,6 +887,11 @@
         </div>
         <span class="badge-count" id="countI">0 câu</span>
       </div>
+      <div class="random-pick-row">
+        <label for="randomCountI">🎲 Số câu trình chiếu:</label>
+        <input type="number" min="1" id="randomCountI" class="random-count-input" placeholder="Tất cả">
+        <span class="hint-inline">để trống = trình chiếu tất cả theo thứ tự đã nhập; nhập số ít hơn tổng để chọn ngẫu nhiên đúng số đó (thứ tự xáo trộn)</span>
+      </div>
       <div class="part-desc" id="descI" hidden>Cột dữ liệu: <b>Nội dung, A, B, C, D, Kí hiệu Đ/A (1-4 hoặc A-D), Lời giải, Link ảnh</b> (Link ảnh không bắt buộc).</div>
       <div class="part-actions">
         <button class="btn btn-outline btn-sm" data-action="upload" data-part="I">📂 Tải thủ công vào Phần I</button>
@@ -807,6 +917,11 @@
           <button class="info-toggle" data-action="toggleInfo" data-part="II" type="button" title="Xem định dạng cột dữ liệu">ⓘ</button>
         </div>
         <span class="badge-count" id="countII">0 câu</span>
+      </div>
+      <div class="random-pick-row">
+        <label for="randomCountII">🎲 Số câu trình chiếu:</label>
+        <input type="number" min="1" id="randomCountII" class="random-count-input" placeholder="Tất cả">
+        <span class="hint-inline">để trống = trình chiếu tất cả theo thứ tự đã nhập; nhập số ít hơn tổng để chọn ngẫu nhiên đúng số đó (thứ tự xáo trộn)</span>
       </div>
       <div class="part-desc" id="descII" hidden>Cột dữ liệu: <b>Nội dung, a, b, c, d, Đáp án a, Đáp án b, Đáp án c, Đáp án d (ghi Đ hoặc S), Lời giải</b>.</div>
       <div class="part-actions">
@@ -834,6 +949,11 @@
         </div>
         <span class="badge-count" id="countIII">0 câu</span>
       </div>
+      <div class="random-pick-row">
+        <label for="randomCountIII">🎲 Số câu trình chiếu:</label>
+        <input type="number" min="1" id="randomCountIII" class="random-count-input" placeholder="Tất cả">
+        <span class="hint-inline">để trống = trình chiếu tất cả theo thứ tự đã nhập; nhập số ít hơn tổng để chọn ngẫu nhiên đúng số đó (thứ tự xáo trộn)</span>
+      </div>
       <div class="part-desc" id="descIII" hidden>Cột dữ liệu: <b>Nội dung, Đáp án, Lời giải</b>.</div>
       <div class="part-actions">
         <button class="btn btn-outline btn-sm" data-action="upload" data-part="III">📂 Tải thủ công vào Phần III</button>
@@ -854,7 +974,9 @@
   <div class="start-bar">
     <span class="total" id="totalCount">Tổng: 0 câu</span>
     <button class="btn btn-outline" id="btnOpenQed">👁 Xem trước &amp; sửa</button>
+    <button class="btn btn-outline" id="btnOpenSelfTest">🧪 Tự kiểm tra</button>
     <button class="btn btn-outline" id="btnExportPDF">🖨 Xuất PDF</button>
+    <button class="btn btn-outline" id="btnOpenQuizLink">🔗 Tạo link làm bài</button>
     <button class="btn btn-start" id="btnStart">🚀 Bắt đầu trình chiếu</button>
   </div>
 </div>
@@ -869,6 +991,20 @@
     </div>
   </div>
   <div class="qed-list" id="qedList"></div>
+</div>
+
+<!-- ============= TỰ KIỂM TRA ============= -->
+<div id="selfTestScreen" hidden>
+  <div class="qed-topbar">
+    <div class="qed-topbar-title"><span class="qed-title-label">🧪 Tự kiểm tra</span> <span class="qed-topbar-count" id="stNameChip" hidden></span> <span class="qed-topbar-count" id="stStatsChip">Đã làm: 0/0</span></div>
+    <div class="qed-topbar-actions">
+      <button class="btn btn-outline btn-sm" id="btnSelfTestStats">📊 Xem thống kê</button>
+      <button class="btn btn-outline btn-sm" id="btnSelfTestRestart">🔄 Làm lại</button>
+      <button class="btn btn-outline btn-sm" id="btnSelfTestClose">✕ Đóng, quay lại</button>
+    </div>
+  </div>
+  <div class="st-stats-panel" id="stStatsPanel" hidden></div>
+  <div class="qed-list" id="selfTestList"></div>
 </div>
 
 <!-- ============= PDF EXPORT MODAL ============= -->
@@ -946,6 +1082,47 @@
 </div>
 <div class="print-area" id="printArea"></div>
 
+<!-- ============= TẠO LINK LÀM BÀI (HỌC SINH) MODAL ============= -->
+<div class="pdf-modal hidden" id="quizLinkModal">
+  <div class="pdf-modal-card">
+    <button class="pdf-modal-close" id="quizLinkModalClose">✕</button>
+    <h3>🔗 Tạo link làm bài kiểm tra</h3>
+    <p class="pdf-sub">Tạo đường link để học sinh tự làm bài trực tuyến trên điện thoại/máy tính — chỉ hiện câu hỏi Phần I/II/III (không có Kiến thức trọng tâm), chấm điểm ngay từng câu, có tổng kết điểm + thời gian làm bài + lần làm bài thứ mấy.</p>
+
+    <div class="pdf-section-label">📄 Bước 1 — Ngân hàng câu hỏi</div>
+    <div class="pdf-field">
+      <label>Link hoặc ID Google Sheet đề bài (đã import file Excel, có sheet "NganHangCauHoi")</label>
+      <input type="text" id="quizLinkSheet" placeholder="Dán link Google Sheet hoặc chỉ ID Sheet...">
+    </div>
+    <div class="pdf-modal-hint" style="margin-top:6px;text-align:left;">Sheet cần được chia sẻ: <b>Chia sẻ (Share) → "Bất kỳ ai có đường liên kết" → quyền Người xem (Viewer)</b> — để trang làm bài đọc được đề.</div>
+
+    <div class="pdf-section-label">🧾 Bước 2 — Nơi nhận điểm (nên có, để xem bảng điểm cả lớp)</div>
+    <div class="pdf-field">
+      <label>URL ứng dụng web (Apps Script Web App, kết thúc bằng /exec)</label>
+      <input type="text" id="quizLinkApi" placeholder="https://script.google.com/macros/s/.../exec">
+    </div>
+    <div class="pdf-modal-hint" style="margin-top:6px;text-align:left;">Dùng file <b>NhanKetQuaLamBai.gs</b> (gửi kèm cùng bộ file này) — mở Google Sheet đề bài ở Bước 1 → Tiện ích mở rộng → Apps Script → dán file đó vào → Triển khai (Deploy) dạng "Ứng dụng web", quyền truy cập "Bất kỳ ai" → dán URL kết thúc bằng <b>/exec</b> vào đây. Điểm học sinh sẽ tự động ghi thêm vào sheet "KetQuaLamBai" ngay trong file đó để thầy xem bảng tổng hợp cả lớp. Để trống vẫn được — học sinh vẫn làm bài và xem điểm, chỉ là điểm không gửi về cho thầy.</div>
+
+    <div class="pdf-section-label">✏️ Bước 3 — Tên đề (hiển thị cho học sinh)</div>
+    <div class="pdf-field">
+      <input type="text" id="quizLinkTitle" placeholder="VD: Kiểm tra 15 phút - Chương 1">
+    </div>
+
+    <div class="pdf-modal-actions">
+      <button class="btn btn-primary" id="btnGenQuizLink">🔗 Tạo link</button>
+    </div>
+
+    <div id="quizLinkResult" hidden style="margin-top:14px;">
+      <div class="pdf-section-label" style="margin-top:0;">✅ Link chia sẻ cho học sinh</div>
+      <div class="quizlink-link-row">
+        <input type="text" id="quizLinkOutput" readonly>
+        <button class="btn btn-outline btn-sm" id="btnCopyQuizLink">📋 Sao chép</button>
+      </div>
+      <div class="pdf-modal-hint" style="margin-top:8px;">Gửi đường link này cho học sinh (Zalo, Google Classroom...). Mỗi khi đổi đề hoặc đổi URL Apps Script, hãy tạo lại link mới ở đây.</div>
+    </div>
+  </div>
+</div>
+
 <!-- ============= PRESENT SCREEN ============= -->
 <div id="presentScreen" hidden>
   <div class="accent-bar"></div>
@@ -970,6 +1147,7 @@
       <button class="icon-btn" id="btnCalc" title="Máy tính MathDA">🧮</button>
       <button class="icon-btn" id="btnBoard" title="Bảng viết">📝</button>
       <button class="icon-btn" id="btnClassroom" title="Quản lý lớp học">🏫</button>
+      <button class="icon-btn" id="btnStudentApp" title="Học sinh">🧑‍🎓</button>
       <button class="icon-btn" id="btnThemeMode" title="Chế độ hiển thị: Sáng / Tối / Hình nền">☀️</button>
       <input type="file" id="themeBgFileInput" accept="image/*" style="display:none">
       <button class="icon-btn" id="btnOptLayout" title="Bố cục phương án A,B,C,D">🔳</button>
@@ -1085,7 +1263,7 @@
 const STORAGE_KEY = 'mathSlidesDeck_v1';
 const DEFAULT_TEACHER = 'Vũ Tiến Lực';
 const DEFAULT_SCHOOL = 'Trường THPT Nguyễn Hữu Cảnh';
-let deck = { title:'', teacher:DEFAULT_TEACHER, school:DEFAULT_SCHOOL, defaultTimer:60, parts:{ KT:[], I:[], II:[], III:[] } };
+let deck = { title:'', teacher:DEFAULT_TEACHER, school:DEFAULT_SCHOOL, defaultTimer:60, parts:{ KT:[], I:[], II:[], III:[] }, randomCount:{ I:'', II:'', III:'' } };
 
 /* 50 câu danh ngôn / tục ngữ hay nhất về học tập, hiển thị ngẫu nhiên trên slide mở đầu. */
 const LEARNING_QUOTES = [
@@ -1156,6 +1334,7 @@ function loadDeck(){
     }
   }catch(e){}
   if(!deck.parts.KT) deck.parts.KT = []; // tương thích dữ liệu cũ lưu trước khi có phần Kiến thức trọng tâm
+  if(!deck.randomCount) deck.randomCount = { I:'', II:'', III:'' }; // tương thích dữ liệu cũ lưu trước khi có tính năng trình chiếu ngẫu nhiên
 }
 
 /* ---- Ảnh nền tuỳ chọn cho slide "Kiến thức trọng tâm" (thay thế khung tiêu đề/gạch đầu dòng mặc định) ---- */
@@ -1681,6 +1860,13 @@ function updatePreview(partKey){
   const list = deck.parts[partKey];
   const unit = partKey==='KT' ? ' slide' : ' câu';
   document.getElementById('count'+partKey).textContent = list.length + unit;
+  if(partKey!=='KT'){
+    const rc = document.getElementById('randomCount'+partKey);
+    if(rc){
+      rc.placeholder = 'Tất cả ('+list.length+')';
+      if(list.length>0) rc.max = String(list.length); else rc.removeAttribute('max');
+    }
+  }
   const wrap = document.getElementById('preview'+partKey);
   if(list.length===0){ wrap.innerHTML=''; return; }
   let cols;
@@ -1860,6 +2046,17 @@ function initSetupScreen(){
   document.getElementById('deckTeacher').addEventListener('input', e=>{ deck.teacher = e.target.value; saveDeck(); });
   document.getElementById('deckSchool').addEventListener('input', e=>{ deck.school = e.target.value; saveDeck(); });
 
+  if(!deck.randomCount) deck.randomCount = { I:'', II:'', III:'' };
+  ['I','II','III'].forEach(p=>{
+    const inp = document.getElementById('randomCount'+p);
+    if(!inp) return;
+    inp.value = deck.randomCount[p] || '';
+    inp.addEventListener('input', e=>{
+      deck.randomCount[p] = e.target.value;
+      saveDeck();
+    });
+  });
+
   const autoZone = document.getElementById('autoUploadZone');
   const autoInput = document.getElementById('autoFileInput');
   document.getElementById('btnAutoUpload').addEventListener('click', (e)=>{ e.stopPropagation(); autoInput.click(); });
@@ -1935,11 +2132,12 @@ function initSetupScreen(){
 
   document.getElementById('btnClearAll').addEventListener('click', ()=>{
     if(!confirm('Xoá TOÀN BỘ dữ liệu đã lưu (kiến thức trọng tâm + cả 3 phần câu hỏi)?')) return;
-    deck = { title:'', teacher:DEFAULT_TEACHER, school:DEFAULT_SCHOOL, defaultTimer:60, parts:{KT:[],I:[],II:[],III:[]} };
+    deck = { title:'', teacher:DEFAULT_TEACHER, school:DEFAULT_SCHOOL, defaultTimer:60, parts:{KT:[],I:[],II:[],III:[]}, randomCount:{I:'',II:'',III:''} };
     saveDeck();
     document.getElementById('deckTitle').value='';
     document.getElementById('deckTeacher').value=DEFAULT_TEACHER;
     document.getElementById('deckSchool').value=DEFAULT_SCHOOL;
+    ['I','II','III'].forEach(p=>{ const inp=document.getElementById('randomCount'+p); if(inp) inp.value=''; });
     ['KT','I','II','III'].forEach(p=>updatePreview(p));
     updateTotal();
     renderKTBackgroundPreview();
@@ -1971,6 +2169,956 @@ function openQuestionEditor(){
 function closeQuestionEditor(){
   document.getElementById('qedScreen').hidden = true;
   document.getElementById('setupScreen').hidden = false;
+}
+
+/* ============================================================
+   TỰ KIỂM TRA — tự làm thử ngay trên dữ liệu vừa nhập (không cần Internet,
+   không đụng tới deck gốc), chấm điểm ngay từng câu + thống kê đúng/sai.
+   ============================================================ */
+let selfTestData = null; // {I:[], II:[], III:[]} — bản sao độc lập của deck.parts
+
+const ST_PART_LABEL = { I:'🅰 Phần I — Trắc nghiệm', II:'⚖ Phần II — Đúng / Sai', III:'✍ Phần III — Trả lời ngắn' };
+
+function stCloneArr(arr){ return JSON.parse(JSON.stringify(arr||[])); }
+
+function stChuanHoaDapAnNgan(s){ return String(s||'').trim().replace(/\s+/g,' ').toLowerCase(); }
+function stSoSanhDapAnNgan(hs, dung){
+  const a = stChuanHoaDapAnNgan(hs), b = stChuanHoaDapAnNgan(dung);
+  if(!a) return false;
+  if(a===b) return true;
+  const na = parseFloat(a.replace(',', '.'));
+  const nb = parseFloat(b.replace(',', '.'));
+  if(!isNaN(na) && !isNaN(nb) && Math.abs(na-nb) < 1e-9) return true;
+  return false;
+}
+
+let stSlides = [];
+let stCurrentSlide = 0;
+let stStudentName = '';
+let stStudentClass = '';
+let stStarted = false;
+let stMode = 'local'; // 'local' = thầy tự kiểm tra ngay trên dữ liệu vừa nhập; 'remote' = học sinh vào từ màn chào mừng, đọc đề từ Google Sheet
+let stStartedAt = 0; // thời điểm học sinh bắt đầu thấy câu hỏi đầu tiên (chỉ dùng cho chế độ 'remote'), để tính thời gian làm bài
+let stAttemptNumber = 1; // lần làm bài thứ mấy (đếm theo mật mã/Sheet, lưu ở localStorage của máy học sinh)
+let stRemoteApiUrl = ''; // URL Web App (NhanKetQuaLamBai.gs) đọc được từ tab "CauHinh" (nếu thầy/cô có cấu hình) trong chính Sheet đề thi, dùng để gửi kết quả
+let stRemoteSending = false;
+let stCurrentSheetId = ''; // ID Google Sheet của lần làm bài hiện tại (chế độ 'remote'), lưu lại để "Làm lại" tính đúng lần làm bài thứ mấy
+
+function buildSelfTestSlides(){
+  const arr = [];
+  selfTestData.I.forEach((q,i)=>arr.push({ type:'I', data:q, local:i+1 }));
+  selfTestData.II.forEach((q,i)=>arr.push({ type:'II', data:q, local:i+1 }));
+  selfTestData.III.forEach((q,i)=>arr.push({ type:'III', data:q, local:i+1 }));
+  return arr;
+}
+
+function openSelfTest(){
+  if(!hasAnyQuestions()){ alert('Chưa có câu hỏi nào (Phần I/II/III) để tự kiểm tra.'); return; }
+  selfTestData = {
+    I: stCloneArr(deck.parts.I).map(q=>Object.assign(q, { _locked:false, _selected:-1, _correct:false })),
+    II: stCloneArr(deck.parts.II).map(q=>Object.assign(q, { items:(q.items||[]).map(it=>Object.assign(it, { _locked:false, _selected:null, _correct:false })) })),
+    III: stCloneArr(deck.parts.III).map(q=>Object.assign(q, { _locked:false, _typed:'', _correct:false }))
+  };
+  stSlides = buildSelfTestSlides();
+  stCurrentSlide = 0;
+  stStudentName = '';
+  stStudentClass = '';
+  stStarted = false;
+  stMode = 'local';
+  document.getElementById('setupScreen').hidden = true;
+  document.getElementById('selfTestScreen').hidden = false;
+  renderSelfTestScreen();
+  window.scrollTo(0,0);
+}
+function closeSelfTest(){
+  document.getElementById('selfTestScreen').hidden = true;
+  if(stMode==='remote'){
+    // Học sinh vào từ màn chào mừng -> đóng bài sẽ quay lại màn chào mừng (không phải
+    // trang quản lý của giáo viên), xoá sẵn ô họ tên để bạn học sinh tiếp theo tự nhập.
+    const nameInput = document.getElementById('gateName');
+    if(nameInput) nameInput.value = '';
+    switchGateTab('student');
+    document.getElementById('gateScreen').hidden = false;
+    try{ if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); }catch(e){}
+  } else {
+    document.getElementById('setupScreen').hidden = false;
+  }
+}
+// Xoá hết lựa chọn hiện tại của selfTestData, KHÔNG tải lại đề (dùng cho "Làm lại" ở chế
+// độ học sinh vào từ xa, để khỏi phải gọi lại Google Sheet mỗi lần làm lại).
+function stResetAnswers(){
+  selfTestData.I.forEach(q=>{ q._locked=false; q._selected=-1; q._correct=false; });
+  selfTestData.II.forEach(q=>(q.items||[]).forEach(it=>{ it._locked=false; it._selected=null; it._correct=false; }));
+  selfTestData.III.forEach(q=>{ q._locked=false; q._typed=''; q._correct=false; });
+  stCurrentSlide = 0;
+}
+function restartSelfTest(){
+  if(!confirm('Làm lại từ đầu? Toàn bộ lựa chọn hiện tại sẽ bị xoá.')) return;
+  if(stMode==='remote'){
+    stResetAnswers();
+    // Làm lại tính là 1 lần làm bài mới: tính lại thời gian từ đầu và tăng "lần làm bài
+    // thứ mấy" (đã lưu sẵn sheetId lúc vào bài, không cần đọc lại từ ô nhập).
+    stStartedAt = Date.now();
+    if(stCurrentSheetId) stAttemptNumber = stGetNextAttemptNumber(stCurrentSheetId);
+    stRemoteSending = false;
+    document.getElementById('stStatsPanel').hidden = true;
+    updateSelfTestStatsChip();
+    renderSelfTestSlide();
+  } else {
+    openSelfTest();
+  }
+}
+
+/* ============================================================
+   TỰ KIỂM TRA TỪ XA — học sinh vào từ màn chào mừng, đọc đề bài trực tiếp
+   từ Google Sheet (mật mã làm bài = ID/link Sheet), dùng lại đúng bộ khung
+   trình chiếu + chấm điểm của "Tự kiểm tra" (buildSelfTestCard, v.v.),
+   chỉ khác nguồn dữ liệu (Google Sheet thay vì deck.parts local).
+   ============================================================ */
+function stParseCSV(text){
+  const rows = []; let row = []; let field = ''; let inQuotes = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){ if(text[i+1] === '"'){ field += '"'; i++; } else { inQuotes = false; } }
+      else { field += c; }
+    } else {
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ''; }
+      else if(c === '\r'){ /* bỏ qua, chờ \n */ }
+      else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+      else { field += c; }
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.some(v => String(v||'').trim() !== ''));
+}
+
+function stParseQuestionBankFromCsv(csvText){
+  const table = stParseCSV(csvText);
+  if(!table.length) return { I:[], II:[], III:[] };
+  const headers = table[0].map(h=>String(h||'').trim());
+  const col = name => headers.indexOf(name);
+  const idx = {
+    noidung: col('Nội dung'), loai: col('Loại'), linkanh: col('Link Ảnh'),
+    a: col('Lựa chọn A / Mệnh đề a'), b: col('Lựa chọn B / Mệnh đề b'),
+    c: col('Lựa chọn C / Mệnh đề c'), d: col('Lựa chọn D / Mệnh đề d'),
+    dapan: col('Đáp án đúng'), loigiai: col('Lời giải')
+  };
+  const get = (r,i)=> (i>=0 && i<r.length) ? String(r[i]||'').trim() : '';
+  const I=[], II=[], III=[];
+  for(let i=1;i<table.length;i++){
+    const r = table[i];
+    const stem = get(r, idx.noidung);
+    if(!stem) continue;
+    const loai = get(r, idx.loai);
+    const image = get(r, idx.linkanh);
+    const a=get(r,idx.a), b=get(r,idx.b), c=get(r,idx.c), d=get(r,idx.d);
+    const dapan = get(r, idx.dapan);
+    const solution = get(r, idx.loigiai);
+    if(/trắc nghiệm|trac nghiem/i.test(loai)){
+      const letter = dapan.replace(/[^A-Da-d]/g,'').toUpperCase().charAt(0);
+      const letters = ['A','B','C','D'], texts = [a,b,c,d];
+      const options = [];
+      letters.forEach((lab,li)=>{ if(texts[li]) options.push({ label:lab, text:texts[li] }); });
+      if(options.length){
+        I.push({ stem, image, solution, options, correctIndex: letters.indexOf(letter) });
+      }
+    } else if(/đúng.*sai|dung.*sai/i.test(loai)){
+      const dapAnDS = stPhanTichDapAnDS(dapan);
+      const labels=['a','b','c','d'], texts=[a,b,c,d];
+      const items = [];
+      labels.forEach((lab,li)=>{ if(texts[li]) items.push({ label:lab, text:texts[li], correct:dapAnDS[lab] }); });
+      if(items.length) II.push({ stem, image, solution, items });
+    } else if(/trả lời ngắn|tra loi ngan/i.test(loai)){
+      III.push({ stem, image, solution, answer: dapan });
+    }
+  }
+  return { I, II, III };
+}
+
+function stPhanTichDapAnDS(raw){
+  const result = {a:null,b:null,c:null,d:null};
+  String(raw||'').split(',').forEach(seg=>{
+    const m = seg.trim().match(/^([abcdABCD])\s*[-:.]\s*(.+)$/);
+    if(!m) return;
+    const letter = m[1].toLowerCase();
+    const vn = m[2].trim().toLowerCase();
+    if(vn.indexOf('đ')===0 || vn.indexOf('d')===0) result[letter] = true;
+    else if(vn.indexOf('s')===0) result[letter] = false;
+  });
+  return result;
+}
+
+function stExtractSheetId(input){
+  // Chuẩn hoá: bỏ khoảng trắng thường + khoảng trắng không ngắt (NBSP hay dính khi copy
+  // từ hộp thoại chia sẻ của Google), bỏ xuống dòng nếu học sinh lỡ dán kèm.
+  let s = String(input||'').replace(/[ ​]/g,' ').trim();
+  s = s.split(/\s+/)[0] || '';
+  const m = s.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+  if(m) return m[1];
+  return s.replace(/[^a-zA-Z0-9_-]/g,'');
+}
+
+// Gọi CSV export của 1 sheet cụ thể (theo tên tab), trả về Promise<string|null>.
+// null nghĩa là fetch được nhưng không phải dữ liệu hợp lệ (không tồn tại/không chia sẻ).
+// Cách này dùng fetch() nên cần Google trả đúng header CORS — hoạt động tốt khi trang được
+// mở qua http(s), nhưng có thể bị trình duyệt chặn khi trang được mở trực tiếp từ máy
+// (đường dẫn "file://"), nên chỉ dùng làm phương án dự phòng (xem stFetchGvizJsonp).
+function stFetchGvizCsv(sheetId, sheetName){
+  // headers=1: ép Google nhận đúng dòng đầu là tiêu đề cột — nếu không có tham số này,
+  // với một số Sheet việc tự động dò dòng tiêu đề có thể sai, khiến tên cột đọc được bị
+  // lẫn cả dữ liệu, làm app không khớp được tên cột và báo "chưa tìm thấy câu hỏi nào".
+  let url = 'https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)+'/gviz/tq?tqx=out:csv&headers=1';
+  if(sheetName) url += '&sheet='+encodeURIComponent(sheetName);
+  return fetch(url).then(resp=>{
+    if(!resp.ok) return null;
+    return resp.text();
+  }).then(text=>{
+    if(!text) return null;
+    if(/^\s*</.test(text) || /accounts\.google\.com/i.test(text) || /<html/i.test(text)) return null;
+    return text;
+  }).catch(()=>null);
+}
+
+// Chuyển 1 bảng dữ liệu kiểu Google Visualization (table.cols/table.rows, lấy được qua
+// JSONP) thành {I, II, III} — cùng logic phân loại/parse với stParseQuestionBankFromCsv,
+// chỉ khác cách đọc từng ô (row.c[i].v thay vì tách chuỗi CSV).
+function stGvizTableToBank(table){
+  if(!table || !table.cols) return { I:[], II:[], III:[] };
+  const headers = table.cols.map(c=>String((c && c.label) || '').trim());
+  const col = name => headers.indexOf(name);
+  const idx = {
+    noidung: col('Nội dung'), loai: col('Loại'), linkanh: col('Link Ảnh'),
+    a: col('Lựa chọn A / Mệnh đề a'), b: col('Lựa chọn B / Mệnh đề b'),
+    c: col('Lựa chọn C / Mệnh đề c'), d: col('Lựa chọn D / Mệnh đề d'),
+    dapan: col('Đáp án đúng'), loigiai: col('Lời giải')
+  };
+  const get = (row,i) => {
+    if(i<0 || !row || !row.c || i>=row.c.length) return '';
+    const cell = row.c[i];
+    if(!cell) return '';
+    const v = (cell.f !== undefined && cell.f !== null && cell.f !== '') ? cell.f : cell.v;
+    return (v===null || v===undefined) ? '' : String(v).trim();
+  };
+  const I=[], II=[], III=[];
+  (table.rows||[]).forEach(row=>{
+    const stem = get(row, idx.noidung);
+    if(!stem) return;
+    const loai = get(row, idx.loai);
+    const image = get(row, idx.linkanh);
+    const a=get(row,idx.a), b=get(row,idx.b), c=get(row,idx.c), d=get(row,idx.d);
+    const dapan = get(row, idx.dapan);
+    const solution = get(row, idx.loigiai);
+    if(/trắc nghiệm|trac nghiem/i.test(loai)){
+      const letter = dapan.replace(/[^A-Da-d]/g,'').toUpperCase().charAt(0);
+      const letters = ['A','B','C','D'], texts = [a,b,c,d];
+      const options = [];
+      letters.forEach((lab,li)=>{ if(texts[li]) options.push({ label:lab, text:texts[li] }); });
+      if(options.length) I.push({ stem, image, solution, options, correctIndex: letters.indexOf(letter) });
+    } else if(/đúng.*sai|dung.*sai/i.test(loai)){
+      const dapAnDS = stPhanTichDapAnDS(dapan);
+      const labels=['a','b','c','d'], texts=[a,b,c,d];
+      const items = [];
+      labels.forEach((lab,li)=>{ if(texts[li]) items.push({ label:lab, text:texts[li], correct:dapAnDS[lab] }); });
+      if(items.length) II.push({ stem, image, solution, items });
+    } else if(/trả lời ngắn|tra loi ngan/i.test(loai)){
+      III.push({ stem, image, solution, answer: dapan });
+    }
+  });
+  return { I, II, III };
+}
+
+// Đọc dữ liệu Google Sheet qua kỹ thuật JSONP (chèn thẻ <script>) thay vì fetch(): cách
+// này KHÔNG bị chặn bởi CORS (trình duyệt không áp dụng CORS cho thẻ <script>), nên vẫn
+// chạy được khi trang được mở trực tiếp từ máy (đường dẫn "file://") — đây là nguyên nhân
+// phổ biến khiến cách fetch() cũ báo lỗi dù Sheet đã chia sẻ đúng. Trả về
+// Promise<object|null> — object là toàn bộ phản hồi gviz (đã kiểm tra status==='ok'),
+// null nếu lỗi/hết thời gian chờ.
+let stGvizJsonpSeq = 0;
+function stFetchGvizJsonp(sheetId, sheetName){
+  return new Promise(resolve=>{
+    const cbName = '__stGvizCb'+Date.now()+'_'+(stGvizJsonpSeq++);
+    let done = false;
+    const script = document.createElement('script');
+    let timer;
+    const finish = (result)=>{
+      if(done) return;
+      done = true;
+      try{ delete window[cbName]; }catch(e){ window[cbName] = undefined; }
+      if(script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer);
+      resolve(result);
+    };
+    window[cbName] = function(resp){ finish((resp && resp.status==='ok' && resp.table) ? resp : null); };
+    // QUAN TRỌNG: tham số "tqx" của Google phải viết đúng dạng "key:value" nối nhau bằng
+    // dấu ";" (vd "out:json;responseHandler:tenHam"), và toàn bộ giá trị này PHẢI được mã
+    // hoá URL (encodeURIComponent) — nếu để dấu ";"/":" thô trong URL, có trường hợp bị
+    // hiểu sai dọc đường nên Google không nhận ra "responseHandler" và trả về hàm callback
+    // mặc định của Google (không phải hàm của app) khiến app chờ mãi không có phản hồi rồi
+    // báo lỗi dù Sheet hoàn toàn hợp lệ. headers=1: ép nhận đúng dòng đầu là tiêu đề cột.
+    const tqxValue = 'out:json;responseHandler:'+cbName;
+    let url = 'https://docs.google.com/spreadsheets/d/'+encodeURIComponent(sheetId)+
+      '/gviz/tq?tqx='+encodeURIComponent(tqxValue)+'&headers=1';
+    if(sheetName) url += '&sheet='+encodeURIComponent(sheetName);
+    script.src = url;
+    script.onerror = ()=>finish(null);
+    timer = setTimeout(()=>finish(null), 8000);
+    document.head.appendChild(script);
+  });
+}
+
+// Đếm số lần học sinh đã làm bài với cùng 1 mật mã/Sheet (lưu trên máy học sinh),
+// dùng để hiển thị "Lần làm bài thứ mấy" và ghi vào kết quả gửi về cho giáo viên.
+function stGetNextAttemptNumber(sheetId){
+  try{
+    const key = 'mathRemoteAttempt_'+sheetId;
+    const cur = parseInt(localStorage.getItem(key)||'0',10)||0;
+    const next = cur+1;
+    localStorage.setItem(key, String(next));
+    return next;
+  }catch(e){ return 1; }
+}
+
+// Đọc bảng gviz dạng 2 cột (Khoá | Giá trị) thành object key->value, không phân biệt hoa
+// thường của khoá. Dùng cho tab cấu hình "CauHinh" trong Google Sheet.
+function stGvizTableToKV(table){
+  const kv = {};
+  if(!table || !table.rows) return kv;
+  table.rows.forEach(row=>{
+    if(!row || !row.c) return;
+    const c0 = row.c[0], c1 = row.c[1];
+    const key = c0 ? String((c0.f!==undefined && c0.f!==null && c0.f!=='') ? c0.f : c0.v || '').trim() : '';
+    const val = c1 ? String((c1.f!==undefined && c1.f!==null && c1.f!=='') ? c1.f : c1.v || '').trim() : '';
+    if(key) kv[key.toLowerCase()] = val;
+  });
+  return kv;
+}
+
+// Dò tìm (không bắt buộc) URL Web App nhận kết quả, đọc từ tab "CauHinh" (nếu giáo viên có
+// cấu hình) trong chính Sheet đề thi — hàng "ApiUrl | <URL Web App>". Không chặn/không làm
+// gián đoạn luồng chính nếu không tìm thấy hoặc lỗi.
+function stFetchRemoteApiUrl(sheetId){
+  return stFetchGvizJsonp(sheetId, 'CauHinh').then(resp=>{
+    if(!resp || !resp.table) return;
+    const kv = stGvizTableToKV(resp.table);
+    const url = kv['apiurl'] || kv['api url'] || kv['url'] || kv['weburl'] || kv['web app url'] || '';
+    if(url) stRemoteApiUrl = url;
+  }).catch(()=>{});
+}
+
+// Số giây đã làm bài, tính từ lúc học sinh thấy câu hỏi đầu tiên (chế độ 'remote').
+function stElapsedSeconds(){
+  return Math.max(0, Math.round((Date.now()-(stStartedAt||Date.now()))/1000));
+}
+function stFormatThoiGianStr(giay){
+  giay = Math.max(0, Math.round(giay||0));
+  const p = Math.floor(giay/60), g = giay%60;
+  return p+' phút '+(g<10?'0':'')+g+' giây';
+}
+
+// Gửi kết quả làm bài về cho giáo viên qua Web App (NhanKetQuaLamBai.gs), theo đúng cấu
+// trúc payload mà quiz-lam-bai.html đã dùng, chỉ khác là có thêm "lop".
+function stSendResultToTeacher(){
+  if(stRemoteSending || !stRemoteApiUrl) return;
+  stRemoteSending = true;
+  const noteEl = document.getElementById('rsSendNote');
+  const btnEl = document.getElementById('rsSendBtn');
+  if(btnEl){ btnEl.disabled = true; btnEl.textContent = 'Đang gửi...'; }
+  if(noteEl){ noteEl.textContent = ''; noteEl.className = 'rs-send-note'; }
+  const payload = {
+    hoTen: stStudentName,
+    lop: stStudentClass,
+    soCauDung: stCorrectItems(),
+    tongSoCau: stTotalItems(),
+    thoiGianGiay: stElapsedSeconds(),
+    lanLamBai: stAttemptNumber,
+    ghiChu: stStudentClass,
+    chiTiet: []
+  };
+  try{
+    fetch(stRemoteApiUrl, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(()=>{
+      stRemoteSending = false;
+      if(btnEl){ btnEl.disabled = true; btnEl.textContent = '✅ Đã gửi kết quả'; }
+      if(noteEl){ noteEl.textContent = 'Kết quả đã được gửi về cho giáo viên.'; noteEl.className = 'rs-send-note rs-send-ok'; }
+    }).catch(()=>{
+      stRemoteSending = false;
+      if(btnEl){ btnEl.disabled = false; btnEl.textContent = '📤 Gửi kết quả cho thầy/cô'; }
+      if(noteEl){ noteEl.textContent = 'Không gửi được kết quả (có thể do mất mạng) — hãy thử lại hoặc chụp lại màn hình này.'; noteEl.className = 'rs-send-note rs-send-err'; }
+    });
+  }catch(e){
+    stRemoteSending = false;
+    if(btnEl){ btnEl.disabled = false; btnEl.textContent = '📤 Gửi kết quả cho thầy/cô'; }
+    if(noteEl){ noteEl.textContent = 'Không gửi được kết quả — hãy thử lại hoặc chụp lại màn hình này.'; noteEl.className = 'rs-send-note rs-send-err'; }
+  }
+}
+
+function startRemoteSelfTest(passwordRaw, name, cls){
+  const sheetId = stExtractSheetId(passwordRaw);
+  if(!sheetId || sheetId.length < 10){ showGateStudentError('Mật mã làm bài không hợp lệ. Hãy kiểm tra lại (dán đúng ID hoặc link Google Sheet do thầy/cô cung cấp).'); return; }
+  hideGateStudentError();
+  setGateStudentLoading(true);
+
+  // Thử lần lượt nhiều cách để tối đa khả năng đọc được Sheet:
+  // (1) JSONP + đúng tên tab "NganHangCauHoi" — không bị chặn CORS, dùng được cả khi mở
+  //     file trực tiếp từ máy (file://);
+  // (2) JSONP + tab đầu tiên của Sheet (phòng khi đặt tên tab khác hoặc chỉ có 1 tab);
+  // (3) fetch CSV + đúng tên tab, (4) fetch CSV + tab đầu tiên — dự phòng cho môi trường
+  //     JSONP bị chặn (ví dụ chính sách bảo mật riêng của máy/trình duyệt).
+  stFetchGvizJsonp(sheetId, 'NganHangCauHoi')
+    .then(resp => resp ? resp : stFetchGvizJsonp(sheetId, null))
+    .then(resp => {
+      if(resp) return { bank: stGvizTableToBank(resp.table) };
+      return stFetchGvizCsv(sheetId, 'NganHangCauHoi')
+        .then(text => text ? text : stFetchGvizCsv(sheetId, null))
+        .then(text => ({ bank: text ? stParseQuestionBankFromCsv(text) : null }));
+    })
+    .then(result=>{
+      const bank = result && result.bank;
+      if(!bank) throw new Error('not_shared');
+      if(!bank.I.length && !bank.II.length && !bank.III.length) throw new Error('empty');
+      selfTestData = {
+        I: bank.I.map(q=>Object.assign({}, q, { _locked:false, _selected:-1, _correct:false })),
+        II: bank.II.map(q=>Object.assign({}, q, { items:(q.items||[]).map(it=>Object.assign({}, it, { _locked:false, _selected:null, _correct:false })) })),
+        III: bank.III.map(q=>Object.assign({}, q, { _locked:false, _typed:'', _correct:false }))
+      };
+      stSlides = buildSelfTestSlides();
+      stCurrentSlide = 0;
+      stStudentName = name;
+      stStudentClass = cls;
+      stStarted = true;
+      stMode = 'remote';
+      stStartedAt = Date.now(); // tính thời gian làm bài từ lúc thấy câu hỏi đầu tiên, không tính thời gian tải đề
+      stCurrentSheetId = sheetId;
+      stAttemptNumber = stGetNextAttemptNumber(sheetId);
+      stRemoteApiUrl = '';
+      stRemoteSending = false;
+      stFetchRemoteApiUrl(sheetId); // dò tìm (không bắt buộc) nơi gửi kết quả, chạy song song, không chặn hiển thị câu hỏi
+      setGateStudentLoading(false);
+      document.getElementById('gateScreen').hidden = true;
+      document.getElementById('selfTestScreen').hidden = false;
+      document.getElementById('stStatsPanel').hidden = true;
+      updateSelfTestStatsChip();
+      updateSelfTestHeaderName();
+      renderSelfTestSlide();
+      window.scrollTo(0,0);
+      stTryFullscreen(); // gọi lại lần nữa phòng khi lần gọi lúc bấm nút bị trình duyệt bỏ qua
+    }).catch(err=>{
+      setGateStudentLoading(false);
+      let msg = 'Không tải được đề bài. Kiểm tra kết nối mạng rồi thử lại.';
+      const m = String(err && err.message || '');
+      if(m==='not_shared') msg = 'Không đọc được đề từ mật mã này. Có thể do: (1) mật mã/ID Google Sheet chưa đúng, hoặc (2) Google Sheet chưa được chia sẻ "Bất kỳ ai có đường liên kết – Người xem". Hãy hỏi lại thầy/cô.';
+      else if(m==='empty') msg = 'Mật mã đúng và đã mở được Sheet, nhưng chưa tìm thấy câu hỏi hợp lệ nào trong đó (kiểm tra lại tên các cột và dữ liệu). Hãy hỏi lại thầy/cô.';
+      else if(m.indexOf('http_')===0) msg = 'Không mở được đề (mã lỗi '+m.replace('http_','')+'). Kiểm tra lại mật mã.';
+      showGateStudentError(msg);
+    });
+}
+
+/* ---- Màn hình chào mừng: 2 chế độ (Học sinh / Giáo viên) ---- */
+const TEACHER_UNLOCK_KEY = 'mathTeacherUnlocked';
+const TEACHER_PASSWORD = 'Thanh Hoa';
+function stChuanHoaMatKhau(s){ return String(s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function isTeacherUnlocked(){ try{ return localStorage.getItem(TEACHER_UNLOCK_KEY)==='1'; }catch(e){ return false; } }
+function setTeacherUnlocked(){ try{ localStorage.setItem(TEACHER_UNLOCK_KEY,'1'); }catch(e){} }
+function clearTeacherUnlocked(){ try{ localStorage.removeItem(TEACHER_UNLOCK_KEY); }catch(e){} }
+
+function teacherLogout(){
+  if(!confirm('Đăng xuất khỏi trang giáo viên? Lần sau vào sẽ phải nhập lại mật khẩu.')) return;
+  clearTeacherUnlocked();
+  document.getElementById('setupScreen').hidden = true;
+  const pwInput = document.getElementById('gateTeacherPw');
+  if(pwInput) pwInput.value = '';
+  hideGateTeacherError();
+  switchGateTab('student');
+  document.getElementById('gateScreen').hidden = false;
+  window.scrollTo(0,0);
+}
+
+function switchGateTab(which){
+  const isStudent = which==='student';
+  document.getElementById('gateTabStudent').classList.toggle('active', isStudent);
+  document.getElementById('gateTabTeacher').classList.toggle('active', !isStudent);
+  document.getElementById('gateStudentPanel').hidden = !isStudent;
+  document.getElementById('gateTeacherPanel').hidden = isStudent;
+}
+function showGateStudentError(msg){ const el=document.getElementById('gateStudentError'); el.textContent=msg; el.hidden=false; }
+function hideGateStudentError(){ document.getElementById('gateStudentError').hidden = true; }
+function showGateTeacherError(msg){ const el=document.getElementById('gateTeacherError'); el.textContent=msg; el.hidden=false; }
+function hideGateTeacherError(){ document.getElementById('gateTeacherError').hidden = true; }
+function setGateStudentLoading(loading){
+  const btn = document.getElementById('btnGateStudentGo');
+  btn.disabled = loading;
+  btn.textContent = loading ? '⏳ Đang tải đề...' : '🚀 Vào làm bài';
+}
+
+// Yêu cầu trình duyệt chuyển sang toàn màn hình (thường dùng trên điện thoại của học
+// sinh khi bắt đầu làm bài, để tránh vướng thanh địa chỉ/thanh điều hướng). Trình duyệt
+// chỉ cho phép việc này khi được gọi ngay trong 1 thao tác chạm/bấm của người dùng, nên
+// hàm này được gọi ở cả 2 chỗ: ngay khi bấm "Vào làm bài" (chắc chắn nhất) và lại lần nữa
+// sau khi tải xong đề (phòng khi lần gọi đầu bị trình duyệt bỏ qua). Một số trình duyệt
+// (đặc biệt Safari trên iPhone) không hỗ trợ toàn màn hình cho trang web thông thường —
+// khi đó lệnh này sẽ tự động không có tác dụng gì (không báo lỗi).
+function stTryFullscreen(){
+  try{
+    const el = document.documentElement;
+    if(!document.fullscreenElement && el.requestFullscreen){
+      el.requestFullscreen().catch(()=>{});
+    }
+  }catch(e){}
+}
+
+function initGateScreen(){
+  document.getElementById('gateTabStudent').addEventListener('click', ()=>switchGateTab('student'));
+  document.getElementById('gateTabTeacher').addEventListener('click', ()=>switchGateTab('teacher'));
+  const logoutBtn = document.getElementById('btnTeacherLogout');
+  if(logoutBtn) logoutBtn.addEventListener('click', teacherLogout);
+
+  document.getElementById('btnGateStudentGo').addEventListener('click', ()=>{
+    hideGateStudentError();
+    const name = document.getElementById('gateName').value.trim();
+    const cls = document.getElementById('gateClass').value.trim();
+    const pw = document.getElementById('gatePassword').value.trim();
+    if(!name || !cls || !pw){ showGateStudentError('Vui lòng nhập đủ họ tên, lớp và mật mã làm bài.'); return; }
+    stTryFullscreen(); // gọi ngay trong thao tác bấm để trình duyệt (nhất là trên điện thoại) chấp nhận
+    startRemoteSelfTest(pw, name, cls);
+  });
+  ['gateName','gateClass','gatePassword'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown', e=>{
+      if(e.key==='Enter') document.getElementById('btnGateStudentGo').click();
+    });
+  });
+
+  document.getElementById('btnGateTeacherGo').addEventListener('click', ()=>{
+    hideGateTeacherError();
+    const pw = document.getElementById('gateTeacherPw').value;
+    if(stChuanHoaMatKhau(pw) === stChuanHoaMatKhau(TEACHER_PASSWORD)){
+      setTeacherUnlocked();
+      document.getElementById('gateScreen').hidden = true;
+      document.getElementById('setupScreen').hidden = false;
+    } else {
+      showGateTeacherError('Sai mật khẩu, thử lại.');
+    }
+  });
+  document.getElementById('gateTeacherPw').addEventListener('keydown', e=>{
+    if(e.key==='Enter') document.getElementById('btnGateTeacherGo').click();
+  });
+}
+
+function initGate(){
+  initGateScreen();
+  if(isTeacherUnlocked()){
+    document.getElementById('gateScreen').hidden = true;
+    document.getElementById('setupScreen').hidden = false;
+  }
+}
+
+function stTotalItems(){
+  if(!selfTestData) return 0;
+  return selfTestData.I.length + selfTestData.II.reduce((s,q)=>s+(q.items||[]).length,0) + selfTestData.III.length;
+}
+function stDoneItems(){
+  let n = 0;
+  selfTestData.I.forEach(q=>{ if(q._locked) n++; });
+  selfTestData.II.forEach(q=>(q.items||[]).forEach(it=>{ if(it._locked) n++; }));
+  selfTestData.III.forEach(q=>{ if(q._locked) n++; });
+  return n;
+}
+function stCorrectItems(){
+  let n = 0;
+  selfTestData.I.forEach(q=>{ if(q._locked && q._correct) n++; });
+  selfTestData.II.forEach(q=>(q.items||[]).forEach(it=>{ if(it._locked && it._correct) n++; }));
+  selfTestData.III.forEach(q=>{ if(q._locked && q._correct) n++; });
+  return n;
+}
+
+function updateSelfTestStatsChip(){
+  const total = stTotalItems(), done = stDoneItems(), correct = stCorrectItems();
+  document.getElementById('stStatsChip').textContent = 'Đã làm: '+done+'/'+total+' · Đúng: '+correct+' · Sai: '+(done-correct);
+  if(!document.getElementById('stStatsPanel').hidden) renderSelfTestStatsPanel();
+}
+
+function renderSelfTestScreen(){
+  document.getElementById('stStatsPanel').hidden = true;
+  updateSelfTestStatsChip();
+  updateSelfTestHeaderName();
+  if(!stStarted) renderSelfTestStart(); else renderSelfTestSlide();
+}
+
+function updateSelfTestHeaderName(){
+  const chip = document.getElementById('stNameChip');
+  if(stStarted && stStudentName){
+    chip.textContent = '👤 '+stStudentName+(stStudentClass?' · Lớp '+stStudentClass:'');
+    chip.hidden = false;
+  } else { chip.hidden = true; }
+}
+
+// Màn nhập tên học sinh trước khi bắt đầu, để phần "Xem thống kê" (tổng kết) ghi
+// đúng tên học sinh cùng với số câu đúng.
+function renderSelfTestStart(){
+  const area = document.getElementById('selfTestList');
+  area.innerHTML =
+    '<div class="st-card st-start-card">'+
+      '<div class="st-start-title">🧪 Tự kiểm tra</div>'+
+      '<div class="st-start-sub">Nhập tên trước khi bắt đầu để phần tổng kết ghi đúng tên học sinh.</div>'+
+      '<label class="qed-flabel" for="stNameInput">Họ và tên học sinh</label>'+
+      '<input type="text" id="stNameInput" class="qed-input" placeholder="Nhập họ và tên...">'+
+      '<button type="button" class="btn btn-primary" id="btnStStart" style="margin-top:14px;" disabled>🚀 Bắt đầu</button>'+
+    '</div>';
+  const input = document.getElementById('stNameInput');
+  const btn = document.getElementById('btnStStart');
+  input.value = stStudentName;
+  btn.disabled = !input.value.trim();
+  input.addEventListener('input', ()=>{ btn.disabled = !input.value.trim(); });
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter' && !btn.disabled) doStartSelfTest(); });
+  btn.addEventListener('click', doStartSelfTest);
+  input.focus();
+}
+function doStartSelfTest(){
+  const input = document.getElementById('stNameInput');
+  const name = input.value.trim();
+  if(!name) return;
+  stStudentName = name;
+  stStarted = true;
+  updateSelfTestHeaderName();
+  renderSelfTestSlide();
+}
+
+// "Xem lời giải" chỉ được bấm sau khi đã chọn phương án (Phần I/III: đã khoá 1 lần chọn;
+// Phần II: đã trả lời đủ cả 4 ý) — trước đó nút này bị vô hiệu hoá.
+function stIsAnswered(partKey, q){
+  if(partKey==='II') return (q.items||[]).length>0 && q.items.every(it=>it._locked);
+  return !!q._locked;
+}
+function enableSelfTestSolution(card, partKey, q){
+  const solBtn = card.querySelector('.st-solution-btn');
+  if(solBtn && stIsAnswered(partKey,q)){
+    solBtn.disabled = false; solBtn.removeAttribute('title');
+    // Chế độ học sinh (vào từ màn chào mừng, làm bài từ xa): chọn xong đáp án là lời giải
+    // tự hiện luôn, không cần bấm thêm "Xem lời giải" — chỉ áp dụng cho chế độ này; chế
+    // độ thầy/cô tự kiểm tra tại chỗ (stMode 'local') vẫn giữ hành vi bấm mới xem như cũ.
+    if(stMode==='remote') stShowSelfTestSolution(card, q);
+  }
+}
+function stShowSelfTestSolution(card, q){
+  const box = card.querySelector('.st-solution-box');
+  if(!box || !q.solution || !box.hidden) return;
+  box.innerHTML = buildSolutionBulletsHtml(q.solution);
+  box.hidden = false;
+  renderMathIn(box);
+}
+function applySelfTestTnState(optsWrap, q){
+  optsWrap.classList.add('reveal');
+  Array.from(optsWrap.children).forEach((el,ci)=>{
+    el.classList.toggle('selected', ci===q._selected);
+    if(ci===q.correctIndex) el.classList.add('correct');
+    if(ci===q._selected && ci!==q.correctIndex) el.classList.add('wrong');
+  });
+}
+function applySelfTestDsState(row, it){
+  row.classList.add('reveal');
+  row.querySelectorAll('.ds-btn').forEach(b=>{
+    const v = b.getAttribute('data-val')==='true';
+    if(v===it._selected) b.classList.add('selected');
+    if(v===it.correct) b.classList.add('correct-answer');
+    if(v===it._selected && it.correct!==v) b.classList.add('wrong-selected');
+  });
+}
+function applySelfTestTlnState(input, confirmBtn, note, q){
+  input.disabled = true; confirmBtn.disabled = true;
+  note.hidden = false;
+  note.style.color = q._correct ? 'var(--green1)' : 'var(--red1)';
+  note.textContent = q._correct ? '✔ Chính xác!' : ('✘ Chưa đúng — đáp án đúng là: '+q.answer);
+}
+
+// Trình chiếu tự kiểm tra theo từng câu (giống trình chiếu chính): chỉ hiện 1 câu tại
+// 1 thời điểm, có nút Câu trước/Câu tiếp theo; quay lại 1 câu đã làm vẫn giữ nguyên
+// trạng thái đã chọn/đã chấm của câu đó.
+function renderSelfTestSlide(){
+  const area = document.getElementById('selfTestList');
+  area.innerHTML = '';
+  if(!stSlides.length){
+    area.innerHTML = '<div class="qed-empty">Chưa có câu hỏi nào.</div>';
+    return;
+  }
+  const slide = stSlides[stCurrentSlide];
+  const head = document.createElement('div');
+  head.className = 'st-part-head';
+  head.textContent = ST_PART_LABEL[slide.type];
+  area.appendChild(head);
+  area.appendChild(buildSelfTestCard(slide.type, slide.data, slide.local-1));
+  area.appendChild(buildSelfTestNav());
+}
+
+function buildSelfTestNav(){
+  const nav = document.createElement('div');
+  nav.className = 'st-nav';
+  const isLast = stCurrentSlide === stSlides.length-1;
+  nav.innerHTML =
+    '<button type="button" class="btn btn-outline btn-sm" id="btnStPrev"'+(stCurrentSlide===0?' disabled':'')+'>‹ Câu trước</button>'+
+    '<span class="st-nav-count">Câu '+(stCurrentSlide+1)+' / '+stSlides.length+'</span>'+
+    (isLast
+      ? '<button type="button" class="btn btn-primary btn-sm" id="btnStFinish">🏁 Xem tổng kết</button>'
+      : '<button type="button" class="btn btn-outline btn-sm" id="btnStNext">Câu tiếp theo ›</button>');
+  nav.querySelector('#btnStPrev').addEventListener('click', ()=>{
+    if(stCurrentSlide>0){ stCurrentSlide--; renderSelfTestSlide(); }
+  });
+  if(isLast){
+    nav.querySelector('#btnStFinish').addEventListener('click', openSelfTestStatsPanel);
+  } else {
+    nav.querySelector('#btnStNext').addEventListener('click', ()=>{
+      if(stCurrentSlide<stSlides.length-1){ stCurrentSlide++; renderSelfTestSlide(); }
+    });
+  }
+  return nav;
+}
+
+function buildSelfTestCard(partKey, q, i){
+  const card = document.createElement('div');
+  card.className = 'st-card';
+  const hasImage = !!(q.image && q.image.trim());
+  let mainHtml = '';
+  if(partKey==='I') mainHtml = '<div class="options"></div>';
+  else if(partKey==='II') mainHtml = '<div class="statements"></div>';
+  else mainHtml = '<div class="short-wrap"><div class="st-tln-row">'+
+      '<input type="text" class="st-tln-input" placeholder="Nhập đáp án…">'+
+      '<button type="button" class="btn btn-outline btn-sm st-tln-confirm">Xác nhận</button>'+
+      '</div><div class="correct-note" hidden></div></div>';
+
+  const answered = stIsAnswered(partKey, q);
+  card.innerHTML =
+    '<div class="q-head"><span class="q-badge">Câu '+(i+1)+':</span><div class="q-stem">'+renderMixedText(q.stem)+'</div></div>'+
+    '<div class="q-body"><div class="q-main">'+mainHtml+'</div>'+
+    (hasImage ? '<div class="q-image-wrap"><img class="q-image" src="'+escapeHtml(q.image)+'" onerror="this.closest(\'.q-image-wrap\').style.display=\'none\'"></div>' : '')+
+    '</div>'+
+    (q.solution ? '<button type="button" class="st-solution-btn"'+(answered?'':' disabled title="Hãy chọn đáp án trước khi xem lời giải"')+'>💡 Xem lời giải</button><div class="st-solution-box" hidden></div>' : '');
+
+  if(partKey==='I'){
+    const optsWrap = card.querySelector('.options');
+    (q.options||[]).forEach((opt,idx)=>{
+      const optEl = document.createElement('div');
+      optEl.className = 'opt';
+      optEl.innerHTML = '<span class="opt-badge">'+opt.label+'</span><span class="opt-text">'+renderMixedText(opt.text)+'</span>';
+      optEl.addEventListener('click', ()=>{
+        if(q._locked) return;
+        q._locked = true; q._selected = idx; q._correct = (idx===q.correctIndex);
+        applySelfTestTnState(optsWrap, q);
+        enableSelfTestSolution(card, partKey, q);
+        updateSelfTestStatsChip();
+      });
+      optsWrap.appendChild(optEl);
+    });
+    if(q._locked) applySelfTestTnState(optsWrap, q);
+  } else if(partKey==='II'){
+    const stmtsWrap = card.querySelector('.statements');
+    (q.items||[]).forEach((it)=>{
+      const row = document.createElement('div');
+      row.className = 'stmt';
+      row.innerHTML = '<span class="stmt-label">'+it.label+')</span><span class="stmt-text">'+renderMixedText(it.text)+'</span>'+
+        '<div class="ds-buttons"><button type="button" class="ds-btn" data-val="true">Đ</button><button type="button" class="ds-btn" data-val="false">S</button></div>';
+      row.querySelectorAll('.ds-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(it._locked) return;
+          const val = btn.getAttribute('data-val')==='true';
+          it._locked = true; it._selected = val; it._correct = (val===it.correct);
+          applySelfTestDsState(row, it);
+          if(stIsAnswered('II', q)) enableSelfTestSolution(card, partKey, q);
+          updateSelfTestStatsChip();
+        });
+      });
+      stmtsWrap.appendChild(row);
+      if(it._locked) applySelfTestDsState(row, it);
+    });
+  } else {
+    const input = card.querySelector('.st-tln-input');
+    const confirmBtn = card.querySelector('.st-tln-confirm');
+    const note = card.querySelector('.correct-note');
+    const doConfirm = ()=>{
+      if(q._locked) return;
+      const val = input.value.trim();
+      if(!val){ input.focus(); return; }
+      q._locked = true; q._typed = val; q._correct = stSoSanhDapAnNgan(val, q.answer);
+      applySelfTestTlnState(input, confirmBtn, note, q);
+      enableSelfTestSolution(card, partKey, q);
+      updateSelfTestStatsChip();
+    };
+    confirmBtn.addEventListener('click', doConfirm);
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter') doConfirm(); });
+    if(q._locked){ input.value = q._typed; applySelfTestTlnState(input, confirmBtn, note, q); }
+  }
+
+  const solBtn = card.querySelector('.st-solution-btn');
+  if(solBtn){
+    solBtn.addEventListener('click', ()=>{
+      if(solBtn.disabled) return;
+      const box = card.querySelector('.st-solution-box');
+      if(box.hidden){
+        box.innerHTML = buildSolutionBulletsHtml(q.solution);
+        box.hidden = false;
+        renderMathIn(box);
+      } else {
+        box.hidden = true;
+      }
+    });
+  }
+
+  // Quay lại 1 câu đã làm rồi (chế độ học sinh): hiện lại lời giải luôn, không cần bấm lại.
+  if(stMode==='remote' && answered) stShowSelfTestSolution(card, q);
+
+  renderMathIn(card);
+  return card;
+}
+
+function stTotalQuestions(){
+  if(!selfTestData) return 0;
+  return selfTestData.I.length + selfTestData.II.length + selfTestData.III.length;
+}
+function stCorrectQuestions(){
+  let n = 0;
+  selfTestData.I.forEach(q=>{ if(q._locked && q._correct) n++; });
+  selfTestData.II.forEach(q=>{
+    const items = q.items||[];
+    if(items.length && items.every(it=>it._locked && it._correct)) n++;
+  });
+  selfTestData.III.forEach(q=>{ if(q._locked && q._correct) n++; });
+  return n;
+}
+
+function renderSelfTestStatsPanel(){
+  // Chế độ học sinh (vào từ màn chào mừng, làm từ xa): dùng bảng tổng kết hiện đại riêng,
+  // có huy hiệu/lời khen hoặc lời động viên và nút gửi kết quả cho giáo viên.
+  if(stMode==='remote'){ renderRemoteSummaryPanel(); return; }
+  const panel = document.getElementById('stStatsPanel');
+  const rows = [];
+  selfTestData.I.forEach((q,i)=>{
+    rows.push({ label:'Phần I — Câu '+(i+1), state: q._locked ? (q._correct?'✔ Đúng':'✘ Sai') : '— Chưa làm', cls: q._locked ? (q._correct?'ok':'bad') : '' });
+  });
+  selfTestData.II.forEach((q,i)=>{
+    const items = q.items||[];
+    const doneCount = items.filter(it=>it._locked).length;
+    const correctCount = items.filter(it=>it._locked && it._correct).length;
+    let state = '— Chưa làm', cls = '';
+    if(doneCount>0){
+      state = 'Đúng '+correctCount+'/'+items.length+' ý'+(doneCount<items.length?' (chưa làm hết)':'');
+      cls = correctCount===items.length ? 'ok' : (correctCount===0 ? 'bad' : 'mid');
+    }
+    rows.push({ label:'Phần II — Câu '+(i+1), state:state, cls:cls });
+  });
+  selfTestData.III.forEach((q,i)=>{
+    rows.push({ label:'Phần III — Câu '+(i+1), state: q._locked ? (q._correct?'✔ Đúng':'✘ Sai') : '— Chưa làm', cls: q._locked ? (q._correct?'ok':'bad') : '' });
+  });
+  const total = stTotalItems(), correct = stCorrectItems(), done = stDoneItems();
+  const totalQ = stTotalQuestions(), correctQ = stCorrectQuestions();
+  const diem10 = total>0 ? Math.round((correct/total)*10*100)/100 : 0;
+  let html = '<div class="st-stats-summary">'+
+    (stStudentName ? 'Học sinh: <b>'+escapeHtml(stStudentName)+'</b>'+(stStudentClass?' — Lớp '+escapeHtml(stStudentClass):'')+'<br>' : '')+
+    'Số câu đúng: <b>'+correctQ+'/'+totalQ+'</b> câu · Điểm: <b>'+diem10+'/10</b>'+
+    '<div class="st-stats-sub">(tính theo từng ý: đúng '+correct+'/'+total+' ý'+(done<total?' · còn '+(total-done)+' ý chưa làm':'')+')</div>'+
+    '</div>';
+  html += '<div class="st-stats-rows">';
+  rows.forEach(r=>{ html += '<div class="st-stats-row '+r.cls+'"><span>'+r.label+'</span><b>'+r.state+'</b></div>'; });
+  html += '</div>';
+  panel.innerHTML = html;
+}
+
+// Bảng tổng kết hiện đại dành cho học sinh (chế độ 'remote'): thẻ điểm nổi bật (huy hiệu +
+// lời khen nếu điểm ≥ 8 VÀ thời gian làm ≥ 8 phút; ngược lại — điểm dưới 8 HOẶC làm dưới
+// 8 phút — hiện lời động viên làm lại), lưới số liệu, bảng chi tiết từng câu, và nút gửi
+// kết quả về cho giáo viên (nếu Sheet có cấu hình nơi nhận ở tab "CauHinh").
+function renderRemoteSummaryPanel(){
+  const panel = document.getElementById('stStatsPanel');
+  const rows = [];
+  selfTestData.I.forEach((q,i)=>{
+    rows.push({ label:'Phần I — Câu '+(i+1), state: q._locked ? (q._correct?'✔ Đúng':'✘ Sai') : '— Chưa làm', cls: q._locked ? (q._correct?'ok':'bad') : '' });
+  });
+  selfTestData.II.forEach((q,i)=>{
+    const items = q.items||[];
+    const doneCount = items.filter(it=>it._locked).length;
+    const correctCount = items.filter(it=>it._locked && it._correct).length;
+    let state = '— Chưa làm', cls = '';
+    if(doneCount>0){
+      state = 'Đúng '+correctCount+'/'+items.length+' ý'+(doneCount<items.length?' (chưa làm hết)':'');
+      cls = correctCount===items.length ? 'ok' : (correctCount===0 ? 'bad' : 'mid');
+    }
+    rows.push({ label:'Phần II — Câu '+(i+1), state:state, cls:cls });
+  });
+  selfTestData.III.forEach((q,i)=>{
+    rows.push({ label:'Phần III — Câu '+(i+1), state: q._locked ? (q._correct?'✔ Đúng':'✘ Sai') : '— Chưa làm', cls: q._locked ? (q._correct?'ok':'bad') : '' });
+  });
+
+  const total = stTotalItems(), correct = stCorrectItems(), done = stDoneItems();
+  const wrong = done - correct;
+  const diem10 = total>0 ? Math.round((correct/total)*10*100)/100 : 0;
+  const giay = stElapsedSeconds();
+  const phutLam = giay/60;
+
+  // Cần cả 2 điều kiện (điểm ≥ 8 VÀ thời gian ≥ 8 phút) mới coi là "kết quả tốt"; thiếu 1
+  // trong 2 (điểm dưới 8, HOẶC làm dưới 8 phút dù điểm cao — có thể do làm ẩu/đoán) đều
+  // chuyển sang thẻ động viên làm lại.
+  const isGreat = diem10>=8 && phutLam>=8;
+
+  let heroHtml;
+  if(isGreat){
+    heroHtml =
+      '<div class="rs-hero rs-great">'+
+        '<div class="rs-badge-pill">🏆 Xuất sắc</div>'+
+        '<div class="rs-hero-emoji">🎉</div>'+
+        '<div class="rs-hero-score">'+diem10+'<span>/10</span></div>'+
+        (stStudentName ? '<div class="rs-hero-name">'+escapeHtml(stStudentName)+(stStudentClass?' — Lớp '+escapeHtml(stStudentClass):'')+'</div>' : '')+
+        '<div class="rs-hero-msg">Làm rất tốt! Em đã nắm chắc kiến thức phần này. Tiếp tục phát huy nhé! 👏</div>'+
+      '</div>';
+  } else {
+    const lyDo = diem10<8 && phutLam<8 ? 'điểm chưa cao và làm hơi nhanh' : (diem10<8 ? 'điểm chưa đạt 8' : 'làm hơi nhanh, nên xem lại các câu đã đoán');
+    heroHtml =
+      '<div class="rs-hero rs-retry">'+
+        '<div class="rs-badge-pill">💪 Cố gắng thêm</div>'+
+        '<div class="rs-hero-emoji">📚</div>'+
+        '<div class="rs-hero-score">'+diem10+'<span>/10</span></div>'+
+        (stStudentName ? '<div class="rs-hero-name">'+escapeHtml(stStudentName)+(stStudentClass?' — Lớp '+escapeHtml(stStudentClass):'')+'</div>' : '')+
+        '<div class="rs-hero-msg">Em '+lyDo+'. Hãy xem lại lời giải các câu sai rồi làm lại để đạt kết quả tốt hơn nhé! 💪</div>'+
+      '</div>';
+  }
+
+  const statsGridHtml =
+    '<div class="rs-stats-grid">'+
+      '<div class="rs-stat"><div class="rs-stat-value" style="color:var(--green1)">'+correct+'</div><div class="rs-stat-label">Câu đúng</div></div>'+
+      '<div class="rs-stat"><div class="rs-stat-value" style="color:var(--red1)">'+wrong+'</div><div class="rs-stat-label">Câu sai</div></div>'+
+      '<div class="rs-stat"><div class="rs-stat-value">'+stFormatThoiGianStr(giay)+'</div><div class="rs-stat-label">Thời gian làm</div></div>'+
+      '<div class="rs-stat"><div class="rs-stat-value">'+stAttemptNumber+'</div><div class="rs-stat-label">Lần làm thứ</div></div>'+
+    '</div>';
+
+  let breakdownHtml = '<div class="rs-breakdown"><div class="st-stats-rows">';
+  rows.forEach(r=>{ breakdownHtml += '<div class="st-stats-row '+r.cls+'"><span>'+r.label+'</span><b>'+r.state+'</b></div>'; });
+  breakdownHtml += '</div></div>';
+
+  const sendHtml = stRemoteApiUrl
+    ? '<div class="rs-send-wrap"><button type="button" class="btn btn-primary rs-send-btn" id="rsSendBtn">📤 Gửi kết quả cho thầy/cô</button><div class="rs-send-note" id="rsSendNote"></div></div>'
+    : '<div class="rs-send-wrap"><div class="rs-send-note">Lưu ý: mật mã này chưa được thầy/cô cấu hình nơi nhận kết quả, nên kết quả chỉ hiển thị tại đây — hãy chụp lại màn hình nếu cần nộp lại cho thầy/cô.</div></div>';
+
+  panel.innerHTML = '<div class="rs-summary">'+heroHtml+statsGridHtml+breakdownHtml+sendHtml+'</div>';
+
+  const sendBtn = document.getElementById('rsSendBtn');
+  if(sendBtn) sendBtn.addEventListener('click', stSendResultToTeacher);
+}
+
+function openSelfTestStatsPanel(){
+  document.getElementById('stStatsPanel').hidden = false;
+  renderSelfTestStatsPanel();
+  document.getElementById('stStatsPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function toggleSelfTestStatsPanel(){
+  const panel = document.getElementById('stStatsPanel');
+  if(panel.hidden) openSelfTestStatsPanel(); else panel.hidden = true;
+}
+
+function initSelfTest(){
+  document.getElementById('btnOpenSelfTest').addEventListener('click', openSelfTest);
+  document.getElementById('btnSelfTestClose').addEventListener('click', closeSelfTest);
+  document.getElementById('btnSelfTestStats').addEventListener('click', toggleSelfTestStatsPanel);
+  document.getElementById('btnSelfTestRestart').addEventListener('click', restartSelfTest);
 }
 
 function qedCardIssues(partKey, q){
@@ -2304,6 +3452,30 @@ let ktImageHidden = false; // đã bấm "Ẩn ảnh" trên slide KT hiện tạ
 let scale = 1;
 let optionsLayout = 'list'; // 'list' (1 cột) | 'grid2' (2 hàng x 2 cột) — áp dụng cho phương án A,B,C,D Phần I
 
+// Xáo trộn ngẫu nhiên 1 mảng (Fisher–Yates), không đụng tới mảng gốc.
+function shuffleArrayCopy(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+// Lấy danh sách câu hỏi sẽ trình chiếu cho 1 phần (I/II/III): nếu ô "Số câu trình chiếu"
+// bỏ trống hoặc >= tổng số câu trong ngân hàng, giữ nguyên toàn bộ theo đúng thứ tự đã
+// nhập (hành vi mặc định, không đổi); nếu nhập số nhỏ hơn tổng, chọn ngẫu nhiên đúng số đó
+// và xáo trộn thứ tự — không sửa đổi dữ liệu gốc (deck.parts) của phần đó.
+function getPresentQuestions(partKey){
+  const all = deck.parts[partKey] || [];
+  const inp = document.getElementById('randomCount'+partKey);
+  const n = inp ? parseInt(inp.value, 10) : NaN;
+  if(!isNaN(n) && n>0 && n<all.length){
+    return shuffleArrayCopy(all).slice(0, n);
+  }
+  return all;
+}
+
 function buildSlides(){
   slides = [];
   if(document.getElementById('checkKT').checked){
@@ -2315,13 +3487,13 @@ function buildSlides(){
     }
   }
   if(document.getElementById('checkI').checked){
-    deck.parts.I.forEach((q,i)=>slides.push({type:'I', local:i+1, data:q}));
+    getPresentQuestions('I').forEach((q,i)=>slides.push({type:'I', local:i+1, data:q}));
   }
   if(document.getElementById('checkII').checked){
-    deck.parts.II.forEach((q,i)=>slides.push({type:'II', local:i+1, data:q}));
+    getPresentQuestions('II').forEach((q,i)=>slides.push({type:'II', local:i+1, data:q}));
   }
   if(document.getElementById('checkIII').checked){
-    deck.parts.III.forEach((q,i)=>slides.push({type:'III', local:i+1, data:q}));
+    getPresentQuestions('III').forEach((q,i)=>slides.push({type:'III', local:i+1, data:q}));
   }
 }
 
@@ -2830,12 +4002,18 @@ const TOOL_DEFS = {
     url: 'https://dojovtl.vercel.app/',
     // 'fill': ứng dụng quản lý lớp học tự responsive theo khung chứa, chỉ cần lấp đầy 100%.
     mode: 'fill'
+  },
+  student: {
+    title: '🧑‍🎓 Học sinh',
+    url: 'https://dojotienluc-v1.vercel.app/',
+    // 'fill': ứng dụng học sinh tự responsive theo khung chứa, chỉ cần lấp đầy 100%.
+    mode: 'fill'
   }
 };
 const CALC_PANEL_STORAGE_KEY = 'mathCalcPanelWidthPct';
 const CALC_PANEL_DEFAULT_PCT = 50;
 let toolOpen = false;
-let activeTool = null; // 'calc' | 'board' | 'classroom' | null
+let activeTool = null; // 'calc' | 'board' | 'classroom' | 'student' | null
 
 function isDesktopSplit(){
   return window.matchMedia('(min-width:721px)').matches;
@@ -2907,6 +4085,7 @@ function syncToolButtonsActiveState(){
   document.getElementById('btnCalc').classList.toggle('active', toolOpen && activeTool==='calc');
   document.getElementById('btnBoard').classList.toggle('active', toolOpen && activeTool==='board');
   document.getElementById('btnClassroom').classList.toggle('active', toolOpen && activeTool==='classroom');
+  document.getElementById('btnStudentApp').classList.toggle('active', toolOpen && activeTool==='student');
 }
 // Trong suốt thời gian trượt (mở/đóng) panel, liên tục cập nhật canvas vẽ + tỉ lệ khung công cụ
 // để chuyển động mượt, chuyên nghiệp thay vì giật cục ở khung hình cuối.
@@ -3566,6 +4745,7 @@ function initPresentScreen(){
   document.getElementById('btnCalc').addEventListener('click', ()=>toggleTool('calc'));
   document.getElementById('btnBoard').addEventListener('click', ()=>toggleTool('board'));
   document.getElementById('btnClassroom').addEventListener('click', ()=>toggleTool('classroom'));
+  document.getElementById('btnStudentApp').addEventListener('click', ()=>toggleTool('student'));
   document.getElementById('btnCalcClose').addEventListener('click', closeToolPanel);
   initCalcResizer();
   initThemeMode();
@@ -4026,6 +5206,78 @@ function openPdfModal(){
 }
 function closePdfModal(){ document.getElementById('pdfModal').classList.add('hidden'); }
 
+/* ---- Tạo link làm bài (trang làm bài trắc nghiệm cho học sinh) ---- */
+const QUIZ_ARTIFACT_URL = 'https://claude.ai/artifact/FJNCKiNMkqw1T5PpmivAQM';
+const QUIZ_LINK_STORAGE_KEY = 'mathQuizLinkConfig';
+
+function loadQuizLinkConfig(){
+  try{ return JSON.parse(localStorage.getItem(QUIZ_LINK_STORAGE_KEY)||'{}') || {}; }catch(e){ return {}; }
+}
+function saveQuizLinkConfig(cfg){ try{ localStorage.setItem(QUIZ_LINK_STORAGE_KEY, JSON.stringify(cfg)); }catch(e){} }
+
+function extractGoogleSheetId(input){
+  const s = String(input||'').trim();
+  const m = s.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  return s.replace(/[^a-zA-Z0-9_-]/g,'');
+}
+
+function openQuizLinkModal(){
+  const cfg = loadQuizLinkConfig();
+  document.getElementById('quizLinkSheet').value = cfg.sheetInput || '';
+  document.getElementById('quizLinkApi').value = cfg.apiUrl || '';
+  document.getElementById('quizLinkTitle').value = cfg.title || deck.title || '';
+  document.getElementById('quizLinkResult').hidden = true;
+  document.getElementById('quizLinkModal').classList.remove('hidden');
+}
+function closeQuizLinkModal(){ document.getElementById('quizLinkModal').classList.add('hidden'); }
+
+function generateQuizLink(){
+  const sheetInputRaw = document.getElementById('quizLinkSheet').value.trim();
+  const apiUrl = document.getElementById('quizLinkApi').value.trim();
+  const title = document.getElementById('quizLinkTitle').value.trim();
+  const sheetId = extractGoogleSheetId(sheetInputRaw);
+  if(!sheetId){
+    alert('Vui lòng nhập link hoặc ID Google Sheet đề bài (Bước 1).');
+    return;
+  }
+  saveQuizLinkConfig({ sheetInput: sheetInputRaw, apiUrl: apiUrl, title: title });
+  const params = new URLSearchParams();
+  params.set('sheet', sheetId);
+  if(apiUrl) params.set('api', apiUrl);
+  if(title) params.set('title', title);
+  const link = QUIZ_ARTIFACT_URL + '?' + params.toString();
+  document.getElementById('quizLinkOutput').value = link;
+  document.getElementById('quizLinkResult').hidden = false;
+}
+
+function copyQuizLink(){
+  const out = document.getElementById('quizLinkOutput');
+  const btn = document.getElementById('btnCopyQuizLink');
+  const showDone = ()=>{
+    const old = btn.textContent;
+    btn.textContent = '✅ Đã sao chép';
+    setTimeout(()=>{ btn.textContent = old; }, 1600);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(out.value).then(showDone).catch(()=>{
+      out.select(); document.execCommand('copy'); showDone();
+    });
+  } else {
+    out.select(); document.execCommand('copy'); showDone();
+  }
+}
+
+function initQuizLinkModal(){
+  document.getElementById('btnOpenQuizLink').addEventListener('click', openQuizLinkModal);
+  document.getElementById('quizLinkModalClose').addEventListener('click', closeQuizLinkModal);
+  document.getElementById('quizLinkModal').addEventListener('click', (e)=>{
+    if(e.target.id==='quizLinkModal') closeQuizLinkModal();
+  });
+  document.getElementById('btnGenQuizLink').addEventListener('click', generateQuizLink);
+  document.getElementById('btnCopyQuizLink').addEventListener('click', copyQuizLink);
+}
+
 function initPdfExport(){
   document.getElementById('btnExportPDF').addEventListener('click', openPdfModal);
   document.getElementById('pdfModalClose').addEventListener('click', closePdfModal);
@@ -4084,7 +5336,10 @@ document.addEventListener('DOMContentLoaded', function(){
   initThemeBgSetupUpload();
   initPresentScreen();
   initPdfExport();
+  initQuizLinkModal();
   initQuestionEditor();
+  initSelfTest();
+  initGate();
 });
 
 })();
