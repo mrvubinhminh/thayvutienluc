@@ -2937,6 +2937,37 @@ function doStartSelfTest(){
   renderSelfTestSlide();
 }
 
+// Hiệu ứng âm thanh + rung khi học sinh chọn đáp án trong "Tự kiểm tra" (đúng: tiếng
+// "Trả lời đúng"; sai: tiếng "Trả lời sai" + rung máy — chỉ có tác dụng trên Android, iOS
+// Safari không hỗ trợ Vibration API cho trang web thường); "Tổng kết" phát khi mở bảng
+// tổng kết. Tải âm thanh (Audio object) LƯỜI — chỉ tạo khi thực sự cần phát lần đầu, để
+// không tốn băng thông của học sinh nếu họ không làm bài. play() có thể bị trình duyệt
+// chặn nếu chưa có tương tác nào từ người dùng — bắt lỗi và bỏ qua lặng lẽ trong trường
+// hợp đó, không ảnh hưởng đến việc làm bài.
+const ST_SOUND_URLS = {
+  correct: 'https://files.catbox.moe/ctls2d.mp3',
+  wrong: 'https://files.catbox.moe/yfevsa.mp3',
+  summary: 'https://files.catbox.moe/w9ypru.mp3'
+};
+const stSoundCache = {};
+function stPlaySound(kind){
+  try{
+    const url = ST_SOUND_URLS[kind];
+    if(!url) return;
+    let audio = stSoundCache[kind];
+    if(!audio){ audio = new Audio(url); stSoundCache[kind] = audio; }
+    audio.currentTime = 0;
+    audio.play().catch(()=>{});
+  }catch(e){}
+}
+function stVibrateWrong(){
+  try{ if(navigator.vibrate) navigator.vibrate(200); }catch(e){}
+}
+function stPlayAnswerFeedback(isCorrect){
+  if(isCorrect) stPlaySound('correct');
+  else { stPlaySound('wrong'); stVibrateWrong(); }
+}
+
 // "Xem lời giải" chỉ được bấm sau khi đã chọn phương án (Phần I/III: đã khoá 1 lần chọn;
 // Phần II: đã trả lời đủ cả 4 ý) — trước đó nút này bị vô hiệu hoá.
 function stIsAnswered(partKey, q){
@@ -3056,6 +3087,7 @@ function buildSelfTestCard(partKey, q, i){
         if(q._locked) return;
         q._locked = true; q._selected = idx; q._correct = (idx===q.correctIndex);
         applySelfTestTnState(optsWrap, q);
+        stPlayAnswerFeedback(q._correct);
         enableSelfTestSolution(card, partKey, q);
         updateSelfTestStatsChip();
       });
@@ -3075,6 +3107,7 @@ function buildSelfTestCard(partKey, q, i){
           const val = btn.getAttribute('data-val')==='true';
           it._locked = true; it._selected = val; it._correct = (val===it.correct);
           applySelfTestDsState(row, it);
+          stPlayAnswerFeedback(it._correct);
           if(stIsAnswered('II', q)) enableSelfTestSolution(card, partKey, q);
           updateSelfTestStatsChip();
         });
@@ -3092,6 +3125,7 @@ function buildSelfTestCard(partKey, q, i){
       if(!val){ input.focus(); return; }
       q._locked = true; q._typed = val; q._correct = stSoSanhDapAnNgan(val, q.answer);
       applySelfTestTlnState(input, confirmBtn, note, q);
+      stPlayAnswerFeedback(q._correct);
       enableSelfTestSolution(card, partKey, q);
       updateSelfTestStatsChip();
     };
@@ -3258,6 +3292,7 @@ function openSelfTestStatsPanel(){
   document.getElementById('stStatsPanel').hidden = false;
   renderSelfTestStatsPanel();
   document.getElementById('stStatsPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+  stPlaySound('summary');
 }
 function toggleSelfTestStatsPanel(){
   const panel = document.getElementById('stStatsPanel');
