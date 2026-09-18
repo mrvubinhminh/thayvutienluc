@@ -3337,7 +3337,10 @@ function renderRemoteSummaryPanel(){
     ? '<div class="rs-send-wrap"><button type="button" class="btn btn-primary rs-send-btn" id="rsSendBtn">📤 Gửi kết quả cho thầy/cô</button><div class="rs-send-note" id="rsSendNote"></div></div>'
     : '<div class="rs-send-wrap"><div class="rs-send-note">Lưu ý: mật mã này chưa được thầy/cô cấu hình nơi nhận kết quả, nên kết quả chỉ hiển thị tại đây — hãy chụp lại màn hình nếu cần nộp lại cho thầy/cô.</div></div>';
 
-  panel.innerHTML = '<div class="rs-summary">'+heroHtml+statsGridHtml+breakdownHtml+sendHtml+'</div>';
+  // Đặt nút "Gửi kết quả cho thầy/cô" NGAY SAU bảng điểm (hero) và TRƯỚC phần thống kê
+  // đúng/sai chi tiết — theo đúng yêu cầu, để nút gửi nổi bật ở giữa, học sinh thấy điểm
+  // xong là gửi được ngay, không cần cuộn hết xuống dưới phần thống kê/chi tiết từng câu.
+  panel.innerHTML = '<div class="rs-summary">'+heroHtml+sendHtml+statsGridHtml+breakdownHtml+'</div>';
 
   const sendBtn = document.getElementById('rsSendBtn');
   if(sendBtn) sendBtn.addEventListener('click', stSendResultToTeacher);
