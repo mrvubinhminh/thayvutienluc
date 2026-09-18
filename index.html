@@ -2369,6 +2369,12 @@ function stResetAnswers(){
   selfTestData.I.forEach(q=>{ q._locked=false; q._selected=-1; q._correct=false; });
   selfTestData.II.forEach(q=>(q.items||[]).forEach(it=>{ it._locked=false; it._selected=null; it._correct=false; }));
   selfTestData.III.forEach(q=>{ q._locked=false; q._typed=''; q._correct=false; });
+  // Xáo trộn lại thứ tự câu hỏi mỗi lần "Làm lại" (theo từng phần riêng biệt), để mỗi lần
+  // làm lại ra thứ tự khác nhau — không chỉ lần vào đầu tiên.
+  selfTestData.I = shuffleArrayCopy(selfTestData.I);
+  selfTestData.II = shuffleArrayCopy(selfTestData.II);
+  selfTestData.III = shuffleArrayCopy(selfTestData.III);
+  stSlides = buildSelfTestSlides();
   stCurrentSlide = 0;
 }
 function restartSelfTest(){
@@ -2700,6 +2706,12 @@ function startRemoteSelfTest(passwordRaw, name, cls){
       const bank = result && result.bank;
       if(!bank) throw new Error('not_shared');
       if(!bank.I.length && !bank.II.length && !bank.III.length) throw new Error('empty');
+      // Xáo trộn thứ tự câu hỏi ngẫu nhiên theo từng phần (I/II/III riêng biệt) — mỗi lần
+      // học sinh vào làm bài (kể cả "Làm lại") sẽ ra một thứ tự khác nhau, hạn chế chép bài
+      // theo thứ tự cố định giữa các bạn/các lần làm.
+      bank.I = shuffleArrayCopy(bank.I);
+      bank.II = shuffleArrayCopy(bank.II);
+      bank.III = shuffleArrayCopy(bank.III);
       selfTestData = {
         I: bank.I.map(q=>Object.assign({}, q, { _locked:false, _selected:-1, _correct:false })),
         II: bank.II.map(q=>Object.assign({}, q, { items:(q.items||[]).map(it=>Object.assign({}, it, { _locked:false, _selected:null, _correct:false })) })),
