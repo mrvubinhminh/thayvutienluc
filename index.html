@@ -2712,7 +2712,7 @@ function startRemoteSelfTest(passwordRaw, name, cls){
       stStarted = true;
       stMode = 'remote';
       saveGateCodeHistory(passwordRaw); // chỉ nhớ mật mã khi đã chắc chắn tải đề THÀNH CÔNG
-      stPlaySound('correct'); // âm thanh "đúng" báo hiệu mật mã hợp lệ, đã vào bài thành công
+      stPlaySound('start'); // âm thanh mở đầu, báo hiệu mật mã hợp lệ và bắt đầu làm bài
       stStartedAt = Date.now(); // tính thời gian làm bài từ lúc thấy câu hỏi đầu tiên, không tính thời gian tải đề
       stCurrentSheetId = sheetId;
       stAttemptNumber = stGetNextAttemptNumber(sheetId);
@@ -2939,16 +2939,19 @@ function doStartSelfTest(){
   stStarted = true;
   updateSelfTestHeaderName();
   renderSelfTestSlide();
+  stPlaySound('start');
 }
 
-// Hiệu ứng âm thanh + rung khi học sinh chọn đáp án trong "Tự kiểm tra" (đúng: tiếng
-// "Trả lời đúng"; sai: tiếng "Trả lời sai" + rung máy — chỉ có tác dụng trên Android, iOS
-// Safari không hỗ trợ Vibration API cho trang web thường); "Tổng kết" phát khi mở bảng
-// tổng kết. Tải âm thanh (Audio object) LƯỜI — chỉ tạo khi thực sự cần phát lần đầu, để
-// không tốn băng thông của học sinh nếu họ không làm bài. play() có thể bị trình duyệt
-// chặn nếu chưa có tương tác nào từ người dùng — bắt lỗi và bỏ qua lặng lẽ trong trường
-// hợp đó, không ảnh hưởng đến việc làm bài.
+// Hiệu ứng âm thanh + rung khi học sinh chọn đáp án trong "Tự kiểm tra" ("start": phát
+// ngay khi bắt đầu làm bài — câu hỏi đầu tiên vừa hiện ra; đúng: tiếng "Trả lời đúng";
+// sai: tiếng "Trả lời sai" + rung máy — chỉ có tác dụng trên Android, iOS Safari không hỗ
+// trợ Vibration API cho trang web thường; "Tổng kết" phát khi mở bảng tổng kết). Tải âm
+// thanh (Audio object) LƯỜI — chỉ tạo khi thực sự cần phát lần đầu, để không tốn băng
+// thông của học sinh nếu họ không làm bài. play() có thể bị trình duyệt chặn nếu chưa có
+// tương tác nào từ người dùng — bắt lỗi và bỏ qua lặng lẽ trong trường hợp đó, không ảnh
+// hưởng đến việc làm bài.
 const ST_SOUND_URLS = {
+  start: 'https://files.catbox.moe/gu2m6v.mp3',
   correct: 'https://files.catbox.moe/ctls2d.mp3',
   wrong: 'https://files.catbox.moe/yfevsa.mp3',
   summary: 'https://files.catbox.moe/w9ypru.mp3'
