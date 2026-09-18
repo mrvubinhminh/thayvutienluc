@@ -667,6 +667,10 @@
 
   /* ================= TỰ KIỂM TRA ================= */
   #selfTestScreen{position:fixed;inset:0;background:var(--page-bg);z-index:150;display:flex;flex-direction:column;}
+  #selfTestScreen .qed-topbar{position:relative;z-index:6;}
+  .st-draw-canvas{position:fixed;inset:0;z-index:5;pointer-events:none;touch-action:none;}
+  .st-draw-canvas.drawmode{pointer-events:auto;cursor:crosshair;}
+  .st-draw-toolbar{position:fixed;top:66px;right:14px;z-index:7;display:flex;align-items:center;gap:6px;background:#fff;border-radius:14px;padding:8px 10px;box-shadow:0 4px 18px rgba(20,30,60,.18);flex-wrap:wrap;max-width:min(92vw,320px);}
   .st-stats-panel{flex:none;background:#fff;border-bottom:1px solid var(--border);padding:14px 18px;max-width:860px;margin:0 auto;width:100%;box-sizing:border-box;}
   .st-stats-summary{font-weight:800;margin-bottom:10px;font-size:.95rem;}
   .st-stats-sub{font-weight:500;font-size:.78rem;color:var(--ink-soft);margin-top:4px;}
@@ -1016,11 +1020,21 @@
   <div class="qed-topbar">
     <div class="qed-topbar-title"><span class="qed-title-label">🧪 Tự kiểm tra</span> <span class="qed-topbar-count" id="stNameChip" hidden></span> <span class="qed-topbar-count" id="stStatsChip">Đã làm: 0/0</span></div>
     <div class="qed-topbar-actions">
+      <button class="icon-btn" id="btnStDrawToggle" title="Bút nháp: hiện/ẩn công cụ vẽ">✏️</button>
       <button class="btn btn-outline btn-sm" id="btnSelfTestStats">📊 Xem thống kê</button>
       <button class="btn btn-outline btn-sm" id="btnSelfTestRestart">🔄 Làm lại</button>
       <button class="btn btn-outline btn-sm" id="btnSelfTestClose">✕ Đóng, quay lại</button>
     </div>
   </div>
+  <div class="st-draw-toolbar" id="stDrawToolbar" hidden>
+    <button class="icon-btn" id="stToolPencil" title="Bút vẽ">✏️</button>
+    <button class="icon-btn" id="stToolEraser" title="Tẩy">🧹</button>
+    <button class="color-dot sel" id="stColorRed" style="background:#eb5757" title="Màu đỏ"></button>
+    <button class="color-dot" id="stColorBlue" style="background:#2f80ed" title="Màu xanh dương"></button>
+    <button class="color-dot" id="stColorGreen" style="background:#27ae60" title="Màu xanh lá"></button>
+    <button class="icon-btn" id="stToolClear" title="Xoá hết nét nháp">🗑️</button>
+  </div>
+  <canvas class="st-draw-canvas" id="stDrawCanvas"></canvas>
   <div class="st-stats-panel" id="stStatsPanel" hidden></div>
   <div class="qed-list" id="selfTestList"></div>
 </div>
@@ -2389,8 +2403,10 @@ function restartSelfTest(){
     document.getElementById('stStatsPanel').hidden = true;
     updateSelfTestStatsChip();
     renderSelfTestSlide();
+    stResetDrawTool();
   } else {
     openSelfTest();
+    stResetDrawTool();
   }
 }
 
@@ -2738,6 +2754,7 @@ function startRemoteSelfTest(passwordRaw, name, cls){
       updateSelfTestStatsChip();
       updateSelfTestHeaderName();
       renderSelfTestSlide();
+      stResetDrawTool();
       window.scrollTo(0,0);
       stTryFullscreen(); // gọi lại lần nữa phòng khi lần gọi lúc bấm nút bị trình duyệt bỏ qua
     }).catch(err=>{
@@ -2951,6 +2968,7 @@ function doStartSelfTest(){
   stStarted = true;
   updateSelfTestHeaderName();
   renderSelfTestSlide();
+  stResetDrawTool();
   stPlaySound('start');
 }
 
@@ -3323,6 +3341,7 @@ function initSelfTest(){
   document.getElementById('btnSelfTestClose').addEventListener('click', closeSelfTest);
   document.getElementById('btnSelfTestStats').addEventListener('click', toggleSelfTestStatsPanel);
   document.getElementById('btnSelfTestRestart').addEventListener('click', restartSelfTest);
+  initStDrawTool();
 }
 
 function qedCardIssues(partKey, q){
@@ -4421,7 +4440,7 @@ function setDrawMode(mode){
 }
 function setColor(c, btnId){
   currentColor = c;
-  document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('sel'));
+  document.querySelectorAll('#toolbar .color-dot').forEach(d=>d.classList.remove('sel'));
   document.getElementById(btnId).classList.add('sel');
   if(drawMode!=='pencil'){
     drawMode='pencil';
@@ -4429,6 +4448,142 @@ function setColor(c, btnId){
     document.getElementById('toolEraser').classList.remove('active');
     canvas.classList.add('drawmode');
   }
+}
+
+/* ============================================================
+   BÚT NHÁP (chế độ Tự kiểm tra) — hệ thống vẽ độc lập, không dùng
+   chung biến với công cụ vẽ ở màn hình trình chiếu phía trên.
+   ============================================================ */
+let stDrawMode = 'none'; // 'none' | 'pencil' | 'eraser'
+let stCurrentColor = '#eb5757';
+let stDrawing = false;
+let stLastX = 0, stLastY = 0;
+let stCanvas, stCtx;
+let stToolbarVisible = false;
+
+function stSetupCanvas(){
+  stCanvas = document.getElementById('stDrawCanvas');
+  if(!stCanvas) return;
+  stCtx = stCanvas.getContext('2d');
+  stResizeCanvas();
+  stCanvas.addEventListener('pointerdown', stOnPointerDown);
+  stCanvas.addEventListener('pointermove', stOnPointerMove);
+  window.addEventListener('pointerup', stOnPointerUp);
+  window.addEventListener('resize', stResizeCanvas);
+}
+function stResizeCanvas(){
+  if(!stCanvas || !stCtx) return;
+  const w = window.innerWidth, h = window.innerHeight;
+  const prev = (stCanvas.width>0 && stCanvas.height>0) ? stCanvas.toDataURL() : null;
+  stCanvas.width = w; stCanvas.height = h;
+  if(prev){
+    const img = new Image();
+    img.onload = ()=>stCtx.drawImage(img,0,0,w,h);
+    img.src = prev;
+  }
+}
+function stClearCanvas(){
+  if(!stCtx || !stCanvas) return;
+  stCtx.clearRect(0,0,stCanvas.width,stCanvas.height);
+}
+function stGetPos(e){
+  const rect = stCanvas.getBoundingClientRect();
+  return {x: e.clientX-rect.left, y: e.clientY-rect.top};
+}
+function stOnPointerDown(e){
+  if(stDrawMode==='none') return;
+  stDrawing = true;
+  stCanvas.setPointerCapture(e.pointerId);
+  const p = stGetPos(e);
+  stLastX=p.x; stLastY=p.y;
+}
+function stOnPointerMove(e){
+  if(!stDrawing || stDrawMode==='none') return;
+  const p = stGetPos(e);
+  stCtx.lineCap='round'; stCtx.lineJoin='round';
+  if(stDrawMode==='pencil'){
+    stCtx.globalCompositeOperation='source-over';
+    stCtx.strokeStyle = stCurrentColor;
+    stCtx.lineWidth = 3.5;
+  }else{
+    stCtx.globalCompositeOperation='destination-out';
+    stCtx.lineWidth = 26;
+  }
+  stCtx.beginPath();
+  stCtx.moveTo(stLastX,stLastY);
+  stCtx.lineTo(p.x,p.y);
+  stCtx.stroke();
+  stLastX=p.x; stLastY=p.y;
+}
+function stOnPointerUp(){ stDrawing=false; }
+function stSetDrawMode(mode){
+  stDrawMode = (stDrawMode===mode) ? 'none' : mode;
+  const pencilBtn = document.getElementById('stToolPencil');
+  const eraserBtn = document.getElementById('stToolEraser');
+  if(pencilBtn) pencilBtn.classList.toggle('active', stDrawMode==='pencil');
+  if(eraserBtn) eraserBtn.classList.toggle('active', stDrawMode==='eraser');
+  if(stCanvas) stCanvas.classList.toggle('drawmode', stDrawMode!=='none');
+}
+function stSetColor(c, btnId){
+  stCurrentColor = c;
+  const toolbar = document.getElementById('stDrawToolbar');
+  if(toolbar) toolbar.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('sel'));
+  const btn = document.getElementById(btnId);
+  if(btn) btn.classList.add('sel');
+  if(stDrawMode!=='pencil'){
+    stDrawMode='pencil';
+    const pencilBtn = document.getElementById('stToolPencil');
+    const eraserBtn = document.getElementById('stToolEraser');
+    if(pencilBtn) pencilBtn.classList.add('active');
+    if(eraserBtn) eraserBtn.classList.remove('active');
+    if(stCanvas) stCanvas.classList.add('drawmode');
+  }
+}
+function toggleStDrawToolbar(){
+  stToolbarVisible = !stToolbarVisible;
+  const toolbar = document.getElementById('stDrawToolbar');
+  if(toolbar) toolbar.hidden = !stToolbarVisible;
+  const btn = document.getElementById('btnStDrawToggle');
+  if(btn) btn.classList.toggle('active', stToolbarVisible);
+  if(!stToolbarVisible){
+    stDrawMode = 'none';
+    const pencilBtn = document.getElementById('stToolPencil');
+    const eraserBtn = document.getElementById('stToolEraser');
+    if(pencilBtn) pencilBtn.classList.remove('active');
+    if(eraserBtn) eraserBtn.classList.remove('active');
+    if(stCanvas) stCanvas.classList.remove('drawmode');
+  }
+}
+function stResetDrawTool(){
+  stClearCanvas();
+  stDrawMode = 'none';
+  stToolbarVisible = false;
+  const toolbar = document.getElementById('stDrawToolbar');
+  if(toolbar) toolbar.hidden = true;
+  const toggleBtn = document.getElementById('btnStDrawToggle');
+  if(toggleBtn) toggleBtn.classList.remove('active');
+  const pencilBtn = document.getElementById('stToolPencil');
+  const eraserBtn = document.getElementById('stToolEraser');
+  if(pencilBtn) pencilBtn.classList.remove('active');
+  if(eraserBtn) eraserBtn.classList.remove('active');
+  if(stCanvas) stCanvas.classList.remove('drawmode');
+}
+function initStDrawTool(){
+  stSetupCanvas();
+  const toggleBtn = document.getElementById('btnStDrawToggle');
+  if(toggleBtn) toggleBtn.addEventListener('click', toggleStDrawToolbar);
+  const pencilBtn = document.getElementById('stToolPencil');
+  const eraserBtn = document.getElementById('stToolEraser');
+  const clearBtn = document.getElementById('stToolClear');
+  if(pencilBtn) pencilBtn.addEventListener('click', ()=>stSetDrawMode('pencil'));
+  if(eraserBtn) eraserBtn.addEventListener('click', ()=>stSetDrawMode('eraser'));
+  if(clearBtn) clearBtn.addEventListener('click', stClearCanvas);
+  const redBtn = document.getElementById('stColorRed');
+  const blueBtn = document.getElementById('stColorBlue');
+  const greenBtn = document.getElementById('stColorGreen');
+  if(redBtn) redBtn.addEventListener('click', ()=>stSetColor('#eb5757','stColorRed'));
+  if(blueBtn) blueBtn.addEventListener('click', ()=>stSetColor('#2f80ed','stColorBlue'));
+  if(greenBtn) greenBtn.addEventListener('click', ()=>stSetColor('#27ae60','stColorGreen'));
 }
 
 /* ============================================================
