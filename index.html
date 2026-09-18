@@ -63,6 +63,9 @@
   .auto-result-line{font-size:.84rem;padding:7px 12px;border-radius:8px;margin-top:6px;font-weight:600;}
   .auto-result-line.ok{background:#eafaf0;color:var(--green1);}
   .auto-result-line.warn{background:#fff7ec;color:#b06a12;}
+  .teacher-sheet-import-card{display:flex;flex-direction:column;gap:8px;}
+  .teacher-sheet-import-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .teacher-sheet-import-row .qed-input{flex:1;min-width:220px;}
   .global-row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;}
   .field{display:flex;flex-direction:column;gap:5px;}
   .field label{font-size:.78rem;font-weight:700;color:var(--ink-soft);}
@@ -786,6 +789,20 @@
           <button class="btn btn-primary btn-sm" data-action="saveLink" data-section="BAITAP" type="button">💾 Lưu</button>
         </div>
       </div>
+    </div>
+
+    <div class="global-card teacher-sheet-import-card">
+      <div class="auto-upload-icon">🔗📄</div>
+      <div class="auto-upload-text">
+        <b>Hoặc nhập câu hỏi bằng ID/link Google Sheet</b>
+        <button class="info-toggle" id="btnTeacherSheetInfo" type="button" title="Xem chi tiết định dạng Sheet">ⓘ</button>
+        <div class="hint" id="teacherSheetImportHint" hidden>Dùng đúng ID/link Google Sheet mà thầy/cô đã dùng làm "mật mã làm bài" cho học sinh (sheet tên "NganHangCauHoi", đã chia sẻ "Bất kỳ ai có đường liên kết – Người xem") — câu hỏi sẽ được tải thẳng vào các Phần I/II/III bên dưới, giống như tải file Excel.</div>
+      </div>
+      <div class="teacher-sheet-import-row">
+        <input type="text" id="teacherSheetIdInput" class="qed-input" placeholder="Dán ID hoặc link Google Sheet đề bài...">
+        <button class="btn btn-primary btn-sm" id="btnTeacherSheetImport" type="button">📥 Tải câu hỏi</button>
+      </div>
+      <div class="auto-upload-result" id="teacherSheetImportResult"></div>
     </div>
 
     <div class="global-card">
@@ -1803,6 +1820,93 @@ function renderAutoResult(summary){
   resultBox.innerHTML = html;
 }
 
+/* ---- nhập câu hỏi bằng ID/link Google Sheet (giáo viên) — dùng lại đúng ID/link mà học
+   sinh dán làm "mật mã làm bài" ở màn chào mừng, đọc qua kỹ thuật JSONP/CSV gviz đã có sẵn
+   (stExtractSheetId/stFetchGvizJsonp/stFetchGvizCsv, định nghĩa ở phần "TỰ KIỂM TRA TỪ XA"
+   bên dưới — các function này được hoisted nên gọi trước vị trí định nghĩa vẫn hoạt động
+   bình thường), rồi đưa thẳng vào deck.parts qua đúng ingestUnifiedRows() như khi tải Excel. */
+function stGvizTableToRows(table){
+  if(!table || !table.cols) return [];
+  const headers = table.cols.map(c=>String((c && c.label) || '').trim());
+  const rows = [];
+  (table.rows||[]).forEach(row=>{
+    if(!row || !row.c) return;
+    const obj = {};
+    headers.forEach((h,i)=>{
+      if(!h) return;
+      const cell = row.c[i];
+      let v = '';
+      if(cell){ v = (cell.f!==undefined && cell.f!==null && cell.f!=='') ? cell.f : cell.v; }
+      obj[h] = (v===null || v===undefined) ? '' : v;
+    });
+    rows.push(obj);
+  });
+  return rows;
+}
+function stCsvTextToRows(csvText){
+  const table = stParseCSV(csvText);
+  if(!table.length) return [];
+  const headers = table[0].map(h=>String(h||'').trim());
+  const rows = [];
+  for(let i=1;i<table.length;i++){
+    const r = table[i];
+    const obj = {};
+    headers.forEach((h,ci)=>{ if(h) obj[h] = (r[ci]!==undefined ? r[ci] : ''); });
+    rows.push(obj);
+  }
+  return rows;
+}
+function renderTeacherSheetImportResult(s){
+  const resultBox = document.getElementById('teacherSheetImportResult');
+  const names = {I:'Phần I (Trắc nghiệm)', II:'Phần II (Đúng-Sai)', III:'Phần III (Trả lời ngắn)'};
+  let html = '';
+  ['I','II','III'].forEach(t=>{
+    if(s[t]>0) html += '<div class="auto-result-line ok">✅ Nhận diện '+names[t]+': +'+s[t]+' câu</div>';
+  });
+  if(s.skipped>0) html += '<div class="auto-result-line warn">⚠️ Bỏ qua '+s.skipped+' dòng thiếu Nội dung hoặc Loại không hợp lệ.</div>';
+  if(!html) html = '<div class="auto-result-line warn">⚠️ Không tìm thấy câu hỏi hợp lệ trong Sheet này.</div>';
+  resultBox.innerHTML = html;
+}
+function handleTeacherSheetImport(){
+  const input = document.getElementById('teacherSheetIdInput');
+  const resultBox = document.getElementById('teacherSheetImportResult');
+  const btn = document.getElementById('btnTeacherSheetImport');
+  const sheetId = stExtractSheetId(input.value);
+  if(!sheetId || sheetId.length < 10){
+    resultBox.innerHTML = '<div class="auto-result-line warn">⚠️ ID/link Google Sheet không hợp lệ. Hãy dán đúng ID hoặc link chia sẻ Sheet.</div>';
+    return;
+  }
+  const oldText = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Đang tải...';
+  resultBox.innerHTML = '<div class="auto-result-line">⏳ Đang tải câu hỏi từ Google Sheet...</div>';
+
+  stFetchGvizJsonp(sheetId, 'NganHangCauHoi')
+    .then(resp => resp ? resp : stFetchGvizJsonp(sheetId, null))
+    .then(resp => {
+      if(resp) return stGvizTableToRows(resp.table);
+      return stFetchGvizCsv(sheetId, 'NganHangCauHoi')
+        .then(text => text ? text : stFetchGvizCsv(sheetId, null))
+        .then(text => text ? stCsvTextToRows(text) : null);
+    })
+    .then(rows=>{
+      btn.disabled = false; btn.textContent = oldText;
+      if(!rows || !rows.length){
+        resultBox.innerHTML = '<div class="auto-result-line warn">⚠️ Không đọc được Sheet này. Kiểm tra lại ID/link và việc chia sẻ "Bất kỳ ai có đường liên kết – Người xem".</div>';
+        return;
+      }
+      const s = ingestUnifiedRows(rows);
+      if(s.I+s.II+s.III===0){ renderTeacherSheetImportResult(s); return; }
+      saveDeck();
+      updatePreview('I'); updatePreview('II'); updatePreview('III'); updateTotal();
+      renderTeacherSheetImportResult(s);
+      input.value = '';
+    })
+    .catch(()=>{
+      btn.disabled = false; btn.textContent = oldText;
+      resultBox.innerHTML = '<div class="auto-result-line warn">⚠️ Có lỗi khi tải câu hỏi từ Sheet. Vui lòng thử lại.</div>';
+    });
+}
+
 /* ---- template download ---- */
 function downloadTemplate(partKey){
   if(typeof XLSX === 'undefined'){
@@ -2074,6 +2178,20 @@ function initSetupScreen(){
     e.preventDefault();
     autoZone.classList.remove('dragover');
     if(e.dataTransfer.files && e.dataTransfer.files.length) handleAutoFiles(e.dataTransfer.files);
+  });
+
+  const teacherSheetInfoBtn = document.getElementById('btnTeacherSheetInfo');
+  if(teacherSheetInfoBtn){
+    teacherSheetInfoBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const hint = document.getElementById('teacherSheetImportHint');
+      hint.hidden = !hint.hidden;
+      teacherSheetInfoBtn.classList.toggle('active', !hint.hidden);
+    });
+  }
+  document.getElementById('btnTeacherSheetImport').addEventListener('click', handleTeacherSheetImport);
+  document.getElementById('teacherSheetIdInput').addEventListener('keydown', e=>{
+    if(e.key==='Enter') handleTeacherSheetImport();
   });
 
   document.querySelectorAll('[data-action="upload"]').forEach(btn=>{
