@@ -740,7 +740,8 @@
       <label class="qed-flabel" for="gateClass">Lớp</label>
       <input type="text" id="gateClass" class="qed-input" placeholder="VD: 10A1">
       <label class="qed-flabel" for="gatePassword">Mật mã làm bài (thầy/cô cung cấp)</label>
-      <input type="text" id="gatePassword" class="qed-input" placeholder="Nhập mật mã...">
+      <input type="text" id="gatePassword" class="qed-input" list="gateCodeHistoryList" placeholder="Nhập mật mã...">
+      <datalist id="gateCodeHistoryList"></datalist>
       <div class="gate-error" id="gateStudentError" hidden></div>
       <button type="button" class="btn btn-primary" id="btnGateStudentGo" style="margin-top:14px;">🚀 Vào làm bài</button>
     </div>
@@ -2710,6 +2711,7 @@ function startRemoteSelfTest(passwordRaw, name, cls){
       stStudentClass = cls;
       stStarted = true;
       stMode = 'remote';
+      saveGateCodeHistory(passwordRaw); // chỉ nhớ mật mã khi đã chắc chắn tải đề THÀNH CÔNG
       stStartedAt = Date.now(); // tính thời gian làm bài từ lúc thấy câu hỏi đầu tiên, không tính thời gian tải đề
       stCurrentSheetId = sheetId;
       stAttemptNumber = stGetNextAttemptNumber(sheetId);
@@ -2743,6 +2745,35 @@ function stChuanHoaMatKhau(s){ return String(s||'').trim().toLowerCase().replace
 function isTeacherUnlocked(){ try{ return localStorage.getItem(TEACHER_UNLOCK_KEY)==='1'; }catch(e){ return false; } }
 function setTeacherUnlocked(){ try{ localStorage.setItem(TEACHER_UNLOCK_KEY,'1'); }catch(e){} }
 function clearTeacherUnlocked(){ try{ localStorage.removeItem(TEACHER_UNLOCK_KEY); }catch(e){} }
+
+// Nhớ lại các mật mã (ID/link Google Sheet) học sinh đã dùng THÀNH CÔNG trên chính máy này,
+// để gợi ý điền lại lần sau (không cần chép tay mỗi lần) — dùng <datalist> gắn vào ô nhập,
+// trình duyệt sẽ tự hiện gợi ý ngay khi học sinh gõ. Chỉ nhớ tối đa 8 mã gần nhất, mới nhất
+// lên đầu; không lưu nếu lấy đề thất bại (tránh gợi ý mã sai/gõ nhầm).
+const GATE_CODE_HISTORY_KEY = 'mathGateCodeHistory';
+const GATE_CODE_HISTORY_MAX = 8;
+function loadGateCodeHistory(){
+  try{
+    const arr = JSON.parse(localStorage.getItem(GATE_CODE_HISTORY_KEY) || '[]');
+    return Array.isArray(arr) ? arr.filter(v=>typeof v==='string' && v) : [];
+  }catch(e){ return []; }
+}
+function saveGateCodeHistory(value){
+  value = String(value||'').trim();
+  if(!value) return;
+  try{
+    let arr = loadGateCodeHistory().filter(v=>v!==value);
+    arr.unshift(value);
+    if(arr.length > GATE_CODE_HISTORY_MAX) arr = arr.slice(0, GATE_CODE_HISTORY_MAX);
+    localStorage.setItem(GATE_CODE_HISTORY_KEY, JSON.stringify(arr));
+  }catch(e){}
+  renderGateCodeHistoryDatalist();
+}
+function renderGateCodeHistoryDatalist(){
+  const dl = document.getElementById('gateCodeHistoryList');
+  if(!dl) return;
+  dl.innerHTML = loadGateCodeHistory().map(v=>'<option value="'+escapeHtml(v)+'"></option>').join('');
+}
 
 function teacherLogout(){
   if(!confirm('Đăng xuất khỏi trang giáo viên? Lần sau vào sẽ phải nhập lại mật khẩu.')) return;
@@ -2794,6 +2825,7 @@ function initGateScreen(){
   document.getElementById('gateTabTeacher').addEventListener('click', ()=>switchGateTab('teacher'));
   const logoutBtn = document.getElementById('btnTeacherLogout');
   if(logoutBtn) logoutBtn.addEventListener('click', teacherLogout);
+  renderGateCodeHistoryDatalist(); // gợi ý các mật mã (ID Sheet) đã dùng thành công trên máy này
 
   document.getElementById('btnGateStudentGo').addEventListener('click', ()=>{
     hideGateStudentError();
