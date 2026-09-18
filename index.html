@@ -504,9 +504,6 @@
     .q-head{flex-direction:column;align-items:flex-start;gap:6px;}
     .q-stem{padding-top:0;}
     .qed-title-label{display:none;}
-    .rs-stats-grid{grid-template-columns:repeat(2,1fr);}
-    .rs-hero{padding:22px 16px;}
-    .rs-hero-score{font-size:2.3rem;}
     .setup-wrap{padding:20px 10px 150px;}
     .q-body{flex-direction:column;}
     .options.grid2{grid-template-columns:1fr;}
@@ -705,6 +702,25 @@
   .rs-send-note{font-size:.82rem;color:var(--ink-soft);margin-top:10px;line-height:1.5;}
   .rs-send-note.rs-send-ok{color:var(--green1);font-weight:700;}
   .rs-send-note.rs-send-err{color:var(--red1);font-weight:700;}
+  /* Đặt SAU các quy tắc .rs-* không điều kiện ở trên để thắng thứ tự CSS trên màn hình nhỏ
+     (2 khối media (max-width:720px) cùng độ ưu tiên thì khối nằm SAU trong file mới thắng — đặt
+     tách rời khối media ở đầu file trước đây khiến các quy tắc thu gọn cho điện thoại bị các
+     quy tắc .rs-* thêm sau này (phần "Gửi kết quả cho thầy/cô") đè mất, làm bảng tổng kết hiện
+     4 ô số liệu chật cứng trên điện thoại thay vì 2 cột như thiết kế). */
+  @media (max-width:720px){
+    .rs-hero{padding:20px 14px;}
+    .rs-hero-score{font-size:2.2rem;}
+    .rs-hero-msg{font-size:.84rem;}
+    .rs-stats-grid{grid-template-columns:repeat(2,1fr);}
+    .rs-send-btn{width:100%;justify-content:center;}
+  }
+  @media (max-width:380px){
+    .rs-stat{padding:10px 6px;}
+    .rs-stat-value{font-size:1.1rem;}
+    .rs-stat-label{font-size:.68rem;}
+    .rs-hero-emoji{font-size:2.2rem;}
+    .rs-badge-pill{font-size:.72rem;padding:4px 12px;}
+  }
   .st-part-head{font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.3px;color:#38507a;margin:0 0 12px;}
   .st-card{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(20,30,60,.06);}
   .st-solution-btn{margin-top:12px;background:none;border:none;color:var(--blue1);font-weight:700;font-size:.85rem;cursor:pointer;padding:0;}
